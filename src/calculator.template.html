@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--SHARED_HEAD-->
+<style>
+/* SQL Modernization on Azure shell. Hard-coded colours from the supplied design are
+   mapped to the shared theme tokens rather than inlined, so the palette stays
+   in one place. */
+.opt { max-width: 1480px; margin-inline: auto; padding: 0 18px 28px; }
+.opt [hidden] { display: none !important; }
+.opt a { color: var(--cp-link); }
+
+/* Header */
+.opt-head { display: flex; align-items: center; gap: 18px; padding: 16px 0; flex-wrap: wrap; }
+.opt-brand { display: flex; align-items: center; gap: 14px; }
+.opt-logo { display: grid; place-items: center; width: 44px; height: 44px; flex: none; border-radius: 11px; background: var(--cp-accent-soft); color: var(--cp-accent); }
+.opt-head h1 { margin: 0; font-size: 22px; font-weight: 650; letter-spacing: -.4px; }
+.opt-head .sub { margin: 2px 0 0; font-size: 12.5px; color: var(--cp-text-muted); }
+.opt-nav { display: flex; align-items: center; gap: 18px; margin-left: auto; }
+.opt-nav a { font-size: 13px; text-decoration: none; }
+
+/* Two-pane body */
+/* The results column is sized by the form beside it: the row stretches, the
+   form keeps its natural height, and the lower panels absorb whatever is
+   left so the two columns finish flush. The takeaway list is capped for the
+   same reason, since overflowing here would push the form out of line. */
+.opt-body { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 22px; align-items: stretch; }
+.opt-body > form.opt-pane { align-self: start; }
+#optOutput { display: flex; flex-direction: column; min-height: 0; }
+/* When a target cannot be priced this panel is the only content, so it takes
+   the whole column rather than leaving the card floating at the top. */
+#optOutput > .opt-compare:only-child { flex: 1; }
+.opt-pane { background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 14px; padding: 20px; }
+
+/* Left: input groups */
+.opt-step + .opt-step { margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--cp-border); }
+.opt-step h2 { margin: 0; font-size: 15px; font-weight: 650; color: var(--cp-accent); }
+.opt-step h2 span { color: var(--cp-text); }
+.opt-step > p { margin: 3px 0 14px; font-size: 12px; color: var(--cp-text-muted); }
+.opt-field { margin-bottom: 14px; }
+.opt-field > label, .opt-legend { display: block; margin-bottom: 6px; font-size: 12.5px; font-weight: 600; }
+.opt-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.opt-num { width: 100%; min-width: 0; height: 42px; padding: 8px 11px; border: 1px solid var(--cp-border); border-radius: 8px; background: var(--cp-surface); color: var(--cp-text); font-family: inherit; font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.opt-num:focus-visible { outline: none; border-color: var(--cp-accent); box-shadow: 0 0 0 3px rgba(0,120,212,.1); }
+.opt-num::placeholder { font-size: 13px; font-weight: 400; color: var(--cp-text-muted); opacity: 1; }
+.opt-sub { display: block; margin-top: 4px; font-size: 11px; color: var(--cp-text-muted); }
+.opt-slider-row { display: flex; align-items: center; gap: 12px; }
+.opt-slider-row input[type=range] { flex: 1; min-width: 0; height: 4px; margin: 0; accent-color: var(--cp-accent); cursor: pointer; }
+.opt-pct { flex: none; min-width: 56px; padding: 7px 0; border-radius: 8px; background: var(--cp-accent-soft); color: var(--cp-accent); text-align: center; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.opt-ticks { display: flex; justify-content: space-between; margin-top: 5px; font-size: 10px; color: var(--cp-text-muted); }
+
+/* Target service cards */
+.opt-targets { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
+.opt-target { display: flex; flex-direction: column; align-items: center; gap: 7px; padding: 12px 6px; border: 1px solid var(--cp-border); border-radius: 10px; text-align: center; font-size: 11.5px; font-weight: 600; line-height: 1.3; cursor: pointer; }
+.opt-target input { position: absolute; opacity: 0; pointer-events: none; }
+.opt-target svg { color: var(--cp-text-muted); }
+.opt-target:has(input:checked) { border-color: var(--cp-accent); border-width: 2px; padding: 11px 5px; background: var(--cp-accent-soft); }
+.opt-target:has(input:checked) svg { color: var(--cp-accent); }
+.opt-target:has(input:focus-visible) { box-shadow: 0 0 0 3px rgba(0,120,212,.25); }
+
+/* Radios and segmented terms */
+.opt-radios { display: flex; flex-direction: column; gap: 8px; }
+.opt-radio { display: flex; align-items: flex-start; gap: 9px; font-size: 12.5px; cursor: pointer; }
+.opt-radio input { margin: 1px 0 0; accent-color: var(--cp-accent); }
+.opt-radio em { display: block; font-style: normal; font-size: 11px; color: var(--cp-text-muted); }
+.opt-radio.is-off { opacity: .5; cursor: not-allowed; }
+.opt-terms { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
+.opt-term { display: flex; align-items: center; justify-content: center; gap: 7px; padding: 10px 6px; border: 1px solid var(--cp-border); border-radius: 9px; text-align: center; font-size: 11.5px; font-weight: 600; line-height: 1.25; cursor: pointer; }
+.opt-term input { accent-color: var(--cp-accent); margin: 0; }
+.opt-term em { display: block; font-style: normal; font-weight: 400; font-size: 10px; color: var(--cp-text-muted); }
+.opt-term:has(input:checked) { border-color: var(--cp-accent); background: var(--cp-accent-soft); }
+.opt-select { width: 100%; min-width: 0; height: 42px; padding: 8px 11px; border: 1px solid var(--cp-border); border-radius: 8px; background: var(--cp-surface); color: var(--cp-text); font: inherit; font-size: 13px; }
+/* Left-aligned deliberately. This rail gives the note about 43 characters a
+   line; justifying it has to stretch word spaces to 4.3 times their natural
+   width to reach both edges, which opens rivers down the block. Even spacing
+   reads better here than a straight right edge. */
+.opt-note { display: flex; gap: 10px; margin-top: 18px; padding: 12px 13px; border-radius: 9px; background: var(--cp-accent-soft); font-size: 11.5px; line-height: 1.55; color: var(--cp-text-muted); }
+.opt-note svg { flex: none; color: var(--cp-accent); margin-top: 1px; }
+
+/* Right: results */
+.opt-results h2 { margin: 0; font-size: 19px; font-weight: 650; }
+.opt-results h2 .onprem { color: var(--cp-accent); }
+.opt-results > p.lede { margin: 4px 0 0; font-size: 12.5px; color: var(--cp-text-muted); }
+.opt-results-head { margin-bottom: 16px; }
+.opt-compare { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
+/* Both columns are read side by side, so they are built to line up: the two
+   heads are the same height whatever the blurb, the line lists absorb the
+   difference in row count, and the totals meet at the same baseline. */
+.opt-col { display: flex; flex-direction: column; border: 1px solid var(--cp-border); border-radius: 12px; overflow: hidden; background: var(--cp-surface); }
+.opt-col.is-azure { border-color: var(--cp-accent); }
+.opt-col-head { display: flex; align-items: flex-start; gap: 13px; min-height: 76px; padding: 16px 18px; }
+.opt-col.is-azure .opt-col-head { background: var(--cp-accent-soft); }
+.opt-col-head svg { flex: none; color: var(--cp-accent); margin-top: 2px; }
+.opt-col-head h3 { margin: 0; font-size: 15px; font-weight: 650; color: var(--cp-accent-ink); }
+.opt-col-head h3 span { color: var(--cp-text-muted); font-weight: 400; }
+/* A single line, so a long service name and a short one keep the same head. */
+.opt-col-head p { margin: 3px 0 0; font-size: 11.5px; line-height: 1.5; color: var(--cp-text-muted); }
+.opt-badge { margin-left: auto; flex: none; padding: 4px 10px; border-radius: 999px; background: var(--cp-success-soft, #dff6dd); color: var(--cp-success); font-size: 11px; font-weight: 600; white-space: nowrap; }
+.opt-badge.is-off { background: var(--cp-bg-elevated); color: var(--cp-text-muted); }
+/* The two columns are equal height so their totals line up for comparison, but
+   they rarely have the same number of cost lines. The rows share the spare
+   height between them instead of leaving it pooled under the last one. */
+.opt-lines { flex: 1; margin: 0; padding: 0 18px; display: flex; flex-direction: column; }
+.opt-line { flex: 1; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; padding: 11px 0; border-top: 1px solid var(--cp-border); font-size: 12.5px; }
+/* Full-strength text: these name the money beside them, so they carry the
+   same weight of attention as the figures rather than reading as captions. */
+.opt-line dt { color: var(--cp-text); }
+.opt-line dd { margin: 0; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+.opt-line dd em { display: block; font-style: normal; font-weight: 400; font-size: 11px; color: var(--cp-text-muted); margin-top: 2px; }
+.opt-total { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 18px; border-top: 1px solid var(--cp-border); background: var(--cp-bg-elevated); font-size: 13px; font-weight: 600; }
+.opt-col.is-azure .opt-total { background: var(--cp-accent-soft); }
+.opt-total b { font-size: 19px; font-variant-numeric: tabular-nums; }
+.opt-col.is-azure .opt-total b { color: var(--cp-accent); }
+.opt-col.is-pending { padding: 18px; font-size: 12.5px; color: var(--cp-text-muted); }
+
+/* Lower row: chart, savings, takeaways */
+/* The chart is constrained by the row height, not its width, so the panel
+   stays wide: narrowing it only shrinks the chart further. */
+.opt-lower { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 18px; margin-top: 18px; flex: 1; min-height: 0; }
+/* The savings callout is gone, so the chart owns this panel outright. */
+.opt-chart-wrap { border: 1px solid var(--cp-border); border-radius: 12px; padding: 18px; background: var(--cp-surface); display: flex; flex-direction: column; min-height: 0; }
+.opt-chart-wrap > div { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.opt-chart-foot { margin: 0; padding-top: 12px; font-size: 11px; line-height: 1.55; color: var(--cp-text-muted); }
+.opt-chart-wrap h3, .opt-takeaways h3 { margin: 0 0 3px; font-size: 14px; font-weight: 650; }
+.opt-chart-wrap > div > p { margin: 0 0 12px; font-size: 11.5px; color: var(--cp-text-muted); }
+/* The chart scales to whatever height the row leaves rather than dictating
+   it: the SVG carries a viewBox, so letting it flex keeps the aspect ratio
+   while the column stays flush with the form. */
+.opt-chart { flex: 1; min-height: 110px; width: 100%; height: 100%; }
+/* Sits at the foot of the takeaways panel so the caveat lands with the
+   conclusions it qualifies. margin-top:auto pushes it down, absorbing any
+   spare height instead of leaving gaps between the points above. */
+.opt-spread { margin: 16px 0 0; padding: 11px 13px; border-radius: 8px;
+  border: 1px solid var(--cp-border); background: var(--cp-surface);
+  font-size: 11.5px; line-height: 1.6; color: var(--cp-text); }
+.opt-takeaways .opt-spread { margin-top: auto; }
+.opt-spread b { font-weight: 650; }
+/* This panel sits beside the taller chart panel, so the list spreads to fill
+   the height instead of leaving the slack below the last point. */
+.opt-takeaways { display: flex; flex-direction: column; border: 1px solid var(--cp-border); border-radius: 12px; padding: 18px; background: var(--cp-accent-soft); }
+.opt-takeaways h3 { display: flex; align-items: center; gap: 8px; color: var(--cp-accent); margin-bottom: 12px; }
+/* The list sits compactly at the top; spare height goes to the caveat at the
+   foot of the panel rather than being spread between the points. */
+.opt-takeaways ol { display: flex; flex-direction: column; gap: 3px; margin: 0; padding: 0; list-style: none; counter-reset: t; }
+/* The row is a flex container so the counter sits beside the text. The text
+   therefore has to be one child: left bare, any markup inside it becomes a
+   separate flex item and the gap splits the sentence apart. */
+.opt-takeaways li { display: flex; gap: 11px; padding: 7px 0; font-size: 12px; line-height: 1.5; counter-increment: t; }
+.opt-takeaways li > span { min-width: 0; }
+.opt-takeaways li::before { content: counter(t); flex: none; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--cp-accent); color: #fff; font-size: 11px; font-weight: 700; }
+
+/* Assumptions */
+/* A page-level panel rather than a column one: it spans the input rail and the
+   results together, so its inputs lay out in a single row instead of a long
+   stack, and it squares off the bottom of the page. */
+.opt-assume { grid-column: 1 / -1; margin-top: 18px; border: 1px solid var(--cp-border); border-radius: 12px; background: var(--cp-surface); overflow: hidden; }
+.opt-assume summary { display: flex; align-items: center; gap: 13px; padding: 16px 18px; list-style: none; cursor: pointer; font-size: 14px; font-weight: 650; }
+.opt-assume summary::-webkit-details-marker { display: none; }
+.opt-assume summary svg { flex: none; color: var(--cp-accent); }
+.opt-assume summary span { font-weight: 400; font-size: 11.5px; color: var(--cp-text-muted); }
+.opt-assume summary::after { content: "\25BE"; margin-left: auto; color: var(--cp-text-muted); }
+.opt-assume[open] summary::after { content: "\25B4"; }
+.opt-assume-body { padding: 0 18px 18px; }
+.opt-assume-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+/* Labels wrap to different line counts, so the fields would otherwise sit at
+   different heights across the row. Each cell is a column with the field
+   pushed to its foot, which lines every input up regardless of label length.
+   Scoped to the fields it applies to: the checkbox label lays its box out
+   beside its text and must stay a row. */
+.opt-assume-grid label:has(input[type="number"]), .opt-assume-grid label:has(select) { display: flex; flex-direction: column; justify-content: flex-end; }
+.opt-assume-grid label { font-size: 11.5px; color: var(--cp-text-muted); }
+.opt-assume-grid input, .opt-assume-grid select { margin-top: 4px; }
+.opt-assume-body > p { margin: 14px 0 0; font-size: 11.5px; line-height: 1.6; color: var(--cp-text-muted); }
+
+.opt-error { margin: 14px 0 0; color: var(--cp-danger); font-size: 13px; }
+/* Everything above sits inside a bordered panel, so its text starts one
+   border and one padding in. Matching that keeps the footer from hanging
+   out to the left of the whole page. */
+.opt-foot { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 22px; padding: 16px 19px 0; border-top: 1px solid var(--cp-border); font-size: 11.5px; color: var(--cp-text-muted); }
+
+@media (max-width: 1180px) {
+  .opt-body { grid-template-columns: 1fr; }
+  .opt-lower, .opt-chart-wrap { grid-template-columns: 1fr; }
+  /* Stacked, the chart spans the full page width, so its aspect ratio would
+     otherwise make it far taller than it needs to be. */
+  .opt-chart { max-height: 300px; }
+}
+@media (max-width: 760px) {
+  .opt-compare { grid-template-columns: 1fr; }
+  .opt-head h1 { font-size: 19px; }
+  .opt-nav { width: 100%; margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<main class="opt">
+  <header class="opt-head">
+    <div class="opt-brand">
+      <div class="opt-logo" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>
+        </svg>
+      </div>
+      <div>
+        <h1>SQL Modernization on Azure</h1>
+        <p class="sub">Cost Estimator &middot; compare your SQL Server estate on-premises and on Azure</p>
+      </div>
+    </div>
+    <nav class="opt-nav">
+      <a href="../deployment-options/">Deployment options</a>
+    </nav>
+  </header>
+
+  <div class="opt-body">
+    <form class="opt-pane" id="optForm">
+      <section class="opt-step">
+        <h2>1. <span>Your current environment</span></h2>
+        <p>Tell us about your existing SQL estate.</p>
+        <div class="opt-field">
+          <label for="standard">Current on-prem SQL cores</label>
+          <div class="opt-pair">
+            <div>
+              <input class="opt-num" id="standard" name="standard" type="number" min="0" max="100000" step="1" value="0" required>
+              <span class="opt-sub">Standard</span>
+            </div>
+            <div>
+              <input class="opt-num" id="enterprise" name="enterprise" type="number" min="0" max="100000" step="1" value="100" required>
+              <span class="opt-sub">Enterprise</span>
+            </div>
+          </div>
+        </div>
+        <div class="opt-field">
+          <label for="rightSizePct">Right-sizing opportunity</label>
+          <div class="opt-slider-row">
+            <input id="rightSizePct" name="rightSizePct" type="range" min="0" max="60" step="5" value="20">
+            <output class="opt-pct" id="rightSizeValue" for="rightSizePct">20%</output>
+          </div>
+          <div class="opt-ticks"><span>0%</span><span>15%</span><span>30%</span><span>45%</span><span>60%</span></div>
+        </div>
+        <div class="opt-field">
+          <label for="region">Azure region</label>
+          <select class="opt-select" id="region" name="region" required></select>
+        </div>
+      </section>
+
+      <section class="opt-step">
+        <h2>2. <span>Target Azure service</span></h2>
+        <p>Choose the service and purchasing model.</p>
+        <div class="opt-targets">
+          <label class="opt-target">
+            <input type="radio" name="target" value="vm">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="4" width="19" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg>
+            SQL Server on Azure VM
+          </label>
+          <label class="opt-target">
+            <input type="radio" name="target" value="mi" checked>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>
+            Azure SQL Managed Instance
+          </label>
+          <label class="opt-target">
+            <input type="radio" name="target" value="db">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><ellipse cx="12" cy="6" rx="7" ry="2.5"/><path d="M5 6v12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5V6"/></svg>
+            Azure SQL Database
+          </label>
+        </div>
+
+        <div class="opt-field" id="qualifierField" style="margin-top:16px">
+          <label for="qualifier" id="qualifierLabel">Service tier</label>
+          <select class="opt-select" id="qualifier" name="qualifier"></select>
+          <span class="opt-sub" id="qualifierSub"></span>
+        </div>
+
+        <div class="opt-field" id="termField">
+          <span class="opt-legend">Commitment term</span>
+          <div class="opt-terms">
+            <label class="opt-term"><input type="radio" name="term" value="payg"> <span>PAYG</span></label>
+            <label class="opt-term"><input type="radio" name="term" value="ri1"> <span>1-Year<em id="term1Off">&nbsp;</em></span></label>
+            <label class="opt-term"><input type="radio" name="term" value="ri3" checked> <span>3-Year<em id="term3Off">&nbsp;</em></span></label>
+          </div>
+        </div>
+
+        <div class="opt-note">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-9h.01"/></svg>
+          <span>Assumes the SQL Server licences are already owned and kept under active Software Assurance, which Azure Hybrid Benefit requires. Compares ongoing Software Assurance and infrastructure cost, not new licence purchases.</span>
+        </div>
+      </section>
+    </form>
+
+    <div class="opt-results">
+      <div class="opt-results-head">
+        <div>
+          <h2>Results: <span class="onprem">On-premises</span> vs. Azure</h2>
+          <p class="lede">Based on your inputs, here's a comparison of estimated costs and savings.</p>
+        </div>
+      </div>
+      <p id="optError" class="opt-error" role="alert" hidden></p>
+      <div id="optOutput"></div>
+    </div>
+
+      <details class="opt-assume" id="optAssumptions">
+        <summary>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+          View / adjust assumptions <span>Customize the assumptions used for this estimate.</span>
+        </summary>
+        <div class="opt-assume-body">
+          <div class="opt-assume-grid">
+            <label>On-premises hardware &amp; facilities ($/core/month)
+              <input class="opt-num" id="onPremPerCoreMonth" type="number" min="0" max="10000" step="0.01" value="37.50" required>
+            </label>
+            <label>Share retired by migrating (%)
+              <input class="opt-num" id="avoidablePct" type="number" min="0" max="100" step="1" value="100" required>
+            </label>
+            <label>Data storage (GB, total)
+              <input class="opt-num" id="storageGB" type="number" min="0" max="10000000" step="1" value="0" required>
+            </label>
+            <label>SQL instances
+              <input class="opt-num" id="instanceCount" type="number" min="1" max="100000" step="1" placeholder="Auto">
+            </label>
+            <label>Databases
+              <input class="opt-num" id="databaseCount" type="number" min="1" max="100000" step="1" placeholder="Auto">
+            </label>
+            <label>Billable online time, serverless (%)
+              <input class="opt-num" id="activePct" type="number" min="0" max="100" step="1" value="25" required>
+            </label>
+            <label style="display:flex;align-items:center;gap:9px;margin-top:18px;font-size:12.5px;color:var(--cp-text)">
+              <input id="ahb" type="checkbox" checked style="accent-color:var(--cp-accent);margin:0"> Apply Azure Hybrid Benefit
+            </label>
+          </div>
+          <p>730 hours a month, Windows Ebdsv5 or classic Managed Instance General Purpose Gen5. Right-sizing is a declared assumption, not measured utilisation, and deployment layout is fitted to the published Azure size ladder rather than an exact topology.
+            Only the avoidable share of on-premises operations falls away with the migrated cores. Storage left at 0 means unspecified: VM data disks are omitted and Managed Instance uses its 32 GB floor.
+            Software Assurance is charged at published list on cores that stay and on the cores whose rights back Azure Hybrid Benefit, which requires active eligible SA or a qualifying subscription. Migrated cores without it pay the Azure SQL meter instead, never both.
+            Commitments assume full hourly utilisation and no reservation or savings-plan stacking. Commitment discounts never reduce Windows or SQL licensing, or storage.
+            These are directional numbers to help you start evaluating SQL options in Azure. Run an <a href="https://learn.microsoft.com/en-us/azure/migrate/migrate-services-overview">Azure Migrate assessment</a> for an accurate estimate.</p>
+        </div>
+      </details>
+  </div>
+
+  <footer class="opt-foot">
+    <span>SQL Modernization on Azure - Cost Estimator</span>
+  </footer>
+</main>
+<!--APP_SCRIPT-->
+</body>
+</html>

@@ -1,0 +1,78 @@
+name: Verify and deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Core calculator model
+        run: node --test src/calculator.test.js
+
+      - name: Pages must be self-contained
+        run: |
+          # Navigation links are fine; what must not happen is loading anything
+          # external at runtime.
+          for f in cost-estimator/index.html deployment-options/index.html; do
+            if grep -nEi 'fetch\(|XMLHttpRequest|localStorage|sessionStorage|indexedDB' "$f"; then
+              echo "::error::$f makes a network or storage call"
+              exit 1
+            fi
+            if grep -nEi '<(script|link|img|iframe|video|audio|source|embed)[^>]+(src|href)="https?:' "$f"; then
+              echo "::error::$f loads an external resource"
+              exit 1
+            fi
+            echo "$f is inert: nothing is fetched at runtime."
+          done
+
+      - name: Built pages must match a fresh build from src/
+        shell: pwsh
+        run: |
+          # build.ps1 writes every page relative to -Root, so build into a temp
+          # tree and compare all of them rather than only the app bundle.
+          $tmp = Join-Path $env:RUNNER_TEMP 'build'
+          New-Item -ItemType Directory -Path $tmp -Force | Out-Null
+          ./src/build.ps1 -Root $tmp
+          $stale = @()
+          foreach ($f in @('index.html', 'cost-estimator/index.html', 'deployment-options/index.html')) {
+            $a = (Get-Content $f -Raw) -replace "`r", ''
+            $b = (Get-Content (Join-Path $tmp $f) -Raw) -replace "`r", ''
+            if ($a -ne $b) { $stale += $f }
+          }
+          if ($stale.Count) {
+            Write-Host "::error::Stale build output: $($stale -join ', '). Run ./src/build.ps1 and commit the result."
+            exit 1
+          }
+          Write-Host 'All pages match src/.'
+
+  deploy:
+    needs: verify
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deployment
+        uses: actions/deploy-pages@v4

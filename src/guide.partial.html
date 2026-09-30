@@ -1,0 +1,499 @@
+<section class="card modernization-map" aria-labelledby="map-title">
+  <div class="map-heading">
+    <div>
+      <h2 id="map-title">Find your Azure SQL path</h2>
+    </div>
+    <a class="map-source" href="https://learn.microsoft.com/en-us/azure/azure-sql/azure-sql-decision-tree?view=azuresql">Microsoft Learn reference &nearr;</a>
+  </div>
+
+  <div class="map-branch">
+    <div class="map-decision">
+      <span class="map-step" aria-hidden="true">01</span>
+      <div class="map-decision-body">
+        <h3>Must host dependencies stay unchanged?</h3>
+        <div class="map-signals"><span>Local agents</span><span>FILESTREAM</span><span>Pinned engine version</span></div>
+      </div>
+    </div>
+    <div class="map-yes"><span>Yes</span><i aria-hidden="true"></i></div>
+    <div class="map-destination">
+      <svg class="map-logo" viewBox="0 0 18 18" role="img" aria-hidden="true" focusable="false"><defs><linearGradient id="bf00b8fe-272d-44e3-922e-e394f4035f83" x1="9" y1="12.46" x2="9" y2="1.18" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="0.82" stop-color="#5ea0ef" /></linearGradient><linearGradient id="b2b35db0-3208-44e0-aaf4-68cf95a2719b" x1="9" y1="16.82" x2="9" y2="12.46" gradientUnits="userSpaceOnUse"><stop offset="0.15" stop-color="#ccc" /><stop offset="1" stop-color="#707070" /></linearGradient><radialGradient id="f2829e12-820e-4175-930d-324517daee42" cx="9.43" cy="7.03" r="7.27" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f2f2f2" /><stop offset="0.58" stop-color="#eee" /><stop offset="1" stop-color="#e6e6e6" /></radialGradient></defs><g><g><rect x="0.54" y="1.18" width="16.91" height="11.27" rx="0.56" fill="url(#bf00b8fe-272d-44e3-922e-e394f4035f83)" /><path d="M12.39,15.87c-1.67-.26-1.74-1.47-1.73-3.41H7.34c0,1.94-.06,3.15-1.73,3.41a1,1,0,0,0-.84,1h8.46A1,1,0,0,0,12.39,15.87Z" fill="url(#b2b35db0-3208-44e0-aaf4-68cf95a2719b)" /></g><path d="M13.07,7.89V4.41h-1V8.66h2.53V7.89ZM5.73,6.17a2,2,0,0,1-.52-.31.45.45,0,0,1-.13-.34.36.36,0,0,1,.16-.31.69.69,0,0,1,.43-.11,1.66,1.66,0,0,1,1,.29V4.51a2.77,2.77,0,0,0-1-.17,1.73,1.73,0,0,0-1.13.35,1.12,1.12,0,0,0-.42.92A1.38,1.38,0,0,0,5,6.85a2.49,2.49,0,0,1,.63.37.41.41,0,0,1,.16.33.4.4,0,0,1-.16.32A.76.76,0,0,1,5.21,8a1.69,1.69,0,0,1-1.12-.44v1a2.27,2.27,0,0,0,1.1.24A2,2,0,0,0,6.4,8.41a1.12,1.12,0,0,0,.44-.94,1,1,0,0,0-.26-.72A2.54,2.54,0,0,0,5.73,6.17Zm5.34,1.64a2.4,2.4,0,0,0,.34-1.3,2.44,2.44,0,0,0-.26-1.13,1.85,1.85,0,0,0-.72-.77,2.05,2.05,0,0,0-1-.27,2.23,2.23,0,0,0-1.11.28,1.89,1.89,0,0,0-.76.8A2.47,2.47,0,0,0,7.25,6.6a2.44,2.44,0,0,0,.24,1.08,1.92,1.92,0,0,0,.71.76,2.06,2.06,0,0,0,1,.3l.88,1h1.24L10.11,8.58A1.78,1.78,0,0,0,11.07,7.81Zm-1-.26a.94.94,0,0,1-.78.36.92.92,0,0,1-.78-.37,1.55,1.55,0,0,1-.3-1,1.57,1.57,0,0,1,.3-1,1,1,0,0,1,.8-.37.9.9,0,0,1,.77.37,1.65,1.65,0,0,1,.28,1A1.5,1.5,0,0,1,10.11,7.55Z" fill="url(#f2829e12-820e-4175-930d-324517daee42)" /></g></svg>
+      <h3><a href="#deployment-options">SQL Server on Azure VM</a></h3>
+      <p class="map-tradeoff">You manage OS, SQL patching and HA.</p>
+    </div>
+  </div>
+  <div class="map-next"><span>No / willing to redesign</span><i aria-hidden="true"></i></div>
+
+  <div class="map-branch">
+    <div class="map-decision">
+      <span class="map-step" aria-hidden="true">02</span>
+      <div class="map-decision-body">
+        <h3>Must supported instance features stay?</h3>
+        <div class="map-signals"><span>SQL Agent</span><span>Cross-database queries</span><span>CLR</span></div>
+      </div>
+    </div>
+    <div class="map-yes"><span>Yes</span><i aria-hidden="true"></i></div>
+    <div class="map-destination">
+      <svg class="map-logo" viewBox="0 0 18 18" role="img" aria-hidden="true" focusable="false"><defs><linearGradient id="acf2da4b-8aca-4b58-b995-ca6956cf663e" x1="5.41" y1="17.33" x2="5.41" y2="0.61" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#949494" /><stop offset="0.53" stop-color="#a2a2a2" /><stop offset="1" stop-color="#b3b3b3" /></linearGradient><linearGradient id="b152b416-25c2-4a4a-9d7f-a0bb2a13f84a" x1="10.04" y1="17.39" x2="10.04" y2="6.82" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="0.16" stop-color="#1380da" /><stop offset="0.53" stop-color="#3c91e5" /><stop offset="0.82" stop-color="#559cec" /><stop offset="1" stop-color="#5ea0ef" /></linearGradient></defs><path d="M10.32,16.76a.58.58,0,0,1-.57.57H1.07a.57.57,0,0,1-.57-.57V1.18A.56.56,0,0,1,1.07.61H9.75a.57.57,0,0,1,.57.57Z" fill="url(#acf2da4b-8aca-4b58-b995-ca6956cf663e)" /><path d="M1.94,6.47A1.07,1.07,0,0,1,3,5.41H7.9A1.07,1.07,0,0,1,9,6.47H9A1.07,1.07,0,0,1,7.9,7.54H3A1.07,1.07,0,0,1,1.94,6.47Z" fill="#003067" /><path d="M1.94,3.31A1.07,1.07,0,0,1,3,2.24H7.9A1.07,1.07,0,0,1,9,3.31H9A1.07,1.07,0,0,1,7.9,4.37H3A1.07,1.07,0,0,1,1.94,3.31Z" fill="#003067" /><circle cx="3.06" cy="3.31" r="0.72" fill="#50e6ff" /><circle cx="3.06" cy="6.47" r="0.72" fill="#50e6ff" /><path d="M17.5,14.08a3.36,3.36,0,0,0-2.91-3.22,4.22,4.22,0,0,0-4.35-4A4.32,4.32,0,0,0,6.1,9.64a4,4,0,0,0-3.52,3.85,4.06,4.06,0,0,0,4.2,3.9l.37,0H14l.17,0A3.39,3.39,0,0,0,17.5,14.08Z" fill="url(#b152b416-25c2-4a4a-9d7f-a0bb2a13f84a)" /><path d="M13.61,14.45V11.09h-.93v4.12h2.45v-.76ZM6.51,12.8A2.23,2.23,0,0,1,6,12.49a.44.44,0,0,1-.12-.32.34.34,0,0,1,.15-.3.66.66,0,0,1,.42-.12,1.66,1.66,0,0,1,1,.29v-.86a2.89,2.89,0,0,0-1-.15,1.69,1.69,0,0,0-1.09.33,1.1,1.1,0,0,0-.41.89,1.34,1.34,0,0,0,.94,1.2,2.51,2.51,0,0,1,.61.36.42.42,0,0,1,.15.32.34.34,0,0,1-.15.3.75.75,0,0,1-.45.12,1.63,1.63,0,0,1-1.08-.42v.92A2.25,2.25,0,0,0,6,15.28,1.91,1.91,0,0,0,7.15,15a1.07,1.07,0,0,0,.43-.91,1,1,0,0,0-.25-.7A2.36,2.36,0,0,0,6.51,12.8Zm5.16,1.58A2.37,2.37,0,0,0,12,13.12,2.28,2.28,0,0,0,11.75,12a1.77,1.77,0,0,0-.69-.74A1.94,1.94,0,0,0,10,11,2.21,2.21,0,0,0,9,11.29a1.87,1.87,0,0,0-.73.77A2.52,2.52,0,0,0,8,13.2a2.26,2.26,0,0,0,.24,1.05,1.87,1.87,0,0,0,.68.74,2,2,0,0,0,1,.29l.85,1h1.2l-1.19-1.1A1.82,1.82,0,0,0,11.67,14.38Zm-.93-.25a.92.92,0,0,1-.76.35.91.91,0,0,1-.75-.36,1.5,1.5,0,0,1-.28-1,1.46,1.46,0,0,1,.29-1,.92.92,0,0,1,.77-.37.86.86,0,0,1,.74.37,1.54,1.54,0,0,1,.28,1A1.47,1.47,0,0,1,10.74,14.13Z" fill="#f2f2f2" /></svg>
+      <h3><a href="#deployment-options">Azure SQL Managed Instance</a></h3>
+      <p class="map-tradeoff">Managed OS and engine; validate feature restrictions.</p>
+    </div>
+  </div>
+  <div class="map-next"><span>No / willing to redesign</span><i aria-hidden="true"></i></div>
+
+  <div class="map-branch">
+    <div class="map-decision">
+      <span class="map-step" aria-hidden="true">03</span>
+      <div class="map-decision-body">
+        <h3>Can the application work at database scope?</h3>
+        <div class="map-signals"><span>Database-scoped access</span><span>No instance-level features</span></div>
+      </div>
+    </div>
+    <div class="map-yes"><span>Yes</span><i aria-hidden="true"></i></div>
+    <div class="map-destination">
+      <svg class="map-logo" viewBox="0 0 18 18" role="img" aria-hidden="true" focusable="false"><defs><linearGradient id="ef16bf9d-a8b6-4181-b6cd-66fc5203f956" x1="2.59" y1="10.16" x2="15.41" y2="10.16" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#005ba1" /><stop offset="0.07" stop-color="#0060a9" /><stop offset="0.36" stop-color="#0071c8" /><stop offset="0.52" stop-color="#0078d4" /><stop offset="0.64" stop-color="#0074cd" /><stop offset="0.82" stop-color="#006abb" /><stop offset="1" stop-color="#005ba1" /></linearGradient><radialGradient id="bf3846c3-4d74-4743-ab9a-f334c248bd92" cx="9.36" cy="10.57" r="7.07" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f2f2f2" /><stop offset="0.58" stop-color="#eee" /><stop offset="1" stop-color="#e6e6e6" /></radialGradient></defs><path d="M9,5.14c-3.54,0-6.41-1-6.41-2.32V15.18c0,1.27,2.82,2.3,6.32,2.32H9c3.54,0,6.41-1,6.41-2.32V2.82C15.41,4.11,12.54,5.14,9,5.14Z" fill="url(#ef16bf9d-a8b6-4181-b6cd-66fc5203f956)" /><path d="M15.41,2.82c0,1.29-2.87,2.32-6.41,2.32s-6.41-1-6.41-2.32S5.46.5,9,.5s6.41,1,6.41,2.32" fill="#e8e8e8" /><path d="M13.92,2.63c0,.82-2.21,1.48-4.92,1.48S4.08,3.45,4.08,2.63,6.29,1.16,9,1.16s4.92.66,4.92,1.47" fill="#50e6ff" /><path d="M9,3a11.55,11.55,0,0,0-3.89.57A11.42,11.42,0,0,0,9,4.11a11.15,11.15,0,0,0,3.89-.58A11.84,11.84,0,0,0,9,3Z" fill="#198ab3" /><path d="M12.9,11.4V8H12v4.13h2.46V11.4ZM5.76,9.73a1.83,1.83,0,0,1-.51-.31.44.44,0,0,1-.12-.32.34.34,0,0,1,.15-.3.68.68,0,0,1,.42-.12,1.62,1.62,0,0,1,1,.29V8.11a2.58,2.58,0,0,0-1-.16,1.64,1.64,0,0,0-1.09.34,1.08,1.08,0,0,0-.42.89c0,.51.32.91,1,1.21a2.88,2.88,0,0,1,.62.36.42.42,0,0,1,.15.32.38.38,0,0,1-.16.31.81.81,0,0,1-.45.11,1.66,1.66,0,0,1-1.09-.42V12a2.17,2.17,0,0,0,1.07.24,1.88,1.88,0,0,0,1.18-.33A1.08,1.08,0,0,0,6.84,11a1.05,1.05,0,0,0-.25-.7A2.42,2.42,0,0,0,5.76,9.73ZM11,11.32a2.34,2.34,0,0,0,.33-1.26A2.32,2.32,0,0,0,11,9a1.81,1.81,0,0,0-.7-.75,2,2,0,0,0-1-.26,2.11,2.11,0,0,0-1.08.27A1.86,1.86,0,0,0,7.49,9a2.46,2.46,0,0,0-.26,1.14,2.26,2.26,0,0,0,.24,1,1.76,1.76,0,0,0,.69.74,2.06,2.06,0,0,0,1,.3l.86,1h1.21L10,12.08A1.79,1.79,0,0,0,11,11.32ZM10,11.07a.94.94,0,0,1-.76.35.92.92,0,0,1-.76-.36,1.52,1.52,0,0,1-.29-1,1.53,1.53,0,0,1,.29-1,1,1,0,0,1,.78-.37.87.87,0,0,1,.75.37,1.62,1.62,0,0,1,.27,1A1.46,1.46,0,0,1,10,11.07Z" fill="url(#bf3846c3-4d74-4743-ab9a-f334c248bd92)" /></svg>
+      <h3><a href="#deployment-options">Azure SQL Database</a></h3>
+      <p class="map-tradeoff">Managed databases; compare tiers, pooling and compute.</p>
+    </div>
+  </div>
+
+  <div class="map-checkpoint">
+    <div>Validate features, tier/size, HA/DR and cost before committing.</div>
+    <a href="#deployment-options">Explore the options &darr;</a>
+  </div>
+</section>
+
+<div class="card" id="deployment-options">
+  <h3>Explore deployment options</h3>
+  <p class="sub">Once an offering fits, this is what you still choose inside it. Figures are
+    maximums that depend on hardware, size and region — read them as ceilings, not defaults,
+    and confirm against the linked documentation before you commit to a configuration.</p>
+
+  <div class="dopt" role="group" aria-label="Deployment options by Azure SQL offering">
+    <input type="radio" name="dopt" id="dopt-r-vm" class="dopt-radio dopt-vm" checked>
+    <input type="radio" name="dopt" id="dopt-r-mi" class="dopt-radio dopt-mi">
+    <input type="radio" name="dopt" id="dopt-r-db" class="dopt-radio dopt-db">
+
+    <div class="dopt-tabs">
+      <label class="dopt-tab dopt-tab-vm" for="dopt-r-vm"><svg class="dopt-tab-logo" viewBox="0 0 18 18" role="img" aria-hidden="true" focusable="false"><defs><linearGradient id="tab-bf00b8fe-272d-44e3-922e-e394f4035f83" x1="9" y1="12.46" x2="9" y2="1.18" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="0.82" stop-color="#5ea0ef" /></linearGradient><linearGradient id="tab-b2b35db0-3208-44e0-aaf4-68cf95a2719b" x1="9" y1="16.82" x2="9" y2="12.46" gradientUnits="userSpaceOnUse"><stop offset="0.15" stop-color="#ccc" /><stop offset="1" stop-color="#707070" /></linearGradient><radialGradient id="tab-f2829e12-820e-4175-930d-324517daee42" cx="9.43" cy="7.03" r="7.27" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f2f2f2" /><stop offset="0.58" stop-color="#eee" /><stop offset="1" stop-color="#e6e6e6" /></radialGradient></defs><g><g><rect x="0.54" y="1.18" width="16.91" height="11.27" rx="0.56" fill="url(#tab-bf00b8fe-272d-44e3-922e-e394f4035f83)" /><path d="M12.39,15.87c-1.67-.26-1.74-1.47-1.73-3.41H7.34c0,1.94-.06,3.15-1.73,3.41a1,1,0,0,0-.84,1h8.46A1,1,0,0,0,12.39,15.87Z" fill="url(#tab-b2b35db0-3208-44e0-aaf4-68cf95a2719b)" /></g><path d="M13.07,7.89V4.41h-1V8.66h2.53V7.89ZM5.73,6.17a2,2,0,0,1-.52-.31.45.45,0,0,1-.13-.34.36.36,0,0,1,.16-.31.69.69,0,0,1,.43-.11,1.66,1.66,0,0,1,1,.29V4.51a2.77,2.77,0,0,0-1-.17,1.73,1.73,0,0,0-1.13.35,1.12,1.12,0,0,0-.42.92A1.38,1.38,0,0,0,5,6.85a2.49,2.49,0,0,1,.63.37.41.41,0,0,1,.16.33.4.4,0,0,1-.16.32A.76.76,0,0,1,5.21,8a1.69,1.69,0,0,1-1.12-.44v1a2.27,2.27,0,0,0,1.1.24A2,2,0,0,0,6.4,8.41a1.12,1.12,0,0,0,.44-.94,1,1,0,0,0-.26-.72A2.54,2.54,0,0,0,5.73,6.17Zm5.34,1.64a2.4,2.4,0,0,0,.34-1.3,2.44,2.44,0,0,0-.26-1.13,1.85,1.85,0,0,0-.72-.77,2.05,2.05,0,0,0-1-.27,2.23,2.23,0,0,0-1.11.28,1.89,1.89,0,0,0-.76.8A2.47,2.47,0,0,0,7.25,6.6a2.44,2.44,0,0,0,.24,1.08,1.92,1.92,0,0,0,.71.76,2.06,2.06,0,0,0,1,.3l.88,1h1.24L10.11,8.58A1.78,1.78,0,0,0,11.07,7.81Zm-1-.26a.94.94,0,0,1-.78.36.92.92,0,0,1-.78-.37,1.55,1.55,0,0,1-.3-1,1.57,1.57,0,0,1,.3-1,1,1,0,0,1,.8-.37.9.9,0,0,1,.77.37,1.65,1.65,0,0,1,.28,1A1.5,1.5,0,0,1,10.11,7.55Z" fill="url(#tab-f2829e12-820e-4175-930d-324517daee42)" /></g></svg><b>SQL Server on Azure VM</b><span>IaaS &middot; you configure the host</span></label>
+      <label class="dopt-tab dopt-tab-mi" for="dopt-r-mi"><svg class="dopt-tab-logo" viewBox="0 0 18 18" role="img" aria-hidden="true" focusable="false"><defs><linearGradient id="tab-acf2da4b-8aca-4b58-b995-ca6956cf663e" x1="5.41" y1="17.33" x2="5.41" y2="0.61" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#949494" /><stop offset="0.53" stop-color="#a2a2a2" /><stop offset="1" stop-color="#b3b3b3" /></linearGradient><linearGradient id="tab-b152b416-25c2-4a4a-9d7f-a0bb2a13f84a" x1="10.04" y1="17.39" x2="10.04" y2="6.82" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="0.16" stop-color="#1380da" /><stop offset="0.53" stop-color="#3c91e5" /><stop offset="0.82" stop-color="#559cec" /><stop offset="1" stop-color="#5ea0ef" /></linearGradient></defs><path d="M10.32,16.76a.58.58,0,0,1-.57.57H1.07a.57.57,0,0,1-.57-.57V1.18A.56.56,0,0,1,1.07.61H9.75a.57.57,0,0,1,.57.57Z" fill="url(#tab-acf2da4b-8aca-4b58-b995-ca6956cf663e)" /><path d="M1.94,6.47A1.07,1.07,0,0,1,3,5.41H7.9A1.07,1.07,0,0,1,9,6.47H9A1.07,1.07,0,0,1,7.9,7.54H3A1.07,1.07,0,0,1,1.94,6.47Z" fill="#003067" /><path d="M1.94,3.31A1.07,1.07,0,0,1,3,2.24H7.9A1.07,1.07,0,0,1,9,3.31H9A1.07,1.07,0,0,1,7.9,4.37H3A1.07,1.07,0,0,1,1.94,3.31Z" fill="#003067" /><circle cx="3.06" cy="3.31" r="0.72" fill="#50e6ff" /><circle cx="3.06" cy="6.47" r="0.72" fill="#50e6ff" /><path d="M17.5,14.08a3.36,3.36,0,0,0-2.91-3.22,4.22,4.22,0,0,0-4.35-4A4.32,4.32,0,0,0,6.1,9.64a4,4,0,0,0-3.52,3.85,4.06,4.06,0,0,0,4.2,3.9l.37,0H14l.17,0A3.39,3.39,0,0,0,17.5,14.08Z" fill="url(#tab-b152b416-25c2-4a4a-9d7f-a0bb2a13f84a)" /><path d="M13.61,14.45V11.09h-.93v4.12h2.45v-.76ZM6.51,12.8A2.23,2.23,0,0,1,6,12.49a.44.44,0,0,1-.12-.32.34.34,0,0,1,.15-.3.66.66,0,0,1,.42-.12,1.66,1.66,0,0,1,1,.29v-.86a2.89,2.89,0,0,0-1-.15,1.69,1.69,0,0,0-1.09.33,1.1,1.1,0,0,0-.41.89,1.34,1.34,0,0,0,.94,1.2,2.51,2.51,0,0,1,.61.36.42.42,0,0,1,.15.32.34.34,0,0,1-.15.3.75.75,0,0,1-.45.12,1.63,1.63,0,0,1-1.08-.42v.92A2.25,2.25,0,0,0,6,15.28,1.91,1.91,0,0,0,7.15,15a1.07,1.07,0,0,0,.43-.91,1,1,0,0,0-.25-.7A2.36,2.36,0,0,0,6.51,12.8Zm5.16,1.58A2.37,2.37,0,0,0,12,13.12,2.28,2.28,0,0,0,11.75,12a1.77,1.77,0,0,0-.69-.74A1.94,1.94,0,0,0,10,11,2.21,2.21,0,0,0,9,11.29a1.87,1.87,0,0,0-.73.77A2.52,2.52,0,0,0,8,13.2a2.26,2.26,0,0,0,.24,1.05,1.87,1.87,0,0,0,.68.74,2,2,0,0,0,1,.29l.85,1h1.2l-1.19-1.1A1.82,1.82,0,0,0,11.67,14.38Zm-.93-.25a.92.92,0,0,1-.76.35.91.91,0,0,1-.75-.36,1.5,1.5,0,0,1-.28-1,1.46,1.46,0,0,1,.29-1,.92.92,0,0,1,.77-.37.86.86,0,0,1,.74.37,1.54,1.54,0,0,1,.28,1A1.47,1.47,0,0,1,10.74,14.13Z" fill="#f2f2f2" /></svg><b>Azure SQL Managed Instance</b><span>PaaS &middot; instance scope</span></label>
+      <label class="dopt-tab dopt-tab-db" for="dopt-r-db"><svg class="dopt-tab-logo" viewBox="0 0 18 18" role="img" aria-hidden="true" focusable="false"><defs><linearGradient id="tab-ef16bf9d-a8b6-4181-b6cd-66fc5203f956" x1="2.59" y1="10.16" x2="15.41" y2="10.16" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#005ba1" /><stop offset="0.07" stop-color="#0060a9" /><stop offset="0.36" stop-color="#0071c8" /><stop offset="0.52" stop-color="#0078d4" /><stop offset="0.64" stop-color="#0074cd" /><stop offset="0.82" stop-color="#006abb" /><stop offset="1" stop-color="#005ba1" /></linearGradient><radialGradient id="tab-bf3846c3-4d74-4743-ab9a-f334c248bd92" cx="9.36" cy="10.57" r="7.07" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f2f2f2" /><stop offset="0.58" stop-color="#eee" /><stop offset="1" stop-color="#e6e6e6" /></radialGradient></defs><path d="M9,5.14c-3.54,0-6.41-1-6.41-2.32V15.18c0,1.27,2.82,2.3,6.32,2.32H9c3.54,0,6.41-1,6.41-2.32V2.82C15.41,4.11,12.54,5.14,9,5.14Z" fill="url(#tab-ef16bf9d-a8b6-4181-b6cd-66fc5203f956)" /><path d="M15.41,2.82c0,1.29-2.87,2.32-6.41,2.32s-6.41-1-6.41-2.32S5.46.5,9,.5s6.41,1,6.41,2.32" fill="#e8e8e8" /><path d="M13.92,2.63c0,.82-2.21,1.48-4.92,1.48S4.08,3.45,4.08,2.63,6.29,1.16,9,1.16s4.92.66,4.92,1.47" fill="#50e6ff" /><path d="M9,3a11.55,11.55,0,0,0-3.89.57A11.42,11.42,0,0,0,9,4.11a11.15,11.15,0,0,0,3.89-.58A11.84,11.84,0,0,0,9,3Z" fill="#198ab3" /><path d="M12.9,11.4V8H12v4.13h2.46V11.4ZM5.76,9.73a1.83,1.83,0,0,1-.51-.31.44.44,0,0,1-.12-.32.34.34,0,0,1,.15-.3.68.68,0,0,1,.42-.12,1.62,1.62,0,0,1,1,.29V8.11a2.58,2.58,0,0,0-1-.16,1.64,1.64,0,0,0-1.09.34,1.08,1.08,0,0,0-.42.89c0,.51.32.91,1,1.21a2.88,2.88,0,0,1,.62.36.42.42,0,0,1,.15.32.38.38,0,0,1-.16.31.81.81,0,0,1-.45.11,1.66,1.66,0,0,1-1.09-.42V12a2.17,2.17,0,0,0,1.07.24,1.88,1.88,0,0,0,1.18-.33A1.08,1.08,0,0,0,6.84,11a1.05,1.05,0,0,0-.25-.7A2.42,2.42,0,0,0,5.76,9.73ZM11,11.32a2.34,2.34,0,0,0,.33-1.26A2.32,2.32,0,0,0,11,9a1.81,1.81,0,0,0-.7-.75,2,2,0,0,0-1-.26,2.11,2.11,0,0,0-1.08.27A1.86,1.86,0,0,0,7.49,9a2.46,2.46,0,0,0-.26,1.14,2.26,2.26,0,0,0,.24,1,1.76,1.76,0,0,0,.69.74,2.06,2.06,0,0,0,1,.3l.86,1h1.21L10,12.08A1.79,1.79,0,0,0,11,11.32ZM10,11.07a.94.94,0,0,1-.76.35.92.92,0,0,1-.76-.36,1.52,1.52,0,0,1-.29-1,1.53,1.53,0,0,1,.29-1,1,1,0,0,1,.78-.37.87.87,0,0,1,.75.37,1.62,1.62,0,0,1,.27,1A1.46,1.46,0,0,1,10,11.07Z" fill="url(#tab-bf3846c3-4d74-4743-ab9a-f334c248bd92)" /></svg><b>Azure SQL Database</b><span>PaaS &middot; database scope</span></label>
+    </div>
+
+    <div class="dopt-panels">
+
+      <!-- ============ SQL Server on Azure VM ============ -->
+      <div class="dopt-panel dopt-panel-vm">
+        <div class="dopt-grid">
+
+          <div class="dopt-card">
+            <h4>VM family and size</h4>
+            <p class="dopt-when">Consider when the workload needs the operating system, a specific
+              SQL build, or an instance feature the managed services do not expose.</p>
+            <dl class="dopt-rows">
+              <div><dt>Deployment</dt><dd>Marketplace SQL image, or install onto your own VM</dd></div>
+              <div><dt>Compute</dt><dd>Memory optimized for most production work. Ebdsv5 is the documented
+                starting point; Mbdsv3 and M-series for the largest workloads</dd></div>
+              <div><dt>Storage</dt><dd>Storage optimized L-series for I/O-heavy staging on ephemeral
+                local NVMe</dd></div>
+              <div><dt>Licensing</dt><dd>Constrained vCore sizes cut the billable SQL core count while
+                keeping memory and I/O</dd></div>
+            </dl>
+            <details class="dopt-more">
+              <summary>Configuration details and limits</summary>
+              <dl class="dopt-rows">
+                <div><dt>Minimum</dt><dd>4 or more vCores for production; E4ds_v5 is named as a minimum
+                  recommended size</dd></div>
+                <div><dt>Memory</dt><dd>8:1 memory-to-vCore is the recommended starting ratio. D-series
+                  runs 4:1; Mds_v3 reaches 16:1 and above for data warehousing</dd></div>
+                <div><dt>Constrained</dt><dd>Two models: preset reductions on selected families, and
+                  configurable constrained cores across a broader set. Both keep the parent VM's memory
+                  and I/O, and you still pay parent compute and Windows licensing</dd></div>
+                <div><dt>Local NVMe</dt><dd>The L-series NVMe is ephemeral: data held there is lost
+                  when the VM is deallocated, so it suits tempdb and staging rather than data
+                  files</dd></div>
+                <div><dt>Reference</dt><dd><a href="https://learn.microsoft.com/en-us/azure/azure-sql/virtual-machines/windows/performance-guidelines-best-practices-vm-size?view=azuresql">VM size guidance</a>
+                  &middot; <a href="https://learn.microsoft.com/en-us/azure/azure-sql/virtual-machines/windows/vm-vcore-customization-for-sql?view=azuresql">vCore customization</a></dd></div>
+              </dl>
+            </details>
+          </div>
+
+          <div class="dopt-card">
+            <h4>Storage architecture</h4>
+            <p class="dopt-when">Consider this before VM size — disk layout and caching decide SQL
+              throughput on IaaS more often than core count does.</p>
+            <dl class="dopt-rows">
+              <div><dt>Disk types</dt><dd>Premium SSD v2 or Premium SSD for production; Ultra Disk where
+                the log needs submillisecond latency</dd></div>
+              <div><dt>Layout</dt><dd>Separate volumes for data, log and tempdb</dd></div>
+              <div><dt>tempdb</dt><dd>On the ephemeral temp disk for most workloads; on shared storage
+                for cluster instances</dd></div>
+              <div><dt>Caching</dt><dd>Read-only on data, none on log, on Premium SSD</dd></div>
+            </dl>
+            <details class="dopt-more">
+              <summary>Configuration details and limits</summary>
+              <dl class="dopt-rows">
+                <div><dt>Per disk</dt><dd>Ultra Disk up to 400,000 IOPS and 10,000 MB/s &middot;
+                  Premium SSD v2 up to 80,000 IOPS and 2,000 MB/s &middot; Premium SSD up to 20,000 IOPS
+                  and 900 MB/s</dd></div>
+                <div><dt>Ceiling</dt><dd>The VM series caps uncached IOPS and throughput independently, so
+                  the effective limit is the lower of the two. Above roughly 160,000 IOPS the guidance is
+                  Premium SSD v2 or Ultra Disk</dd></div>
+                <div><dt>Host caching</dt><dd>Read-only on data and none on log applies to Premium SSD.
+                  Premium SSD v2 and Ultra Disk do not support host caching at all, and nor do disks of
+                  4 TiB and larger</dd></div>
+                <div><dt>Restrictions</dt><dd>Ultra Disk is locally redundant only, is unavailable in some
+                  regions and VM sizes, and cannot be used with availability sets<span class="dopt-flag region">Regional</span>
+                  <i>Deploying a SQL VM on Premium SSD v2 through the portal is in preview and limited to
+                  Ebdsv5 and Ebsv5</i><span class="dopt-flag">Preview</span></dd></div>
+                <div><dt>Reference</dt><dd><a href="https://learn.microsoft.com/en-us/azure/azure-sql/virtual-machines/windows/performance-guidelines-best-practices-storage?view=azuresql">Storage guidance</a>
+                  &middot; <a href="https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types">Managed disk types</a></dd></div>
+              </dl>
+            </details>
+          </div>
+
+          <div class="dopt-card">
+            <h4>HA/DR topology</h4>
+            <p class="dopt-when">Consider how much availability you want to own. Azure supplies the
+              infrastructure; you design, configure and operate the SQL-level topology.</p>
+            <dl class="dopt-rows">
+              <div><dt>Database</dt><dd>Always On availability groups, with replicas across zones or
+                regions</dd></div>
+              <div><dt>Instance</dt><dd>Failover cluster instance over shared storage</dd></div>
+              <div><dt>Placement</dt><dd>Availability zones, or an availability set</dd></div>
+              <div><dt>Recovery</dt><dd>Secondary replicas in another region, backup to blob storage, or
+                Azure Site Recovery</dd></div>
+            </dl>
+            <details class="dopt-more">
+              <summary>Configuration details and limits</summary>
+              <dl class="dopt-rows">
+                <div><dt>Shared storage</dt><dd>Five documented options for a cluster instance: Azure
+                  shared disks, Storage Spaces Direct, Premium file shares, partner replication, and
+                  remote iSCSI over ExpressRoute</dd></div>
+                <div><dt>Prerequisites</dt><dd>Availability groups and cluster instances both need a
+                  Windows failover cluster and an Active Directory domain. Cross-region replicas need
+                  network connectivity between the virtual networks</dd></div>
+                <div><dt>Licensing</dt><dd>A passive replica kept for high availability or disaster
+                  recovery can use the free HA/DR licence type</dd></div>
+                <div><dt>Reference</dt><dd><a href="https://learn.microsoft.com/en-us/azure/azure-sql/virtual-machines/windows/business-continuity-high-availability-disaster-recovery-hadr-overview?view=azuresql">Business continuity overview</a></dd></div>
+              </dl>
+            </details>
+          </div>
+        </div>
+
+        <div class="dopt-foot">
+          <details class="acc dopt-extra">
+            <summary>Additional options</summary>
+            <dl class="dopt-extra-grid">
+              <div><dt>Operating system</dt><dd>Windows Server or Linux. Linux images carry SQL Server
+                2017 and later</dd></div>
+              <div><dt>Versions</dt><dd>Marketplace images for SQL Server 2025, 2022, 2019, 2017 and 2016.
+                Images deploy at RTM and are not patched over time</dd></div>
+              <div><dt>Editions</dt><dd>Enterprise, Standard, Web, Developer, Express and Evaluation.
+                Licence-model changes apply to Standard and Enterprise only</dd></div>
+              <div><dt>Licensing</dt><dd>Pay-as-you-go, Azure Hybrid Benefit, or the free HA/DR type.
+                Hybrid Benefit needs core licences with Software Assurance or subscription licences;
+                switching needs no downtime and no restart</dd></div>
+              <div><dt>Management</dt><dd>The SQL IaaS Agent extension adds automated backup, automated
+                patching, Key Vault integration, best-practice assessment and Defender for Cloud, at no
+                charge<span class="dopt-flag region">Regional</span>
+                <i>Supported in a limited set of regions. Registration alone installs no agent — each
+                feature you enable pulls in what it needs</i></dd></div>
+              <div><dt>Networking</dt><dd>The VM sits in your virtual network, secured with network
+                security groups</dd></div>
+              <div><dt>Free offer</dt><dd>No managed free tier. Developer edition carries a free SQL
+                licence and Express is free within its own limits — in both cases you still pay for VM
+                compute and storage</dd></div>
+            </dl>
+          </details>
+        </div>
+      </div>
+
+      <!-- ============ Azure SQL Managed Instance ============ -->
+      <div class="dopt-panel dopt-panel-mi">
+        <div class="dopt-grid">
+
+          <div class="dopt-card">
+            <h4>General Purpose</h4>
+            <p class="dopt-when">Consider for most instance-scoped workloads where storage latency is
+              budgeted for and a readable secondary is not required.</p>
+            <dl class="dopt-rows">
+              <div><dt>Deployment</dt><dd>Single instance, or an instance pool</dd></div>
+              <div><dt>Compute</dt><dd>4 to 80 vCores on all hardware</dd></div>
+              <div><dt>Memory</dt><dd>5.1, 7 or 13.6 GB per vCore by hardware generation</dd></div>
+              <div><dt>Storage</dt><dd>Up to 16 TB on remote page blobs, tied to vCore count</dd></div>
+              <div><dt>Databases</dt><dd>Up to 100</dd></div>
+              <div><dt>Availability</dt><dd>Standby nodes, no readable secondary</dd></div>
+            </dl>
+            <details class="dopt-more">
+              <summary>Configuration details and limits</summary>
+              <dl class="dopt-rows">
+                <div><dt>vCores</dt><dd>2, 4, 8, 16, 24, 32, 40, 64, 80 on standard-series and
+                  premium-series; memory optimized starts at 4</dd></div>
+                <div><dt>Memory</dt><dd>Standard-series 5.1 GB per vCore to 408 GB &middot; premium-series
+                  7 GB to 560 GB &middot; memory optimized 13.6 GB to 870.4 GB. The ratio stops at those
+                  maximums rather than continuing: memory optimized holds 13.6 only to 64 vCores, so an
+                  80-vCore instance gets 870.4 GB and not 1,088</dd></div>
+                <div><dt>Storage</dt><dd>2 TB at 4 vCores, 8 TB at 8 vCores, 16 TB above that</dd></div>
+                <div><dt>Instance pools</dt><dd>Pools are General Purpose only, 8 to 80 vCores, up to 40
+                  instances, and are the only way to run a 2-vCore instance</dd></div>
+                <div><dt>Also</dt><dd>Stop and start is available on this tier. In-memory OLTP is
+                  not</dd></div>
+                <div><dt>Reference</dt><dd><a href="https://learn.microsoft.com/en-us/azure/azure-sql/managed-instance/resource-limits?view=azuresql">Resource limits</a>
+                  &middot; <a href="https://learn.microsoft.com/en-us/azure/azure-sql/managed-instance/instance-pools-overview?view=azuresql">Instance pools</a></dd></div>
+              </dl>
+            </details>
+          </div>
+
+          <div class="dopt-card">
+            <h4>Next-gen General Purpose</h4>
+            <p class="dopt-when">Consider when General Purpose fits the shape of the workload but the
+              database count, storage ceiling or I/O has become the constraint.</p>
+            <dl class="dopt-rows">
+              <div><dt>Deployment</dt><dd>Single instance only</dd></div>
+              <div><dt>Compute</dt><dd>4 to 80 vCores on standard-series, 4 to 128 on premium-series</dd></div>
+              <div><dt>Memory</dt><dd>5.1, 7 or 13.6 GB per vCore, and settable independently of vCores
+                on premium-series</dd></div>
+              <div><dt>Storage</dt><dd>Up to 32 TB on Elastic SAN, with 3 IOPS included per GB</dd></div>
+              <div><dt>Databases</dt><dd>Up to 500</dd></div>
+              <div><dt>Availability</dt><dd>Standby nodes, no readable secondary</dd></div>
+            </dl>
+            <details class="dopt-more">
+              <summary>Configuration details and limits</summary>
+              <dl class="dopt-rows">
+                <div><dt>vCores</dt><dd>4, 8, 16, 24, 32, 40, 64, 80 on standard-series. Premium-series
+                  and memory optimized add 6, 10, 12, 20, 48, 56, 96 and 128</dd></div>
+                <div><dt>Memory</dt><dd>Standard-series 5.1 GB per vCore to 408 GB &middot; premium-series
+                  7 GB to 560 GB &middot; memory optimized 13.6 GB to 870.4 GB. The ratio holds only to
+                  80 vCores on premium-series and 64 on memory optimized, so the largest sizes receive
+                  those maximums rather than the ratio: 128 vCores on memory optimized is 870.4 GB, not
+                  1,741</dd></div>
+                <div><dt>I/O</dt><dd>3 IOPS per GB reserved, a floor of 300 IOPS, and a per-vCore ceiling
+                  reaching 80,000. Throughput is a thirtieth of IOPS with a 75 MB/s floor. IOPS beyond the
+                  included allowance are billable</dd></div>
+                <div><dt>Zone redundancy</dt><dd>In preview on this tier<span class="dopt-flag">Preview</span></dd></div>
+                <div><dt>Flexible memory</dt><dd>Premium-series only. Generally available on locally
+                  redundant instances; in preview on zone-redundant ones<span class="dopt-flag">Preview</span></dd></div>
+                <div><dt>Upgrading</dt><dd>Enabled in place on new or existing instances through the
+                  portal, PowerShell or the CLI. The documentation does not describe a downgrade path, so
+                  treat the change as one-way until you have confirmed otherwise</dd></div>
+                <div><dt>Reference</dt><dd><a href="https://learn.microsoft.com/en-us/azure/azure-sql/managed-instance/service-tiers-next-gen-general-purpose-use?view=azuresql">Next-gen General Purpose</a></dd></div>
+              </dl>
+            </details>
+          </div>
+
+          <div class="dopt-card">
+            <h4>Business Critical</h4>
+            <p class="dopt-when">Consider when the workload needs local SSD latency, a readable
+              secondary, or in-memory OLTP.</p>
+            <dl class="dopt-rows">
+              <div><dt>Deployment</dt><dd>Single instance only</dd></div>
+              <div><dt>Compute</dt><dd>4 to 80 vCores on standard-series, 4 to 128 on premium-series</dd></div>
+              <div><dt>Memory</dt><dd>5.1, 7 or 13.6 GB per vCore, on each replica</dd></div>
+              <div><dt>Storage</dt><dd>Up to 4 TB on standard-series; up to 16 TB on premium-series</dd></div>
+              <div><dt>Databases</dt><dd>Up to 100</dd></div>
+              <div><dt>Availability</dt><dd>Four replicas, one of them readable</dd></div>
+            </dl>
+            <details class="dopt-more">
+              <summary>Configuration details and limits</summary>
+              <dl class="dopt-rows">
+                <div><dt>vCores</dt><dd>4, 8, 16, 24, 32, 40, 64, 80 on standard-series. Premium-series
+                  and memory optimized add 6, 10, 12, 20, 48, 56, 96 and 128. There is no 2-vCore
+                  option</dd></div>
+                <div><dt>Memory</dt><dd>Standard-series 5.1 GB per vCore to 408 GB &middot; premium-series
+                  7 GB to 560 GB &middot; memory optimized 13.6 GB to 870.4 GB, on each replica. The ratio
+                  holds only to 80 vCores on premium-series and 64 on memory optimized, so the largest
+                  sizes receive those maximums rather than the ratio: 128 vCores on memory optimized is
+                  870.4 GB, not 1,741</dd></div>
+                <div><dt>Storage</dt><dd>Standard-series: 1 TB to 16 vCores, 2 TB at 24, 4 TB from 32.
+                  Premium-series climbs to 5.5 TB at 24 to 56 vCores, and 5.5 TB or 16 TB above that
+                  depending on the region</dd></div>
+                <div><dt>In-memory OLTP</dt><dd>Available, sized by vCore count and hardware — roughly
+                  3.14 GB at 4 vCores on standard-series, rising to about 131 GB at 80</dd></div>
+                <div><dt>Also</dt><dd>Flexible memory on this tier is in preview. Stop and start is not
+                  available<span class="dopt-flag">Preview</span></dd></div>
+                <div><dt>Reference</dt><dd><a href="https://learn.microsoft.com/en-us/azure/azure-sql/managed-instance/service-tiers-managed-instance-vcore?view=azuresql">Service tiers</a></dd></div>
+              </dl>
+            </details>
+          </div>
+        </div>
+
+        <div class="dopt-foot">
+          <details class="acc dopt-extra">
+            <summary>Additional options</summary>
+            <dl class="dopt-extra-grid">
+              <div><dt>Redundancy</dt><dd>Zone redundancy where the region supports it, and a secondary
+                instance in another region through failover groups</dd></div>
+              <div><dt>Networking</dt><dd>Injected into a subnet of your virtual network, reached on a
+                private IP address</dd></div>
+              <div><dt>Licensing</dt><dd>Pay-as-you-go or Azure Hybrid Benefit. With Software Assurance,
+                one Enterprise core covers 4 General Purpose vCores or 1 Business Critical vCore; one
+                Standard core covers 1 General Purpose vCore, and four Standard cores cover 1 Business
+                Critical vCore. Not available on dev/test subscriptions</dd></div>
+              <div><dt>Backup</dt><dd>Point-in-time retention of 1 to 35 days, geo-redundant by default
+                with other redundancy options available, and long-term retention up to 10 years</dd></div>
+              <div><dt>Security</dt><dd>Transparent data encryption, Microsoft Defender for SQL, and a
+                configurable maintenance window</dd></div>
+              <div><dt>Free offer</dt><dd>720 vCore-hours and 64 GB of storage a month for 12 months, one
+                instance per subscription, on 4 or 8 standard-series vCores
+                <i>No SLA, no zone redundancy, no failover groups, locally redundant backups only. It
+                stops when the monthly hours run out, and after 12 months the instance is deleted
+                if it is not moved to a paid tier within 30 days</i></dd></div>
+            </dl>
+            <p class="dopt-verified"><a href="https://learn.microsoft.com/en-us/azure/azure-sql/managed-instance/free-offer?view=azuresql">Free offer</a>
+              &middot; <a href="https://learn.microsoft.com/en-us/azure/azure-sql/azure-hybrid-benefit?view=azuresql">Azure Hybrid Benefit</a></p>
+          </details>
+        </div>
+      </div>
+
+      <!-- ============ Azure SQL Database ============ -->
+      <div class="dopt-panel dopt-panel-db">
+        <div class="dopt-grid">
+
+          <div class="dopt-card">
+            <h4>General Purpose</h4>
+            <p class="dopt-when">Consider for most database-scoped workloads, and wherever an idle
+              database should be allowed to pause.</p>
+            <dl class="dopt-rows">
+              <div><dt>Deployment</dt><dd>Single database or elastic pool; provisioned or serverless</dd></div>
+              <div><dt>Compute</dt><dd>2 to 128 vCores provisioned, or serverless to 80</dd></div>
+              <div><dt>Memory</dt><dd>5.1 GB per vCore</dd></div>
+              <div><dt>Storage</dt><dd>1 GB to 4 TB on premium remote storage</dd></div>
+              <div><dt>Availability</dt><dd>One replica, no read scale-out</dd></div>
+              <div><dt>Hardware</dt><dd>Standard-series, or DC-series for provisioned compute</dd></div>
+            </dl>
+            <details class="dopt-more">
+              <summary>Configuration details and limits</summary>
+              <dl class="dopt-rows">
+                <div><dt>Serverless</dt><dd>The only tier with auto-pause, and standard-series only.
+                  Minimum 0.5 vCores, auto-pause
+                  delay from 15 minutes to 7 days with a 60-minute default, or disabled. Memory
+                  autoscales with compute, to 24 GB per vCore and 240 GB. Billed per second
+                  against per-hour billing for provisioned</dd></div>
+                <div><dt>Storage size</dt><dd>Selectable in 1 GB increments up to the maximum</dd></div>
+                <div><dt>Hardware</dt><dd>The 2 to 128 vCores and 5.1 GB per vCore above are
+                  standard-series, which provisions to 625 GB. DC-series carries 4.5 GB per vCore and
+                  provisions to 8 vCores, is provisioned only and does not support zone
+                  redundancy. Fsv2-series carries 1.9 GB per vCore and provisions to 72, can no longer be
+                  created and retires on 1 October 2026<span class="dopt-flag region">Regional</span></dd></div>
+                <div><dt>Reference</dt><dd><a href="https://learn.microsoft.com/en-us/azure/azure-sql/database/resource-limits-vcore-single-databases?view=azuresql">Resource limits</a>
+                  &middot; <a href="https://learn.microsoft.com/en-us/azure/azure-sql/database/serverless-tier-overview?view=azuresql">Serverless</a></dd></div>
+              </dl>
+            </details>
+          </div>
+
+          <div class="dopt-card">
+            <h4>Business Critical</h4>
+            <p class="dopt-when">Consider when the database needs local SSD latency, a read scale-out
+              replica, or in-memory OLTP.</p>
+            <dl class="dopt-rows">
+              <div><dt>Deployment</dt><dd>Single database or elastic pool; provisioned only</dd></div>
+              <div><dt>Compute</dt><dd>2 to 128 vCores</dd></div>
+              <div><dt>Memory</dt><dd>5.1 GB per vCore</dd></div>
+              <div><dt>Storage</dt><dd>1 GB to 4 TB on local SSD</dd></div>
+              <div><dt>Availability</dt><dd>Three replicas, one read scale-out</dd></div>
+              <div><dt>Hardware</dt><dd>Standard-series, or DC-series for secure enclaves</dd></div>
+            </dl>
+            <details class="dopt-more">
+              <summary>Configuration details and limits</summary>
+              <dl class="dopt-rows">
+                <div><dt>In-memory OLTP</dt><dd>Available on this tier, sized by compute</dd></div>
+                <div><dt>Hardware</dt><dd>The 2 to 128 vCores and 5.1 GB per vCore above are
+                  standard-series. DC-series carries 4.5 GB per vCore and provisions to 8 vCores, is
+                  required for Always Encrypted with secure enclaves, and does not support zone
+                  redundancy<span class="dopt-flag region">Regional</span></dd></div>
+                <div><dt>Licensing</dt><dd>Azure Hybrid Benefit applies here, at a less generous ratio than
+                  General Purpose — one Enterprise core per vCore</dd></div>
+                <div><dt>Reference</dt><dd><a href="https://learn.microsoft.com/en-us/azure/azure-sql/database/service-tiers-sql-database-vcore?view=azuresql">vCore service tiers</a></dd></div>
+              </dl>
+            </details>
+          </div>
+
+          <div class="dopt-card">
+            <h4>Hyperscale</h4>
+            <p class="dopt-when">Consider for very large or fast-growing databases, and where read
+              replicas need to scale independently of the primary.</p>
+            <dl class="dopt-rows">
+              <div><dt>Deployment</dt><dd>Single database or elastic pool; provisioned, or serverless
+                without auto-pause</dd></div>
+              <div><dt>Compute</dt><dd>2 to 192 vCores, the largest two sizes in preview</dd></div>
+              <div><dt>Memory</dt><dd>5.1 or 10.2 GB per vCore by hardware</dd></div>
+              <div><dt>Storage</dt><dd>10 GB to 128 TB, decoupled with a local SSD cache, growing as
+                needed</dd></div>
+              <div><dt>Availability</dt><dd>0 to 4 high-availability replicas, plus up to 30 named
+                replicas</dd></div>
+              <div><dt>Hardware</dt><dd>Standard-series, premium-series, or premium-series memory
+                optimized</dd></div>
+            </dl>
+            <details class="dopt-more">
+              <summary>Configuration details and limits</summary>
+              <dl class="dopt-rows">
+                <div><dt>Compute</dt><dd>The 160 and 192 vCore options are in preview<span class="dopt-flag">Preview</span></dd></div>
+                <div><dt>Hardware</dt><dd>The 10.2 GB per vCore above is premium-series memory optimized,
+                  which carries double the memory of standard-series; premium-series itself is 5.1 like
+                  standard-series but allows more vCores. Neither premium option is offered in every
+                  region<span class="dopt-flag region">Regional</span></dd></div>
+                <div><dt>Storage</dt><dd>Allocated automatically and not configured as a maximum size the
+                  way it is on the other tiers</dd></div>
+                <div><dt>Replicas</dt><dd>High-availability replicas match the primary's compute size.
+                  Named replicas are independent and are used for read scale-out</dd></div>
+                <div><dt>Licensing</dt><dd>Azure Hybrid Benefit is not available for new Hyperscale
+                  databases. As of December 2023, existing provisioned single databases keep it for
+                  compute until December 2026</dd></div>
+                <div><dt>Reference</dt><dd><a href="https://learn.microsoft.com/en-us/azure/azure-sql/database/service-tier-hyperscale?view=azuresql">Hyperscale</a></dd></div>
+              </dl>
+            </details>
+          </div>
+        </div>
+
+        <div class="dopt-alt">
+          <h4>DTU purchasing model &mdash; a supported alternative to vCore</h4>
+          <p>Bundles compute, storage and I/O into one unit rather than letting you size them separately.
+            Suited to customers who want a preconfigured bundle and a predictable monthly figure. Available
+            for single databases and, as eDTU, for elastic pools. You can convert between DTU and vCore.</p>
+          <dl class="dopt-extra-grid">
+            <div><dt>Basic</dt><dd>5 DTU &middot; up to 2 GB</dd></div>
+            <div><dt>Standard</dt><dd>S0 to S12, 10 to 3,000 DTU &middot; up to 250 GB on S0 to S2, up to
+              1 TB above</dd></div>
+            <div><dt>Premium</dt><dd>P1 to P15, 125 to 4,000 DTU &middot; up to 1 TB on P1 to P6, up to
+              4 TB on P11 to P15<span class="dopt-flag region">Regional</span>
+              <i>A few regions cap P11 to P15 at 1 TB</i></dd></div>
+            <div><dt>Note</dt><dd>Azure Hybrid Benefit does not apply to this model, and Basic through S2
+              provide less than a full vCore of compute</dd></div>
+          </dl>
+        </div>
+
+        <div class="dopt-foot">
+          <details class="acc dopt-extra">
+            <summary>Additional options</summary>
+            <dl class="dopt-extra-grid">
+              <div><dt>Redundancy</dt><dd>Zone redundancy where the region and hardware support it, plus
+                active geo-replication and failover groups</dd></div>
+              <div><dt>Networking</dt><dd>A public endpoint by default; private access through Private
+                Link, with firewall and network access controls</dd></div>
+              <div><dt>Licensing</dt><dd>Azure Hybrid Benefit applies to provisioned vCore only. It does
+                not apply to serverless, to the DTU model, or to new Hyperscale databases. With Software
+                Assurance, one Enterprise core covers 4 General Purpose vCores or 1 Business Critical
+                vCore; one Standard core covers 1 General Purpose vCore</dd></div>
+              <div><dt>Backup</dt><dd>Locally, zone or geo-redundant backup storage, 1 to 35 days of
+                point-in-time retention with 7 by default, and long-term retention up to 10 years</dd></div>
+              <div><dt>Security</dt><dd>Transparent data encryption and Microsoft Defender for SQL</dd></div>
+              <div><dt>Free offer</dt><dd>100,000 vCore-seconds of General Purpose serverless compute,
+                32 GB of data and 32 GB of backup each month for the lifetime of the subscription, across
+                up to 10 databases
+                <i>When the monthly allowance runs out you choose in advance whether the database pauses
+                until the next month or continues at standard rates</i></dd></div>
+            </dl>
+            <p class="dopt-verified"><a href="https://learn.microsoft.com/en-us/azure/azure-sql/database/free-offer?view=azuresql">Free offer</a>
+              &middot; <a href="https://learn.microsoft.com/en-us/azure/azure-sql/azure-hybrid-benefit?view=azuresql">Azure Hybrid Benefit</a>
+              &middot; <a href="https://learn.microsoft.com/en-us/azure/azure-sql/database/service-tiers-dtu?view=azuresql">DTU model</a></p>
+          </details>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="margin-top:13px">
+    <button class="primary" id="btnGuideBack">Scan my estate</button>
+  </div>
+</div>

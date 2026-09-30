@@ -1,0 +1,4446 @@
+{
+  "captured": "2026-09-25T05:17:21.9024572Z",
+  "infrastructureSnapshot": "2026-09-12T18:26:16Z",
+  "currency": "USD",
+  "sql2022Pack": {
+    "enterprise": 15123,
+    "standard": 3945
+  },
+  "sqlSaPack": {
+    "enterprise": 3052.8,
+    "standard": 796.08
+  },
+  "vmLicensePerCoreHour": {
+    "enterprise": 0.375,
+    "standard": 0.1
+  },
+  "sources": {
+    "hyperscaleAhb": "Azure Hybrid Benefit is not available for new Hyperscale databases. The published Hyperscale tables carry no ahb-* cells at all; the pull fails if one ever appears.",
+    "reservations": "https://learn.microsoft.com/en-us/azure/azure-sql/database/reservations-discount-overview",
+    "vmCommitments": "Linux base reservation total / term hours or Linux savingsPlan hourly rate + unchanged Windows PAYG uplift; SQL licensing and storage separate.",
+    "miTable": "Standard-series (Gen 5) table anchored on its service-tier <h2>, first 4-vCore row; per-core rates divided by 4. Cells selected by exact class token, not position, because the pages repeat table captions across tiers and some aria-labels name the wrong tier.",
+    "elasticPool": "Azure lists single databases and elastic pools on one meter (Single/Elastic Pool ... Compute Gen5) at the same vCore price, so pools reuse the single-database rate and drop the per-database charge.",
+    "miRI1Base": "Derived included RI1 minus (included PAYG - AHB PAYG); reservations do not discount SQL software.",
+    "mi": "https://azure.microsoft.com/en-us/pricing/details/azure-sql-managed-instance/single/",
+    "serverless": "https://learn.microsoft.com/en-us/azure/azure-sql/database/serverless-tier-billing",
+    "db": "https://azure.microsoft.com/en-us/pricing/details/azure-sql-database/single/",
+    "infrastructure": "https://prices.azure.com/api/retail/prices?api-version=2023-01-01-preview",
+    "onPremLicense": "https://www.microsoft.com/en-us/sql-server/sql-server-2022-pricing",
+    "hyperscaleStorage": "Hyperscale bills allocated data storage at its own published rate, captured from the Hyperscale Storage table.",
+    "nextGen": "Next-generation General Purpose is an architecture change, not a separate billed tier: Microsoft states the invoice still reads General Purpose. The pull asserts its published rates equal General Purpose and the calculator prices it as GP.",
+    "serverlessLimits": "https://learn.microsoft.com/en-us/azure/azure-sql/database/resource-limits-vcore-single-databases",
+    "hyperscale": "Azure SQL Database Hyperscale, Standard-series (Gen 5). Provisioned and serverless tables are told apart by their first column header (vCORE against Minimum vCores), never by order."
+  },
+  "regions": {
+    "eastus": {
+      "miIncludedPerCoreHour": 0.252184,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.115,
+        "mi_bc_per_gb_mo": 0.25,
+        "db_gp_per_gb_mo": 0.115,
+        "db_bc_per_gb_mo": 0.25,
+        "db_hs_per_gb_mo": 0.25,
+        "backup_lrs_per_gb_mo": 0.1,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P80": 3604.11,
+          "P30": 135.17,
+          "P1": 0.6,
+          "P6": 10.207,
+          "P15": 38.0121,
+          "P4": 5.2795,
+          "P2": 1.2,
+          "P40": 259.0457,
+          "P70": 1802.06,
+          "P10": 19.71,
+          "P3": 2.4,
+          "P50": 495.5657,
+          "P20": 73.22,
+          "P60": 946.08
+        }
+      },
+      "miBasePerCoreHour": 0.152218,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.184,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'eastus' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.518,
+            "ri1": 0.38103196347031965,
+            "ri3": 0.3109025875190259,
+            "sp1": 0.40985079999999996,
+            "sp3": 0.3254156
+          },
+          "meterIds": [
+            "71b7de3b-148d-5cef-aa1d-e95020cb11b4",
+            "fe54849a-b34e-5060-bf00-40fed9dab428"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.368,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'eastus' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.036,
+            "ri1": 0.7620639269406393,
+            "ri3": 0.6218432267884322,
+            "sp1": 0.8197015999999999,
+            "sp3": 0.6508312
+          },
+          "meterIds": [
+            "4ebf0089-5b7e-521d-afbb-d1c426c50a16",
+            "b8c76214-1c72-521a-a1cb-8b90ba11fd15"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.736,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'eastus' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.072,
+            "ri1": 1.52424200913242,
+            "ri3": 1.2436864535768644,
+            "sp1": 1.6394031999999998,
+            "sp3": 1.3016624
+          },
+          "meterIds": [
+            "ddbb41f6-e231-5134-94d3-80ca5997e367",
+            "f622d4a8-8deb-5973-ae8e-d69c63f7bcdd"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.167,
+          "windows": 0.259
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.334,
+          "windows": 0.518
+        },
+        "Standard_E8bds_v5": {
+          "linux": 0.668,
+          "windows": 1.036
+        },
+        "Standard_E16bds_v5": {
+          "linux": 1.336,
+          "windows": 2.072
+        },
+        "Standard_E32bds_v5": {
+          "linux": 2.672,
+          "windows": 4.144
+        },
+        "Standard_E48bds_v5": {
+          "linux": 4.008,
+          "windows": 6.216
+        },
+        "Standard_E64bds_v5": {
+          "linux": 5.344,
+          "windows": 8.288
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.144,
+          "windows": 0.236
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.288,
+          "windows": 0.472
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.576,
+          "windows": 0.944
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.152,
+          "windows": 1.888
+        },
+        "Standard_E32ds_v5": {
+          "linux": 2.304,
+          "windows": 3.776
+        },
+        "Standard_E48ds_v5": {
+          "linux": 3.456,
+          "windows": 5.664
+        },
+        "Standard_E64ds_v5": {
+          "linux": 4.608,
+          "windows": 7.552
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.113,
+          "windows": 0.205
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.226,
+          "windows": 0.41
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.452,
+          "windows": 0.82
+        },
+        "Standard_D16ds_v5": {
+          "linux": 0.904,
+          "windows": 1.64
+        },
+        "Standard_D32ds_v5": {
+          "linux": 1.808,
+          "windows": 3.28
+        },
+        "Standard_D48ds_v5": {
+          "linux": 2.712,
+          "windows": 4.92
+        },
+        "Standard_D64ds_v5": {
+          "linux": 3.616,
+          "windows": 6.56
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.304435,
+          "included": 0.679435
+        },
+        "sp1": {
+          "base": 0.24355,
+          "included": 0.54355
+        },
+        "ri3": {
+          "included": 0.51199,
+          "base": 0.136986301369863
+        },
+        "ri1": {
+          "included": 0.57283,
+          "base": 0.1978310502283105
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.18266
+        },
+        "sp1": {
+          "included": 0.14613
+        },
+        "ri3": {
+          "included": 0.08219
+        },
+        "ri1": {
+          "included": 0.11872
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.378,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.3391427,
+            "retailPrice": 0.3391427,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.3391427,
+            "retailPrice": 0.3391427,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'eastus' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.521758,
+        "meterIds": [
+          "03b92fd6-f0fd-48e7-9676-9cc79c5db955",
+          "9c7f9f6d-e261-551b-bba6-4f76cf9b5741"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.152218,
+          "included": 0.252184
+        },
+        "sp1": {
+          "base": 0.12177,
+          "included": 0.20174
+        },
+        "ri3": {
+          "included": 0.168456,
+          "base": 0.0684931506849315
+        },
+        "ri1": {
+          "included": 0.198936,
+          "base": 0.09897260273972602
+        }
+      }
+    },
+    "eastus2": {
+      "miIncludedPerCoreHour": 0.252184,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.115,
+        "mi_bc_per_gb_mo": 0.25,
+        "db_gp_per_gb_mo": 0.115,
+        "db_bc_per_gb_mo": 0.25,
+        "db_hs_per_gb_mo": 0.25,
+        "backup_lrs_per_gb_mo": 0.1,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P40": 235.52,
+          "P15": 34.56,
+          "P30": 122.88,
+          "P10": 17.92,
+          "P70": 1638.4,
+          "P4": 4.8001,
+          "P1": 0.6,
+          "P60": 860.16,
+          "P6": 9.2801,
+          "P20": 66.56,
+          "P50": 450.56,
+          "P2": 1.2,
+          "P80": 3276.8,
+          "P3": 2.4
+        }
+      },
+      "miBasePerCoreHour": 0.152218,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.184,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'eastus2' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.518,
+            "ri1": 0.38103196347031965,
+            "ri3": 0.3109025875190259,
+            "sp1": 0.40985079999999996,
+            "sp3": 0.3254156
+          },
+          "meterIds": [
+            "5c825d2a-0418-511b-b232-e580d9957afe",
+            "f8c6cbba-e2e7-5cf6-8a39-aee4927ec8a2"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.368,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'eastus2' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.036,
+            "ri1": 0.7620639269406393,
+            "ri3": 0.6218432267884322,
+            "sp1": 0.8197015999999999,
+            "sp3": 0.6508312
+          },
+          "meterIds": [
+            "af9f78c4-8bad-5517-a07a-bf050b1e3cbd",
+            "b208ebb9-d79c-5d6c-a7a3-bbf0cb3bff0a"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.736,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'eastus2' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.072,
+            "ri1": 1.52424200913242,
+            "ri3": 1.2436864535768644,
+            "sp1": 1.6394031999999998,
+            "sp3": 1.3016624
+          },
+          "meterIds": [
+            "1f6799fe-3134-510c-a69b-2a0a4aebb937",
+            "acc60022-e707-55d5-9b21-1911a63bf8ed"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.167,
+          "windows": 0.259
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.334,
+          "windows": 0.518
+        },
+        "Standard_E8bds_v5": {
+          "linux": 0.668,
+          "windows": 1.036
+        },
+        "Standard_E16bds_v5": {
+          "linux": 1.336,
+          "windows": 2.072
+        },
+        "Standard_E32bds_v5": {
+          "linux": 2.672,
+          "windows": 4.144
+        },
+        "Standard_E48bds_v5": {
+          "linux": 4.008,
+          "windows": 6.216
+        },
+        "Standard_E64bds_v5": {
+          "linux": 5.344,
+          "windows": 8.288
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.144,
+          "windows": 0.236
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.288,
+          "windows": 0.472
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.576,
+          "windows": 0.944
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.152,
+          "windows": 1.888
+        },
+        "Standard_E32ds_v5": {
+          "linux": 2.304,
+          "windows": 3.776
+        },
+        "Standard_E48ds_v5": {
+          "linux": 3.456,
+          "windows": 5.664
+        },
+        "Standard_E64ds_v5": {
+          "linux": 4.608,
+          "windows": 7.552
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.113,
+          "windows": 0.205
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.226,
+          "windows": 0.41
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.452,
+          "windows": 0.82
+        },
+        "Standard_D16ds_v5": {
+          "linux": 0.904,
+          "windows": 1.64
+        },
+        "Standard_D32ds_v5": {
+          "linux": 1.808,
+          "windows": 3.28
+        },
+        "Standard_D48ds_v5": {
+          "linux": 2.712,
+          "windows": 4.92
+        },
+        "Standard_D64ds_v5": {
+          "linux": 3.616,
+          "windows": 6.56
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.304435,
+          "included": 0.679435
+        },
+        "sp1": {
+          "base": 0.24355,
+          "included": 0.54355
+        },
+        "ri3": {
+          "included": 0.51199,
+          "base": 0.136986301369863
+        },
+        "ri1": {
+          "included": 0.57283,
+          "base": 0.1978310502283105
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.18266
+        },
+        "sp1": {
+          "included": 0.14613
+        },
+        "ri3": {
+          "included": 0.08219
+        },
+        "ri1": {
+          "included": 0.11872
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.378,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.3391427,
+            "retailPrice": 0.3391427,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.3391427,
+            "retailPrice": 0.3391427,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'eastus2' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.521758,
+        "meterIds": [
+          "245c67e0-8c1b-5574-93c7-80bdc767e4f0",
+          "f3df9118-2773-4824-a16d-8fca6d60bc4a"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.152218,
+          "included": 0.252184
+        },
+        "sp1": {
+          "base": 0.12177,
+          "included": 0.20174
+        },
+        "ri3": {
+          "included": 0.168456,
+          "base": 0.0684931506849315
+        },
+        "ri1": {
+          "included": 0.198936,
+          "base": 0.09897260273972602
+        }
+      }
+    },
+    "westus2": {
+      "miIncludedPerCoreHour": 0.252184,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.115,
+        "mi_bc_per_gb_mo": 0.25,
+        "db_gp_per_gb_mo": 0.115,
+        "db_bc_per_gb_mo": 0.25,
+        "db_hs_per_gb_mo": 0.25,
+        "backup_lrs_per_gb_mo": 0.1,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P2": 1.2,
+          "P15": 34.56,
+          "P50": 450.56,
+          "P4": 4.8001,
+          "P40": 235.52,
+          "P6": 9.2801,
+          "P3": 2.4,
+          "P70": 1638.4,
+          "P60": 860.16,
+          "P30": 122.88,
+          "P80": 3276.8,
+          "P1": 0.6,
+          "P10": 17.92,
+          "P20": 66.56
+        }
+      },
+      "miBasePerCoreHour": 0.152218,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.184,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'westus2' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.518,
+            "ri1": 0.38103196347031965,
+            "ri3": 0.3109025875190259,
+            "sp1": 0.40985079999999996,
+            "sp3": 0.3254156
+          },
+          "meterIds": [
+            "c1799869-3af9-59c9-b4ca-a455bcd2d416",
+            "d789c137-45d9-5446-8f60-0eaf4ee8c5f4"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.368,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'westus2' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.036,
+            "ri1": 0.7620639269406393,
+            "ri3": 0.6218432267884322,
+            "sp1": 0.8197015999999999,
+            "sp3": 0.6508312
+          },
+          "meterIds": [
+            "10066510-923a-5cca-8bf2-2c567ae49d1c",
+            "cfc3538d-e07b-54f1-b257-204d1c2e5d5e"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.736,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'westus2' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.072,
+            "ri1": 1.52424200913242,
+            "ri3": 1.2436864535768644,
+            "sp1": 1.6394031999999998,
+            "sp3": 1.3016624
+          },
+          "meterIds": [
+            "3d08f4eb-6eb5-55b2-896f-15a5b359d328",
+            "4464385a-a5d1-5ae0-951a-8e66d9541d15"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.167,
+          "windows": 0.259
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.334,
+          "windows": 0.518
+        },
+        "Standard_E8bds_v5": {
+          "linux": 0.668,
+          "windows": 1.036
+        },
+        "Standard_E16bds_v5": {
+          "linux": 1.336,
+          "windows": 2.072
+        },
+        "Standard_E32bds_v5": {
+          "linux": 2.672,
+          "windows": 4.144
+        },
+        "Standard_E48bds_v5": {
+          "linux": 4.008,
+          "windows": 6.216
+        },
+        "Standard_E64bds_v5": {
+          "linux": 5.344,
+          "windows": 8.288
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.144,
+          "windows": 0.236
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.288,
+          "windows": 0.472
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.576,
+          "windows": 0.944
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.152,
+          "windows": 1.888
+        },
+        "Standard_E32ds_v5": {
+          "linux": 2.304,
+          "windows": 3.776
+        },
+        "Standard_E48ds_v5": {
+          "linux": 3.456,
+          "windows": 5.664
+        },
+        "Standard_E64ds_v5": {
+          "linux": 4.608,
+          "windows": 7.552
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.113,
+          "windows": 0.205
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.226,
+          "windows": 0.41
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.452,
+          "windows": 0.82
+        },
+        "Standard_D16ds_v5": {
+          "linux": 0.904,
+          "windows": 1.64
+        },
+        "Standard_D32ds_v5": {
+          "linux": 1.808,
+          "windows": 3.28
+        },
+        "Standard_D48ds_v5": {
+          "linux": 2.712,
+          "windows": 4.92
+        },
+        "Standard_D64ds_v5": {
+          "linux": 3.616,
+          "windows": 6.56
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.304435,
+          "included": 0.679435
+        },
+        "sp1": {
+          "base": 0.24355,
+          "included": 0.54355
+        },
+        "ri3": {
+          "included": 0.51199,
+          "base": 0.136986301369863
+        },
+        "ri1": {
+          "included": 0.57283,
+          "base": 0.1978310502283105
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.18266
+        },
+        "sp1": {
+          "included": 0.14613
+        },
+        "ri3": {
+          "included": 0.08219
+        },
+        "ri1": {
+          "included": 0.11872
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.378,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.3391427,
+            "retailPrice": 0.3391427,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.3391427,
+            "retailPrice": 0.3391427,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'westus2' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.521758,
+        "meterIds": [
+          "5a4bc9f3-4b27-520e-852b-880d96863e97",
+          "ad360e67-419f-4d0d-83de-be20349ee15b"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.152218,
+          "included": 0.252184
+        },
+        "sp1": {
+          "base": 0.12177,
+          "included": 0.20174
+        },
+        "ri3": {
+          "included": 0.168456,
+          "base": 0.0684931506849315
+        },
+        "ri1": {
+          "included": 0.198936,
+          "base": 0.09897260273972602
+        }
+      }
+    },
+    "westus3": {
+      "miIncludedPerCoreHour": 0.252184,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.115,
+        "mi_bc_per_gb_mo": 0.25,
+        "db_gp_per_gb_mo": 0.115,
+        "db_bc_per_gb_mo": 0.25,
+        "db_hs_per_gb_mo": 0.25,
+        "backup_lrs_per_gb_mo": 0.1,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P60": 860.16,
+          "P20": 66.56,
+          "P3": 2.4,
+          "P80": 3276.8,
+          "P1": 0.6,
+          "P30": 122.88,
+          "P40": 235.52,
+          "P6": 9.2801,
+          "P10": 17.92,
+          "P70": 1638.4,
+          "P4": 4.8001,
+          "P50": 450.56,
+          "P15": 34.56,
+          "P2": 1.2
+        }
+      },
+      "miBasePerCoreHour": 0.152218,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.184,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'westus3' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.518,
+            "ri1": 0.38103196347031965,
+            "ri3": 0.3109025875190259,
+            "sp1": 0.40985079999999996,
+            "sp3": 0.3254156
+          },
+          "meterIds": [
+            "3b288ac0-1547-53be-95d5-b850dee60b6d",
+            "70f11b96-fc26-538a-bca9-5d6d1ca9af53"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.368,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'westus3' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.036,
+            "ri1": 0.7620639269406393,
+            "ri3": 0.6218432267884322,
+            "sp1": 0.8197015999999999,
+            "sp3": 0.6508312
+          },
+          "meterIds": [
+            "05add1db-986d-5fdc-bf1a-908c0a1f4f6d",
+            "e8879a67-2abb-5fc6-9620-57cb3f7ce603"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.736,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'westus3' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.072,
+            "ri1": 1.52424200913242,
+            "ri3": 1.2436864535768644,
+            "sp1": 1.6394031999999998,
+            "sp3": 1.3016624
+          },
+          "meterIds": [
+            "d03a900b-e59e-5f94-8f6d-ec8b73fa57a2",
+            "ee574c69-9902-59c1-9f2c-2c4823b268b4"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.167,
+          "windows": 0.259
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.334,
+          "windows": 0.518
+        },
+        "Standard_E8bds_v5": {
+          "linux": 0.668,
+          "windows": 1.036
+        },
+        "Standard_E16bds_v5": {
+          "linux": 1.336,
+          "windows": 2.072
+        },
+        "Standard_E32bds_v5": {
+          "linux": 2.672,
+          "windows": 4.144
+        },
+        "Standard_E48bds_v5": {
+          "linux": 4.008,
+          "windows": 6.216
+        },
+        "Standard_E64bds_v5": {
+          "linux": 5.344,
+          "windows": 8.288
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.144,
+          "windows": 0.236
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.288,
+          "windows": 0.472
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.576,
+          "windows": 0.944
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.152,
+          "windows": 1.888
+        },
+        "Standard_E32ds_v5": {
+          "linux": 2.304,
+          "windows": 3.776
+        },
+        "Standard_E48ds_v5": {
+          "linux": 3.456,
+          "windows": 5.664
+        },
+        "Standard_E64ds_v5": {
+          "linux": 4.608,
+          "windows": 7.552
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.113,
+          "windows": 0.205
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.226,
+          "windows": 0.41
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.452,
+          "windows": 0.82
+        },
+        "Standard_D16ds_v5": {
+          "linux": 0.904,
+          "windows": 1.64
+        },
+        "Standard_D32ds_v5": {
+          "linux": 1.808,
+          "windows": 3.28
+        },
+        "Standard_D48ds_v5": {
+          "linux": 2.712,
+          "windows": 4.92
+        },
+        "Standard_D64ds_v5": {
+          "linux": 3.616,
+          "windows": 6.56
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.304435,
+          "included": 0.679435
+        },
+        "sp1": {
+          "base": 0.24355,
+          "included": 0.54355
+        },
+        "ri3": {
+          "included": 0.51199,
+          "base": 0.136986301369863
+        },
+        "ri1": {
+          "included": 0.57283,
+          "base": 0.1978310502283105
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.18266
+        },
+        "sp1": {
+          "included": 0.14613
+        },
+        "ri3": {
+          "included": 0.08219
+        },
+        "ri1": {
+          "included": 0.11872
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.378,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.3391427,
+            "retailPrice": 0.3391427,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.3391427,
+            "retailPrice": 0.3391427,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'westus3' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.521758,
+        "meterIds": [
+          "25b51c17-6ace-5462-9ab5-08c405c099c0",
+          "97968d53-d33c-505a-94fa-7c8ed6bf37ec"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.152218,
+          "included": 0.252184
+        },
+        "sp1": {
+          "base": 0.12177,
+          "included": 0.20174
+        },
+        "ri3": {
+          "included": 0.168456,
+          "base": 0.0684931506849315
+        },
+        "ri1": {
+          "included": 0.198936,
+          "base": 0.09897260273972602
+        }
+      }
+    },
+    "centralus": {
+      "miIncludedPerCoreHour": 0.282627,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.138,
+        "mi_bc_per_gb_mo": 0.3,
+        "db_gp_per_gb_mo": 0.138,
+        "db_bc_per_gb_mo": 0.3,
+        "db_hs_per_gb_mo": 0.3075,
+        "backup_lrs_per_gb_mo": 0.12,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P40": 259.0457,
+          "P30": 135.17,
+          "P6": 10.207,
+          "P3": 2.952,
+          "P15": 38.0121,
+          "P80": 3604.11,
+          "P20": 73.22,
+          "P1": 0.738,
+          "P2": 1.476,
+          "P60": 946.08,
+          "P10": 19.71,
+          "P70": 1802.06,
+          "P50": 495.5657,
+          "P4": 5.2795
+        }
+      },
+      "miBasePerCoreHour": 0.182661,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.18400000000000005,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'centralus' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.561,
+            "ri1": 0.38103196347031965,
+            "ri3": 0.31090258751902594,
+            "sp1": 0.409069,
+            "sp3": 0.32499800000000006
+          },
+          "meterIds": [
+            "7cfdb8a3-dafb-5cdd-a1c0-189472479c4c",
+            "beeba6b2-aa26-5f5a-b917-405a2bcf1ad5"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.368,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'centralus' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.123,
+            "ri1": 0.7620639269406393,
+            "ri3": 0.6218432267884322,
+            "sp1": 0.818735,
+            "sp3": 0.65037
+          },
+          "meterIds": [
+            "1d6a7dce-6377-547b-a7a7-e7c7a81eef62",
+            "75f8ff3b-933a-5427-a15f-e91625907844"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.736,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'centralus' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.246,
+            "ri1": 1.52424200913242,
+            "ri3": 1.2436864535768644,
+            "sp1": 1.63747,
+            "sp3": 1.30074
+          },
+          "meterIds": [
+            "34f27e2e-0f89-5d64-bbfa-7a2b7fc4c5ee",
+            "90942632-e78c-5612-9f99-4523fef95b0d"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.189,
+          "windows": 0.281
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.377,
+          "windows": 0.561
+        },
+        "Standard_E8bds_v5": {
+          "linux": 0.755,
+          "windows": 1.123
+        },
+        "Standard_E16bds_v5": {
+          "linux": 1.51,
+          "windows": 2.246
+        },
+        "Standard_E32bds_v5": {
+          "linux": 3.019,
+          "windows": 4.491
+        },
+        "Standard_E48bds_v5": {
+          "linux": 4.529,
+          "windows": 6.737
+        },
+        "Standard_E64bds_v5": {
+          "linux": 6.039,
+          "windows": 8.983
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.163,
+          "windows": 0.255
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.325,
+          "windows": 0.509
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.651,
+          "windows": 1.019
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.302,
+          "windows": 2.038
+        },
+        "Standard_E32ds_v5": {
+          "linux": 2.604,
+          "windows": 4.076
+        },
+        "Standard_E48ds_v5": {
+          "linux": 3.905,
+          "windows": 6.113
+        },
+        "Standard_E64ds_v5": {
+          "linux": 5.207,
+          "windows": 8.151
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.128,
+          "windows": 0.22
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.255,
+          "windows": 0.439
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.511,
+          "windows": 0.879
+        },
+        "Standard_D16ds_v5": {
+          "linux": 1.022,
+          "windows": 1.758
+        },
+        "Standard_D32ds_v5": {
+          "linux": 2.043,
+          "windows": 3.515
+        },
+        "Standard_D48ds_v5": {
+          "linux": 3.065,
+          "windows": 5.273
+        },
+        "Standard_D64ds_v5": {
+          "linux": 4.086,
+          "windows": 7.03
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.365322,
+          "included": 0.740322
+        },
+        "sp1": {
+          "base": 0.29226,
+          "included": 0.59226
+        },
+        "ri3": {
+          "included": 0.51199,
+          "base": 0.136986301369863
+        },
+        "ri1": {
+          "included": 0.57283,
+          "base": 0.1978310502283105
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.219192
+        },
+        "sp1": {
+          "included": 0.17535
+        },
+        "ri3": {
+          "included": 0.08219
+        },
+        "ri1": {
+          "included": 0.11872
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.46494,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.4069715,
+            "retailPrice": 0.4069715,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.4069715,
+            "retailPrice": 0.4069715,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'centralus' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.62611,
+        "meterIds": [
+          "17cbd16d-3345-5c1d-ada1-55ef41c5ab5a",
+          "1e1ea35d-4d18-4b9f-8caa-b5335ebf3d6c"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.182661,
+          "included": 0.282627
+        },
+        "sp1": {
+          "base": 0.14613,
+          "included": 0.2261
+        },
+        "ri3": {
+          "included": 0.168456,
+          "base": 0.0684931506849315
+        },
+        "ri1": {
+          "included": 0.198936,
+          "base": 0.09897260273972602
+        }
+      }
+    },
+    "southcentralus": {
+      "miIncludedPerCoreHour": 0.282627,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.138,
+        "mi_bc_per_gb_mo": 0.3,
+        "db_gp_per_gb_mo": 0.138,
+        "db_bc_per_gb_mo": 0.3,
+        "db_hs_per_gb_mo": 0.275,
+        "backup_lrs_per_gb_mo": 0.12,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P30": 122.88,
+          "P10": 17.92,
+          "P50": 450.56,
+          "P3": 2.88,
+          "P2": 1.44,
+          "P15": 34.56,
+          "P80": 3276.8,
+          "P20": 66.56,
+          "P4": 4.8001,
+          "P40": 235.52,
+          "P70": 1638.4,
+          "P6": 9.2801,
+          "P60": 860.16,
+          "P1": 0.72
+        }
+      },
+      "miBasePerCoreHour": 0.182661,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.18399999999999994,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'southcentralus' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.585,
+            "ri1": 0.4204155251141552,
+            "ri3": 0.3363211567732115,
+            "sp1": 0.46105089999999993,
+            "sp3": 0.35655029999999993
+          },
+          "meterIds": [
+            "093daef4-af36-5bbe-a314-580f13492f88",
+            "40dbd83a-1ace-5ab4-9e3e-51a22a4772f9"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.3679999999999999,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'southcentralus' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.17,
+            "ri1": 0.840945205479452,
+            "ri3": 0.6726042617960425,
+            "sp1": 0.9221017999999999,
+            "sp3": 0.7131005999999999
+          },
+          "meterIds": [
+            "1eba2745-9a78-51df-a077-626bbdc700f9",
+            "c41d600f-b1ad-5c0b-9b50-73c7bd7b7d6c"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.736,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'southcentralus' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.339,
+            "ri1": 1.6818904109589041,
+            "ri3": 1.3452085235920852,
+            "sp1": 1.8435127,
+            "sp3": 1.4257708999999998
+          },
+          "meterIds": [
+            "6efd9849-d100-5871-9eb9-3fb050f97cd5",
+            "95e2977c-5e25-57f0-a6e8-6e89ee330ab3"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.2,
+          "windows": 0.292
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.401,
+          "windows": 0.585
+        },
+        "Standard_E8bds_v5": {
+          "linux": 0.802,
+          "windows": 1.17
+        },
+        "Standard_E16bds_v5": {
+          "linux": 1.603,
+          "windows": 2.339
+        },
+        "Standard_E32bds_v5": {
+          "linux": 3.206,
+          "windows": 4.678
+        },
+        "Standard_E48bds_v5": {
+          "linux": 4.81,
+          "windows": 7.018
+        },
+        "Standard_E64bds_v5": {
+          "linux": 6.413,
+          "windows": 9.357
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.173,
+          "windows": 0.265
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.346,
+          "windows": 0.53
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.691,
+          "windows": 1.059
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.382,
+          "windows": 2.118
+        },
+        "Standard_E32ds_v5": {
+          "linux": 2.765,
+          "windows": 4.237
+        },
+        "Standard_E48ds_v5": {
+          "linux": 4.147,
+          "windows": 6.355
+        },
+        "Standard_E64ds_v5": {
+          "linux": 5.53,
+          "windows": 8.474
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.136,
+          "windows": 0.228
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.271,
+          "windows": 0.455
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.542,
+          "windows": 0.91
+        },
+        "Standard_D16ds_v5": {
+          "linux": 1.085,
+          "windows": 1.821
+        },
+        "Standard_D32ds_v5": {
+          "linux": 2.17,
+          "windows": 3.642
+        },
+        "Standard_D48ds_v5": {
+          "linux": 3.254,
+          "windows": 5.462
+        },
+        "Standard_D64ds_v5": {
+          "linux": 4.339,
+          "windows": 7.283
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.365322,
+          "included": 0.740322
+        },
+        "sp1": {
+          "base": 0.29226,
+          "included": 0.59226
+        },
+        "ri3": {
+          "included": 0.53938,
+          "base": 0.1643835616438356
+        },
+        "ri1": {
+          "included": 0.61244,
+          "base": 0.2374429223744292
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.219192
+        },
+        "sp1": {
+          "included": 0.17535
+        },
+        "ri3": {
+          "included": 0.09863
+        },
+        "ri1": {
+          "included": 0.14247
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.453508,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.4069715,
+            "retailPrice": 0.4069715,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.4069715,
+            "retailPrice": 0.4069715,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'southcentralus' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.62611,
+        "meterIds": [
+          "3c866dbc-3e60-5035-a241-e076010178cc",
+          "3ebe1648-d902-463d-a97e-e68224653818"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.182661,
+          "included": 0.282627
+        },
+        "sp1": {
+          "base": 0.14613,
+          "included": 0.2261
+        },
+        "ri3": {
+          "included": 0.182156,
+          "base": 0.0821917808219178
+        },
+        "ri1": {
+          "included": 0.218686,
+          "base": 0.1187214611872146
+        }
+      }
+    },
+    "northeurope": {
+      "miIncludedPerCoreHour": 0.255228,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.1265,
+        "mi_bc_per_gb_mo": 0.275,
+        "db_gp_per_gb_mo": 0.1265,
+        "db_bc_per_gb_mo": 0.275,
+        "db_hs_per_gb_mo": 0.275862,
+        "backup_lrs_per_gb_mo": 0.11,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P80": 3604.11,
+          "P50": 495.5657,
+          "P4": 5.2795,
+          "P60": 946.08,
+          "P6": 10.207,
+          "P1": 0.72,
+          "P70": 1802.06,
+          "P30": 135.17,
+          "P2": 1.44,
+          "P15": 38.0121,
+          "P10": 19.71,
+          "P20": 73.22,
+          "P40": 259.0457,
+          "P3": 2.88
+        }
+      },
+      "miBasePerCoreHour": 0.155262,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.18400000000000005,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'northeurope' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.558,
+            "ri1": 0.40466210045662104,
+            "ri3": 0.32612328767123294,
+            "sp1": 0.4412746000000001,
+            "sp3": 0.34418420000000005
+          },
+          "meterIds": [
+            "39d15ecd-b205-5c74-8734-ca701ac54c0d",
+            "e835fbb0-c989-5d81-bd0b-951d7930ff40"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.3680000000000001,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'northeurope' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.116,
+            "ri1": 0.8093242009132421,
+            "ri3": 0.6522465753424659,
+            "sp1": 0.8825492000000001,
+            "sp3": 0.6883684000000001
+          },
+          "meterIds": [
+            "0e8f6af0-66f9-58d4-a6af-c5e904495974",
+            "bc3509c3-109b-503f-8f4e-041eaa206020"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.7360000000000002,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'northeurope' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.232,
+            "ri1": 1.6186484018264842,
+            "ri3": 1.3044931506849318,
+            "sp1": 1.7650984000000003,
+            "sp3": 1.3767368000000002
+          },
+          "meterIds": [
+            "2fad261b-ac16-5f6a-9b44-931538b2f2ae",
+            "e85ed820-48f7-5e65-9e7e-052dc698c56a"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.187,
+          "windows": 0.279
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.374,
+          "windows": 0.558
+        },
+        "Standard_E8bds_v5": {
+          "linux": 0.748,
+          "windows": 1.116
+        },
+        "Standard_E16bds_v5": {
+          "linux": 1.496,
+          "windows": 2.232
+        },
+        "Standard_E32bds_v5": {
+          "linux": 2.992,
+          "windows": 4.464
+        },
+        "Standard_E48bds_v5": {
+          "linux": 4.488,
+          "windows": 6.696
+        },
+        "Standard_E64bds_v5": {
+          "linux": 5.984,
+          "windows": 8.928
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.16,
+          "windows": 0.252
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.32,
+          "windows": 0.504
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.64,
+          "windows": 1.008
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.28,
+          "windows": 2.016
+        },
+        "Standard_E32ds_v5": {
+          "linux": 2.56,
+          "windows": 4.032
+        },
+        "Standard_E48ds_v5": {
+          "linux": 3.84,
+          "windows": 6.048
+        },
+        "Standard_E64ds_v5": {
+          "linux": 5.12,
+          "windows": 8.064
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.126,
+          "windows": 0.218
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.252,
+          "windows": 0.436
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.504,
+          "windows": 0.872
+        },
+        "Standard_D16ds_v5": {
+          "linux": 1.008,
+          "windows": 1.744
+        },
+        "Standard_D32ds_v5": {
+          "linux": 2.016,
+          "windows": 3.488
+        },
+        "Standard_D48ds_v5": {
+          "linux": 3.024,
+          "windows": 5.232
+        },
+        "Standard_D64ds_v5": {
+          "linux": 4.032,
+          "windows": 6.976
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.310524,
+          "included": 0.685524
+        },
+        "sp1": {
+          "base": 0.24842,
+          "included": 0.54842
+        },
+        "ri3": {
+          "included": 0.51473,
+          "base": 0.13972602739726028
+        },
+        "ri1": {
+          "included": 0.57683,
+          "base": 0.20182648401826483
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.186313
+        },
+        "sp1": {
+          "included": 0.14905
+        },
+        "ri3": {
+          "included": 0.08383
+        },
+        "ri1": {
+          "included": 0.12112
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.38556,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.34592545,
+            "retailPrice": 0.34592545,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.34592545,
+            "retailPrice": 0.34592545,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'northeurope' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.532193,
+        "meterIds": [
+          "4ee4379a-384f-430a-87bf-1d26fb8548c3",
+          "5503e80b-d03e-5f01-80b1-b5cc37a92511"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.155262,
+          "included": 0.255228
+        },
+        "sp1": {
+          "base": 0.12421,
+          "included": 0.20418
+        },
+        "ri3": {
+          "included": 0.169826,
+          "base": 0.06986301369863014
+        },
+        "ri1": {
+          "included": 0.200876,
+          "base": 0.10091324200913242
+        }
+      }
+    },
+    "westeurope": {
+      "miIncludedPerCoreHour": 0.267405,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.13685,
+        "mi_bc_per_gb_mo": 0.2975,
+        "db_gp_per_gb_mo": 0.13685,
+        "db_bc_per_gb_mo": 0.2975,
+        "db_hs_per_gb_mo": 0.301724,
+        "backup_lrs_per_gb_mo": 0.119,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P40": 284.9371,
+          "P10": 21.68,
+          "P15": 41.8114,
+          "P80": 3964.34,
+          "P6": 11.2272,
+          "P60": 1040.64,
+          "P20": 80.54,
+          "P30": 148.68,
+          "P2": 1.56,
+          "P70": 1982.17,
+          "P1": 0.78,
+          "P50": 545.0971,
+          "P3": 3.12,
+          "P4": 5.8072
+        }
+      },
+      "miBasePerCoreHour": 0.167439,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.18399999999999994,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'westeurope' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.582,
+            "ri1": 0.41881735159817346,
+            "ri3": 0.33525570776255703,
+            "sp1": 0.45583399999999996,
+            "sp3": 0.35521959999999997
+          },
+          "meterIds": [
+            "c6fbd4ee-0b4a-5b73-ab4f-e0f38e1414f3",
+            "fc94a2ee-8d5b-59b4-951c-253afefae96c"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.3679999999999999,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'westeurope' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.164,
+            "ri1": 0.8376347031963469,
+            "ri3": 0.6704733637747335,
+            "sp1": 0.9116679999999999,
+            "sp3": 0.7104391999999999
+          },
+          "meterIds": [
+            "5252829f-1d66-53e2-a581-a38a72154de5",
+            "cde8834f-e843-55ab-a1f0-654c4484908a"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.7359999999999998,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'westeurope' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.328,
+            "ri1": 1.6752694063926938,
+            "ri3": 1.340946727549467,
+            "sp1": 1.8233359999999998,
+            "sp3": 1.4208783999999999
+          },
+          "meterIds": [
+            "0c355a67-631f-5bcc-9348-ef7306147b58",
+            "2d77049c-7f50-55b4-a651-e110bd43437e"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.199,
+          "windows": 0.291
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.398,
+          "windows": 0.582
+        },
+        "Standard_E8bds_v5": {
+          "linux": 0.796,
+          "windows": 1.164
+        },
+        "Standard_E16bds_v5": {
+          "linux": 1.592,
+          "windows": 2.328
+        },
+        "Standard_E32bds_v5": {
+          "linux": 3.184,
+          "windows": 4.656
+        },
+        "Standard_E48bds_v5": {
+          "linux": 4.776,
+          "windows": 6.984
+        },
+        "Standard_E64bds_v5": {
+          "linux": 6.368,
+          "windows": 9.312
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.173,
+          "windows": 0.265
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.346,
+          "windows": 0.53
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.692,
+          "windows": 1.06
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.384,
+          "windows": 2.12
+        },
+        "Standard_E32ds_v5": {
+          "linux": 2.768,
+          "windows": 4.24
+        },
+        "Standard_E48ds_v5": {
+          "linux": 4.152,
+          "windows": 6.36
+        },
+        "Standard_E64ds_v5": {
+          "linux": 5.536,
+          "windows": 8.48
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.136,
+          "windows": 0.228
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.272,
+          "windows": 0.456
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.544,
+          "windows": 0.912
+        },
+        "Standard_D16ds_v5": {
+          "linux": 1.088,
+          "windows": 1.824
+        },
+        "Standard_D32ds_v5": {
+          "linux": 2.176,
+          "windows": 3.648
+        },
+        "Standard_D48ds_v5": {
+          "linux": 3.264,
+          "windows": 5.472
+        },
+        "Standard_D64ds_v5": {
+          "linux": 4.352,
+          "windows": 7.296
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.334879,
+          "included": 0.709879
+        },
+        "sp1": {
+          "base": 0.2679,
+          "included": 0.5679
+        },
+        "ri3": {
+          "included": 0.52568,
+          "base": 0.1506849315068493
+        },
+        "ri1": {
+          "included": 0.59269,
+          "base": 0.21769406392694063
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.200926
+        },
+        "sp1": {
+          "included": 0.16074
+        },
+        "ri3": {
+          "included": 0.09041
+        },
+        "ri1": {
+          "included": 0.13059
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.4158,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.3730571,
+            "retailPrice": 0.3730571,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.3730571,
+            "retailPrice": 0.3730571,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'westeurope' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.573934,
+        "meterIds": [
+          "2f5f8d96-50dc-46ff-bba9-439f40d3c124",
+          "76ba5cef-d9c0-5dd5-b6a3-070a0fe7e6a8"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.167439,
+          "included": 0.267405
+        },
+        "sp1": {
+          "base": 0.13395,
+          "included": 0.21392
+        },
+        "ri3": {
+          "included": 0.175306,
+          "base": 0.07534246575342465
+        },
+        "ri1": {
+          "included": 0.208756,
+          "base": 0.10878995433789955
+        }
+      }
+    },
+    "uksouth": {
+      "miIncludedPerCoreHour": 0.290238,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.13225,
+        "mi_bc_per_gb_mo": 0.288,
+        "db_gp_per_gb_mo": 0.13225,
+        "db_bc_per_gb_mo": 0.2875,
+        "db_hs_per_gb_mo": 0.293103,
+        "backup_lrs_per_gb_mo": 0.115,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P10": 23.848,
+          "P70": 2180.39,
+          "P40": 313.4309,
+          "P80": 4360.78,
+          "P6": 12.3499,
+          "P50": 599.6069,
+          "P4": 6.3879,
+          "P30": 163.548,
+          "P60": 1144.7,
+          "P20": 88.594,
+          "P1": 0.75,
+          "P3": 3.0,
+          "P2": 1.5,
+          "P15": 45.9926
+        }
+      },
+      "miBasePerCoreHour": 0.190272,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.18399999999999994,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'uksouth' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.579,
+            "ri1": 0.41710502283105017,
+            "ri3": 0.3341141552511415,
+            "sp1": 0.45496999999999993,
+            "sp3": 0.3532179999999999
+          },
+          "meterIds": [
+            "6457fffc-7ecb-520b-9344-b3013a7218b0",
+            "8083871d-85ce-531e-8f4a-a06d9e827b43"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.3679999999999999,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'uksouth' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.158,
+            "ri1": 0.8340958904109588,
+            "ri3": 0.6681902587519024,
+            "sp1": 0.9099399999999999,
+            "sp3": 0.7064359999999998
+          },
+          "meterIds": [
+            "19e52e88-3308-5ec4-98c2-11462e9d1646",
+            "4c75808d-5619-5574-bd61-60d43d6fe920"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.7359999999999998,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'uksouth' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.316,
+            "ri1": 1.6681917808219175,
+            "ri3": 1.3364185692541855,
+            "sp1": 1.8198799999999997,
+            "sp3": 1.4128719999999997
+          },
+          "meterIds": [
+            "c02d892e-7ae4-56e0-9b3d-89e5d9f9a0a3",
+            "de4b0712-0ccb-5381-b8c7-0d2849c65f39"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.198,
+          "windows": 0.29
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.395,
+          "windows": 0.579
+        },
+        "Standard_E8bds_v5": {
+          "linux": 0.79,
+          "windows": 1.158
+        },
+        "Standard_E16bds_v5": {
+          "linux": 1.58,
+          "windows": 2.316
+        },
+        "Standard_E32bds_v5": {
+          "linux": 3.16,
+          "windows": 4.632
+        },
+        "Standard_E48bds_v5": {
+          "linux": 4.74,
+          "windows": 6.948
+        },
+        "Standard_E64bds_v5": {
+          "linux": 6.32,
+          "windows": 9.264
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.169,
+          "windows": 0.261
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.338,
+          "windows": 0.522
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.676,
+          "windows": 1.044
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.352,
+          "windows": 2.088
+        },
+        "Standard_E32ds_v5": {
+          "linux": 2.704,
+          "windows": 4.176
+        },
+        "Standard_E48ds_v5": {
+          "linux": 4.056,
+          "windows": 6.264
+        },
+        "Standard_E64ds_v5": {
+          "linux": 5.408,
+          "windows": 8.352
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.131,
+          "windows": 0.223
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.262,
+          "windows": 0.446
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.524,
+          "windows": 0.892
+        },
+        "Standard_D16ds_v5": {
+          "linux": 1.048,
+          "windows": 1.784
+        },
+        "Standard_D32ds_v5": {
+          "linux": 2.096,
+          "windows": 3.568
+        },
+        "Standard_D48ds_v5": {
+          "linux": 3.144,
+          "windows": 5.352
+        },
+        "Standard_D64ds_v5": {
+          "linux": 4.192,
+          "windows": 7.136
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.380544,
+          "included": 0.755544
+        },
+        "sp1": {
+          "base": 0.30444,
+          "included": 0.60444
+        },
+        "ri3": {
+          "included": 0.54623,
+          "base": 0.17123287671232876
+        },
+        "ri1": {
+          "included": 0.62237,
+          "base": 0.24737442922374428
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.228325
+        },
+        "sp1": {
+          "included": 0.18266
+        },
+        "ri3": {
+          "included": 0.10274
+        },
+        "ri1": {
+          "included": 0.1484
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.47,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.4239287,
+            "retailPrice": 0.4239287,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.4239287,
+            "retailPrice": 0.4239287,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'uksouth' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.652198,
+        "meterIds": [
+          "ba50dc99-c38c-4d93-8043-19ed6a9a4355",
+          "f48beb38-158a-5170-afe3-632e63855975"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.190272,
+          "included": 0.290238
+        },
+        "sp1": {
+          "base": 0.15222,
+          "included": 0.23219
+        },
+        "ri3": {
+          "included": 0.185586,
+          "base": 0.08561643835616438
+        },
+        "ri1": {
+          "included": 0.223596,
+          "base": 0.12363013698630138
+        }
+      }
+    },
+    "francecentral": {
+      "miIncludedPerCoreHour": 0.290238,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.14375,
+        "mi_bc_per_gb_mo": 0.313,
+        "db_gp_per_gb_mo": 0.14375,
+        "db_bc_per_gb_mo": 0.3125,
+        "db_hs_per_gb_mo": 0.288793,
+        "backup_lrs_per_gb_mo": 0.125,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P20": 88.594,
+          "P3": 3.0,
+          "P30": 163.548,
+          "P80": 4360.78,
+          "P60": 1144.7,
+          "P1": 0.75,
+          "P15": 45.9926,
+          "P6": 12.3499,
+          "P50": 599.6069,
+          "P2": 1.5,
+          "P4": 6.3879,
+          "P40": 313.4309,
+          "P70": 2180.39,
+          "P10": 23.848
+        }
+      },
+      "miBasePerCoreHour": 0.190272,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.18399999999999994,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'francecentral' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.579,
+            "ri1": 0.41710502283105017,
+            "ri3": 0.3341141552511415,
+            "sp1": 0.45690549999999996,
+            "sp3": 0.3539684999999999
+          },
+          "meterIds": [
+            "5a6ffcbf-3656-5f78-89b2-1725ca01dea4",
+            "bbfcd8cf-25de-5a08-823d-06343079b8bc"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.3679999999999999,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'francecentral' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.158,
+            "ri1": 0.8340958904109588,
+            "ri3": 0.6681902587519024,
+            "sp1": 0.9138109999999999,
+            "sp3": 0.7079369999999998
+          },
+          "meterIds": [
+            "5cc9381f-5b4f-5b09-ae20-da7d8e5a8a3f",
+            "a69cf9b3-4d1c-5bd7-ae06-ddc78ee66fc4"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.7359999999999998,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'francecentral' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.316,
+            "ri1": 1.6681917808219175,
+            "ri3": 1.3364185692541855,
+            "sp1": 1.8276219999999999,
+            "sp3": 1.4158739999999996
+          },
+          "meterIds": [
+            "222e09c8-7ed4-5232-abed-cb1665eff0e5",
+            "375b9b20-e099-5d3a-90c4-b3f5164c99f3"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.198,
+          "windows": 0.29
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.395,
+          "windows": 0.579
+        },
+        "Standard_E8bds_v5": {
+          "linux": 0.79,
+          "windows": 1.158
+        },
+        "Standard_E16bds_v5": {
+          "linux": 1.58,
+          "windows": 2.316
+        },
+        "Standard_E32bds_v5": {
+          "linux": 3.16,
+          "windows": 4.632
+        },
+        "Standard_E48bds_v5": {
+          "linux": 4.74,
+          "windows": 6.948
+        },
+        "Standard_E64bds_v5": {
+          "linux": 6.32,
+          "windows": 9.264
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.169,
+          "windows": 0.261
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.338,
+          "windows": 0.522
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.676,
+          "windows": 1.044
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.352,
+          "windows": 2.088
+        },
+        "Standard_E32ds_v5": {
+          "linux": 2.704,
+          "windows": 4.176
+        },
+        "Standard_E48ds_v5": {
+          "linux": 4.056,
+          "windows": 6.264
+        },
+        "Standard_E64ds_v5": {
+          "linux": 5.408,
+          "windows": 8.352
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.132,
+          "windows": 0.224
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.264,
+          "windows": 0.448
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.528,
+          "windows": 0.896
+        },
+        "Standard_D16ds_v5": {
+          "linux": 1.056,
+          "windows": 1.792
+        },
+        "Standard_D32ds_v5": {
+          "linux": 2.112,
+          "windows": 3.584
+        },
+        "Standard_D48ds_v5": {
+          "linux": 3.168,
+          "windows": 5.376
+        },
+        "Standard_D64ds_v5": {
+          "linux": 4.224,
+          "windows": 7.168
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.380544,
+          "included": 0.755544
+        },
+        "sp1": {
+          "base": 0.30444,
+          "included": 0.60444
+        },
+        "ri3": {
+          "included": 0.54623,
+          "base": 0.17123287671232876
+        },
+        "ri1": {
+          "included": 0.62237,
+          "base": 0.24737442922374428
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.228325
+        },
+        "sp1": {
+          "included": 0.18266
+        },
+        "ri3": {
+          "included": 0.10274
+        },
+        "ri1": {
+          "included": 0.1484
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.4725,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.4239287,
+            "retailPrice": 0.4239287,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.4239287,
+            "retailPrice": 0.4239287,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'francecentral' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.652198,
+        "meterIds": [
+          "07230129-fd32-436b-8157-7a856e66db72",
+          "baba1625-0874-5e1c-a01a-6e35fac7f4bc"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.190272,
+          "included": 0.290238
+        },
+        "sp1": {
+          "base": 0.15222,
+          "included": 0.23219
+        },
+        "ri3": {
+          "included": 0.185586,
+          "base": 0.08561643835616438
+        },
+        "ri1": {
+          "included": 0.223596,
+          "base": 0.12363013698630138
+        }
+      }
+    },
+    "germanywestcentral": {
+      "miIncludedPerCoreHour": 0.267405,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.137,
+        "mi_bc_per_gb_mo": 0.2975,
+        "db_gp_per_gb_mo": 0.137,
+        "db_bc_per_gb_mo": 0.2975,
+        "db_hs_per_gb_mo": 0.301724,
+        "backup_lrs_per_gb_mo": 0.119,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P6": 11.227,
+          "P80": 3964.34,
+          "P10": 21.68,
+          "P15": 41.811,
+          "P50": 545.1,
+          "P4": 5.807,
+          "P3": 3.12,
+          "P70": 1982.17,
+          "P40": 284.94,
+          "P2": 1.56,
+          "P60": 1040.64,
+          "P1": 0.78,
+          "P20": 80.54,
+          "P30": 148.68
+        }
+      },
+      "miBasePerCoreHour": 0.167439,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.18399999999999994,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'germanywestcentral' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.582,
+            "ri1": 0.41881735159817346,
+            "ri3": 0.33525570776255703,
+            "sp1": 0.45583399999999996,
+            "sp3": 0.35521959999999997
+          },
+          "meterIds": [
+            "3a854f6c-390c-599e-b10a-27d609567e40",
+            "68bc8330-a621-554c-a0ae-38c514eaa8aa"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.3679999999999999,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'germanywestcentral' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.164,
+            "ri1": 0.8376347031963469,
+            "ri3": 0.6704733637747335,
+            "sp1": 0.9116679999999999,
+            "sp3": 0.7104391999999999
+          },
+          "meterIds": [
+            "715ee0f0-e4dc-5e47-b3b3-c0dab56c1c84",
+            "dbb1c45f-a71a-502c-bf20-a89badaaaf5e"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.7359999999999998,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'germanywestcentral' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.328,
+            "ri1": 1.6752694063926938,
+            "ri3": 1.340946727549467,
+            "sp1": 1.8233359999999998,
+            "sp3": 1.4208783999999999
+          },
+          "meterIds": [
+            "209a1052-e67f-5bb0-9975-d6a9c4cbd27a",
+            "f0153b63-dc3e-576b-b1ea-e69d611a3d20"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.199,
+          "windows": 0.291
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.398,
+          "windows": 0.582
+        },
+        "Standard_E8bds_v5": {
+          "linux": 0.796,
+          "windows": 1.164
+        },
+        "Standard_E16bds_v5": {
+          "linux": 1.592,
+          "windows": 2.328
+        },
+        "Standard_E32bds_v5": {
+          "linux": 3.184,
+          "windows": 4.656
+        },
+        "Standard_E48bds_v5": {
+          "linux": 4.776,
+          "windows": 6.984
+        },
+        "Standard_E64bds_v5": {
+          "linux": 6.368,
+          "windows": 9.312
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.173,
+          "windows": 0.265
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.346,
+          "windows": 0.53
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.692,
+          "windows": 1.06
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.384,
+          "windows": 2.12
+        },
+        "Standard_E32ds_v5": {
+          "linux": 2.768,
+          "windows": 4.24
+        },
+        "Standard_E48ds_v5": {
+          "linux": 4.152,
+          "windows": 6.36
+        },
+        "Standard_E64ds_v5": {
+          "linux": 5.536,
+          "windows": 8.48
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.136,
+          "windows": 0.228
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.272,
+          "windows": 0.456
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.544,
+          "windows": 0.912
+        },
+        "Standard_D16ds_v5": {
+          "linux": 1.088,
+          "windows": 1.824
+        },
+        "Standard_D32ds_v5": {
+          "linux": 2.176,
+          "windows": 3.648
+        },
+        "Standard_D48ds_v5": {
+          "linux": 3.264,
+          "windows": 5.472
+        },
+        "Standard_D64ds_v5": {
+          "linux": 4.352,
+          "windows": 7.296
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.334879,
+          "included": 0.709879
+        },
+        "sp1": {
+          "base": 0.2679,
+          "included": 0.5679
+        },
+        "ri3": {
+          "included": 0.52568,
+          "base": 0.1506849315068493
+        },
+        "ri1": {
+          "included": 0.59269,
+          "base": 0.21769406392694063
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.200926
+        },
+        "sp1": {
+          "included": 0.16074
+        },
+        "ri3": {
+          "included": 0.09041
+        },
+        "ri1": {
+          "included": 0.13059
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.4158,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.3730571,
+            "retailPrice": 0.3730571,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.3730571,
+            "retailPrice": 0.3730571,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'germanywestcentral' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.573934,
+        "meterIds": [
+          "73612657-518e-5ae6-8014-eba5f308ec78",
+          "f3b5b30b-3801-4f8b-9fa5-fba17f54d365"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.167439,
+          "included": 0.267405
+        },
+        "sp1": {
+          "base": 0.13395,
+          "included": 0.21392
+        },
+        "ri3": {
+          "included": 0.175306,
+          "base": 0.07534246575342465
+        },
+        "ri1": {
+          "included": 0.208756,
+          "base": 0.10878995433789955
+        }
+      }
+    },
+    "swedencentral": {
+      "miIncludedPerCoreHour": 0.267405,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.13685,
+        "mi_bc_per_gb_mo": 0.2975,
+        "db_gp_per_gb_mo": 0.13685,
+        "db_bc_per_gb_mo": 0.2975,
+        "db_hs_per_gb_mo": 0.258621,
+        "backup_lrs_per_gb_mo": 0.119,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P1": 0.78,
+          "P40": 284.9371,
+          "P20": 80.54,
+          "P2": 1.56,
+          "P30": 148.68,
+          "P10": 21.68,
+          "P80": 3964.34,
+          "P70": 1982.17,
+          "P60": 1040.64,
+          "P4": 5.8072,
+          "P3": 3.12,
+          "P6": 11.2272,
+          "P15": 41.8114,
+          "P50": 545.0971
+        }
+      },
+      "miBasePerCoreHour": 0.167439,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.18400000000000005,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'swedencentral' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.539,
+            "ri1": 0.3934748858447489,
+            "ri3": 0.31889345509893463,
+            "sp1": 0.4292695000000001,
+            "sp3": 0.3367565
+          },
+          "meterIds": [
+            "00d7005b-172a-55f7-bf22-20eed252f7e7",
+            "c21dc307-ab63-57ef-ab1d-538a20514c4e"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.3680000000000001,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'swedencentral' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.078,
+            "ri1": 0.7869497716894978,
+            "ri3": 0.6377869101978693,
+            "sp1": 0.8585390000000002,
+            "sp3": 0.673513
+          },
+          "meterIds": [
+            "818e2f49-758b-5ed0-9a9c-c4e7b3c0fea6",
+            "98a787ce-20e3-5d71-83b9-853a3c6f4db4"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.7360000000000002,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'swedencentral' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.156,
+            "ri1": 1.573785388127854,
+            "ri3": 1.275611872146119,
+            "sp1": 1.7170780000000003,
+            "sp3": 1.347026
+          },
+          "meterIds": [
+            "0c19c52f-daab-5e44-a699-0bc4f0664782",
+            "ec87b53c-35bc-5c7c-9ea9-dc36a26cb2f6"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.178,
+          "windows": 0.27
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.355,
+          "windows": 0.539
+        },
+        "Standard_E8bds_v5": {
+          "linux": 0.71,
+          "windows": 1.078
+        },
+        "Standard_E16bds_v5": {
+          "linux": 1.42,
+          "windows": 2.156
+        },
+        "Standard_E32bds_v5": {
+          "linux": 2.84,
+          "windows": 4.312
+        },
+        "Standard_E48bds_v5": {
+          "linux": 4.26,
+          "windows": 6.468
+        },
+        "Standard_E64bds_v5": {
+          "linux": 5.68,
+          "windows": 8.624
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.152,
+          "windows": 0.244
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.304,
+          "windows": 0.488
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.608,
+          "windows": 0.976
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.216,
+          "windows": 1.952
+        },
+        "Standard_E32ds_v5": {
+          "linux": 2.432,
+          "windows": 3.904
+        },
+        "Standard_E48ds_v5": {
+          "linux": 3.648,
+          "windows": 5.856
+        },
+        "Standard_E64ds_v5": {
+          "linux": 4.864,
+          "windows": 7.808
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.12,
+          "windows": 0.212
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.24,
+          "windows": 0.424
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.48,
+          "windows": 0.848
+        },
+        "Standard_D16ds_v5": {
+          "linux": 0.96,
+          "windows": 1.696
+        },
+        "Standard_D32ds_v5": {
+          "linux": 1.92,
+          "windows": 3.392
+        },
+        "Standard_D48ds_v5": {
+          "linux": 2.88,
+          "windows": 5.088
+        },
+        "Standard_D64ds_v5": {
+          "linux": 3.84,
+          "windows": 6.784
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.334879,
+          "included": 0.709879
+        },
+        "sp1": {
+          "base": 0.2679,
+          "included": 0.5679
+        },
+        "ri3": {
+          "included": 0.52568,
+          "base": 0.1506849315068493
+        },
+        "ri1": {
+          "included": 0.59269,
+          "base": 0.21769406392694063
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.200926
+        },
+        "sp1": {
+          "included": 0.16074
+        },
+        "ri3": {
+          "included": 0.09041
+        },
+        "ri1": {
+          "included": 0.13059
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.4158,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.3730571,
+            "retailPrice": 0.3730571,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.3730571,
+            "retailPrice": 0.3730571,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'swedencentral' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.573934,
+        "meterIds": [
+          "0c9c4c76-483f-5cca-90f1-190ba0ea11ca",
+          "a0a29890-09ad-5640-8719-d72aea39ecf8"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.167439,
+          "included": 0.267405
+        },
+        "sp1": {
+          "base": 0.13395,
+          "included": 0.21392
+        },
+        "ri3": {
+          "included": 0.175306,
+          "base": 0.07534246575342465
+        },
+        "ri1": {
+          "included": 0.208756,
+          "base": 0.10878995433789955
+        }
+      }
+    },
+    "southeastasia": {
+      "miIncludedPerCoreHour": 0.281105,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.138,
+        "mi_bc_per_gb_mo": 0.3,
+        "db_gp_per_gb_mo": 0.138,
+        "db_bc_per_gb_mo": 0.3,
+        "db_hs_per_gb_mo": 0.301724,
+        "backup_lrs_per_gb_mo": 0.12,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P10": 19.71,
+          "P20": 73.22,
+          "P6": 10.207,
+          "P15": 38.0121,
+          "P2": 1.56,
+          "P80": 3604.11,
+          "P70": 1802.06,
+          "P4": 5.2795,
+          "P30": 135.17,
+          "P3": 3.12,
+          "P50": 495.5657,
+          "P1": 0.78,
+          "P40": 259.0457,
+          "P60": 946.08
+        }
+      },
+      "miBasePerCoreHour": 0.181139,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.18399999999999994,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'southeastasia' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.586,
+            "ri1": 0.42121461187214604,
+            "ri3": 0.33677777777777773,
+            "sp1": 0.4585659999999999,
+            "sp3": 0.35694039999999994
+          },
+          "meterIds": [
+            "2a033dba-f6ad-5fc1-a61d-4d6844921870",
+            "8ad286e2-8418-580b-adea-38b6b6886208"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.3679999999999999,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'southeastasia' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.172,
+            "ri1": 0.8423150684931506,
+            "ri3": 0.6735175038051749,
+            "sp1": 0.9171319999999998,
+            "sp3": 0.7138807999999999
+          },
+          "meterIds": [
+            "710be66d-c98a-5533-a197-be14bcb3a96d",
+            "b1c64718-ddc6-56e4-ac16-a1ed54df3ac3"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.7359999999999998,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'southeastasia' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.344,
+            "ri1": 1.6847442922374427,
+            "ri3": 1.3470350076103499,
+            "sp1": 1.8342639999999997,
+            "sp3": 1.4277615999999997
+          },
+          "meterIds": [
+            "30894836-5880-5f2d-8158-e1c06fb4b21b",
+            "b55140ff-e246-52ed-ae94-c814d8f2c778"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.201,
+          "windows": 0.293
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.402,
+          "windows": 0.586
+        },
+        "Standard_E8bds_v5": {
+          "linux": 0.804,
+          "windows": 1.172
+        },
+        "Standard_E16bds_v5": {
+          "linux": 1.608,
+          "windows": 2.344
+        },
+        "Standard_E32bds_v5": {
+          "linux": 3.216,
+          "windows": 4.688
+        },
+        "Standard_E48bds_v5": {
+          "linux": 4.824,
+          "windows": 7.032
+        },
+        "Standard_E64bds_v5": {
+          "linux": 6.432,
+          "windows": 9.376
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.174,
+          "windows": 0.266
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.348,
+          "windows": 0.532
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.696,
+          "windows": 1.064
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.392,
+          "windows": 2.128
+        },
+        "Standard_E32ds_v5": {
+          "linux": 2.784,
+          "windows": 4.256
+        },
+        "Standard_E48ds_v5": {
+          "linux": 4.176,
+          "windows": 6.384
+        },
+        "Standard_E64ds_v5": {
+          "linux": 5.568,
+          "windows": 8.512
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.141,
+          "windows": 0.233
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.282,
+          "windows": 0.466
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.564,
+          "windows": 0.932
+        },
+        "Standard_D16ds_v5": {
+          "linux": 1.128,
+          "windows": 1.864
+        },
+        "Standard_D32ds_v5": {
+          "linux": 2.256,
+          "windows": 3.728
+        },
+        "Standard_D48ds_v5": {
+          "linux": 3.384,
+          "windows": 5.592
+        },
+        "Standard_D64ds_v5": {
+          "linux": 4.512,
+          "windows": 7.456
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.362278,
+          "included": 0.737278
+        },
+        "sp1": {
+          "base": 0.28982,
+          "included": 0.58982
+        },
+        "ri3": {
+          "included": 0.53801,
+          "base": 0.16301369863013698
+        },
+        "ri1": {
+          "included": 0.6105,
+          "base": 0.23550228310502283
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.217365
+        },
+        "sp1": {
+          "included": 0.17389
+        },
+        "ri3": {
+          "included": 0.09783
+        },
+        "ri1": {
+          "included": 0.14132
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.449819,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.4035798,
+            "retailPrice": 0.4035798,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.4035798,
+            "retailPrice": 0.4035798,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'southeastasia' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.620892,
+        "meterIds": [
+          "1b04eaf0-8111-462b-9cbe-b8c58cfdd151",
+          "6b5116a1-cd4f-5816-ac2e-7ff1a5be5c05"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.181139,
+          "included": 0.281105
+        },
+        "sp1": {
+          "base": 0.14491,
+          "included": 0.22488
+        },
+        "ri3": {
+          "included": 0.181476,
+          "base": 0.08150684931506849
+        },
+        "ri1": {
+          "included": 0.217656,
+          "base": 0.11769406392694064
+        }
+      }
+    },
+    "australiaeast": {
+      "miIncludedPerCoreHour": 0.281105,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.138,
+        "mi_bc_per_gb_mo": 0.3,
+        "db_gp_per_gb_mo": 0.138,
+        "db_bc_per_gb_mo": 0.3,
+        "db_hs_per_gb_mo": 0.301724,
+        "backup_lrs_per_gb_mo": 0.12,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P3": 3.48,
+          "P20": 73.22,
+          "P15": 38.0121,
+          "P6": 10.207,
+          "P60": 946.08,
+          "P30": 135.17,
+          "P4": 5.2795,
+          "P40": 259.0457,
+          "P50": 495.5657,
+          "P1": 0.87,
+          "P80": 3604.11,
+          "P70": 1802.06,
+          "P10": 19.71,
+          "P2": 1.74
+        }
+      },
+      "miBasePerCoreHour": 0.181139,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.18399999999999994,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'australiaeast' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.586,
+            "ri1": 0.42121461187214604,
+            "ri3": 0.33677777777777773,
+            "sp1": 0.4617417999999999,
+            "sp3": 0.3569806
+          },
+          "meterIds": [
+            "dbcacac4-e1dc-58db-acf0-7c5b2f446eac",
+            "f493790e-5003-54f0-aedf-850838cea485"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.3679999999999999,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'australiaeast' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.172,
+            "ri1": 0.8423150684931506,
+            "ri3": 0.6735175038051749,
+            "sp1": 0.9234835999999998,
+            "sp3": 0.7139612
+          },
+          "meterIds": [
+            "6a4c096e-a720-573a-989d-1c81464f1c67",
+            "f0969595-b118-5d89-9eb4-155bb3004d7a"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.7359999999999998,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'australiaeast' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.344,
+            "ri1": 1.6847442922374427,
+            "ri3": 1.3470350076103499,
+            "sp1": 1.8469671999999997,
+            "sp3": 1.4279224
+          },
+          "meterIds": [
+            "c29d7a9f-d47c-5586-85d0-1f50df3d6189",
+            "f417882e-6921-53fd-a70e-73c30338c8b8"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.201,
+          "windows": 0.293
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.402,
+          "windows": 0.586
+        },
+        "Standard_E8bds_v5": {
+          "linux": 0.804,
+          "windows": 1.172
+        },
+        "Standard_E16bds_v5": {
+          "linux": 1.608,
+          "windows": 2.344
+        },
+        "Standard_E32bds_v5": {
+          "linux": 3.216,
+          "windows": 4.688
+        },
+        "Standard_E48bds_v5": {
+          "linux": 4.824,
+          "windows": 7.032
+        },
+        "Standard_E64bds_v5": {
+          "linux": 6.432,
+          "windows": 9.376
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.174,
+          "windows": 0.266
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.348,
+          "windows": 0.532
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.696,
+          "windows": 1.064
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.392,
+          "windows": 2.128
+        },
+        "Standard_E32ds_v5": {
+          "linux": 2.784,
+          "windows": 4.256
+        },
+        "Standard_E48ds_v5": {
+          "linux": 4.176,
+          "windows": 6.384
+        },
+        "Standard_E64ds_v5": {
+          "linux": 5.568,
+          "windows": 8.512
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.142,
+          "windows": 0.234
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.284,
+          "windows": 0.468
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.568,
+          "windows": 0.936
+        },
+        "Standard_D16ds_v5": {
+          "linux": 1.136,
+          "windows": 1.872
+        },
+        "Standard_D32ds_v5": {
+          "linux": 2.272,
+          "windows": 3.744
+        },
+        "Standard_D48ds_v5": {
+          "linux": 3.408,
+          "windows": 5.616
+        },
+        "Standard_D64ds_v5": {
+          "linux": 4.544,
+          "windows": 7.488
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.362278,
+          "included": 0.737278
+        },
+        "sp1": {
+          "base": 0.28982,
+          "included": 0.58982
+        },
+        "ri3": {
+          "included": 0.53801,
+          "base": 0.16301369863013698
+        },
+        "ri1": {
+          "included": 0.6105,
+          "base": 0.23550228310502283
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.217365
+        },
+        "sp1": {
+          "included": 0.17389
+        },
+        "ri3": {
+          "included": 0.09783
+        },
+        "ri1": {
+          "included": 0.14132
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.449819,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.4035798,
+            "retailPrice": 0.4035798,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.4035798,
+            "retailPrice": 0.4035798,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'australiaeast' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.620892,
+        "meterIds": [
+          "179edae4-7c09-47d7-8d8c-892760ecbb61",
+          "66e1df00-f124-5db4-bca8-76a1fdd6ee98"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.181139,
+          "included": 0.281105
+        },
+        "sp1": {
+          "base": 0.14491,
+          "included": 0.22488
+        },
+        "ri3": {
+          "included": 0.181476,
+          "base": 0.08150684931506849
+        },
+        "ri1": {
+          "included": 0.217656,
+          "base": 0.11769406392694064
+        }
+      }
+    },
+    "japaneast": {
+      "miIncludedPerCoreHour": 0.271972,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.138,
+        "mi_bc_per_gb_mo": 0.3,
+        "db_gp_per_gb_mo": 0.138,
+        "db_bc_per_gb_mo": 0.3,
+        "db_hs_per_gb_mo": 0.301724,
+        "backup_lrs_per_gb_mo": 0.12,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P60": 1088.16,
+          "P30": 155.44,
+          "P6": 11.7399,
+          "P20": 84.2,
+          "P80": 4145.37,
+          "P10": 22.67,
+          "P2": 1.74,
+          "P4": 6.0724,
+          "P50": 569.9886,
+          "P15": 43.7207,
+          "P70": 2072.69,
+          "P40": 297.9486,
+          "P1": 0.87,
+          "P3": 3.48
+        }
+      },
+      "miBasePerCoreHour": 0.172006,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.18399999999999994,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'japaneast' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.59,
+            "ri1": 0.4234977168949771,
+            "ri3": 0.3382617960426179,
+            "sp1": 0.46450539999999996,
+            "sp3": 0.35829579999999994
+          },
+          "meterIds": [
+            "0f66e703-90c3-597f-884e-0de8d473c014",
+            "13a47849-1665-51b2-b7ee-109b243ab40f"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.3679999999999999,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'japaneast' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.18,
+            "ri1": 0.8471095890410958,
+            "ri3": 0.6765616438356163,
+            "sp1": 0.9290107999999999,
+            "sp3": 0.7165915999999999
+          },
+          "meterIds": [
+            "29d38c93-9b53-5816-ba60-0a74d24d70c4",
+            "9ec8ce6a-9e94-5bbb-b851-13802f3085dd"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.7359999999999998,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'japaneast' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.36,
+            "ri1": 1.69410502283105,
+            "ri3": 1.3531232876712327,
+            "sp1": 1.8580215999999998,
+            "sp3": 1.4331831999999998
+          },
+          "meterIds": [
+            "194ee576-3318-5a2c-a002-155739b52f46",
+            "5e7d7ded-6db0-5ba3-b1b3-952b352f53bb"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.203,
+          "windows": 0.295
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.406,
+          "windows": 0.59
+        },
+        "Standard_E8bds_v5": {
+          "linux": 0.812,
+          "windows": 1.18
+        },
+        "Standard_E16bds_v5": {
+          "linux": 1.624,
+          "windows": 2.36
+        },
+        "Standard_E32bds_v5": {
+          "linux": 3.248,
+          "windows": 4.72
+        },
+        "Standard_E48bds_v5": {
+          "linux": 4.872,
+          "windows": 7.08
+        },
+        "Standard_E64bds_v5": {
+          "linux": 6.496,
+          "windows": 9.44
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.174,
+          "windows": 0.266
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.348,
+          "windows": 0.532
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.696,
+          "windows": 1.064
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.392,
+          "windows": 2.128
+        },
+        "Standard_E32ds_v5": {
+          "linux": 2.784,
+          "windows": 4.256
+        },
+        "Standard_E48ds_v5": {
+          "linux": 4.176,
+          "windows": 6.384
+        },
+        "Standard_E64ds_v5": {
+          "linux": 5.568,
+          "windows": 8.512
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.146,
+          "windows": 0.238
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.292,
+          "windows": 0.476
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.584,
+          "windows": 0.952
+        },
+        "Standard_D16ds_v5": {
+          "linux": 1.168,
+          "windows": 1.904
+        },
+        "Standard_D32ds_v5": {
+          "linux": 2.336,
+          "windows": 3.808
+        },
+        "Standard_D48ds_v5": {
+          "linux": 3.504,
+          "windows": 5.712
+        },
+        "Standard_D64ds_v5": {
+          "linux": 4.672,
+          "windows": 7.616
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.344012,
+          "included": 0.719012
+        },
+        "sp1": {
+          "base": 0.27521,
+          "included": 0.57521
+        },
+        "ri3": {
+          "included": 0.52979,
+          "base": 0.1547945205479452
+        },
+        "ri1": {
+          "included": 0.59863,
+          "base": 0.22363013698630138
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.206406
+        },
+        "sp1": {
+          "included": 0.16512
+        },
+        "ri3": {
+          "included": 0.09288
+        },
+        "ri1": {
+          "included": 0.13413
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.42714,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.38323155,
+            "retailPrice": 0.38323155,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.38323155,
+            "retailPrice": 0.38323155,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'japaneast' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.589587,
+        "meterIds": [
+          "421f227c-c7a7-44bc-9b74-66c5aea579e2",
+          "e1dd0bd3-b48c-59e1-9848-f4b2f82f14e1"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.172006,
+          "included": 0.271972
+        },
+        "sp1": {
+          "base": 0.1376,
+          "included": 0.21757
+        },
+        "ri3": {
+          "included": 0.177366,
+          "base": 0.0773972602739726
+        },
+        "ri1": {
+          "included": 0.211726,
+          "base": 0.11175799086757991
+        }
+      }
+    },
+    "centralindia": {
+      "miIncludedPerCoreHour": 0.267405,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.1311,
+        "mi_bc_per_gb_mo": 0.285,
+        "db_gp_per_gb_mo": 0.1311,
+        "db_bc_per_gb_mo": 0.285,
+        "db_hs_per_gb_mo": 0.284483,
+        "backup_lrs_per_gb_mo": 0.114,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P50": 495.5657,
+          "P1": 0.84,
+          "P80": 3604.11,
+          "P6": 10.207,
+          "P70": 1802.06,
+          "P30": 135.17,
+          "P3": 3.36,
+          "P10": 19.71,
+          "P2": 1.68,
+          "P40": 259.0457,
+          "P60": 946.08,
+          "P15": 38.0121,
+          "P4": 5.2795,
+          "P20": 73.22
+        }
+      },
+      "miBasePerCoreHour": 0.167439,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.18400000000000005,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'centralindia' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.536,
+            "ri1": 0.3916484018264841,
+            "ri3": 0.31775190258751906,
+            "sp1": 0.42719680000000004,
+            "sp3": 0.33546560000000003
+          },
+          "meterIds": [
+            "115478fa-e92a-51bf-88c7-2f54db441ad2",
+            "42660a8d-563e-5947-bc2f-14823677572b"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.3680000000000001,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'centralindia' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.072,
+            "ri1": 0.7834109589041096,
+            "ri3": 0.6355038051750381,
+            "sp1": 0.8543936000000001,
+            "sp3": 0.6709312000000001
+          },
+          "meterIds": [
+            "8f7fd733-c46d-5831-9b22-b0d9100412b5",
+            "9077ef1f-7efa-55b7-89ec-342af9677e58"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.7360000000000002,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'centralindia' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.144,
+            "ri1": 1.566707762557078,
+            "ri3": 1.2710456621004569,
+            "sp1": 1.7087872000000002,
+            "sp3": 1.3418624000000001
+          },
+          "meterIds": [
+            "4090392a-2a23-5091-a439-853d0399e1f2",
+            "8aa176d1-6bb3-5214-b688-adb9d312411e"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.176,
+          "windows": 0.268
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.352,
+          "windows": 0.536
+        },
+        "Standard_E8bds_v5": {
+          "linux": 0.704,
+          "windows": 1.072
+        },
+        "Standard_E16bds_v5": {
+          "linux": 1.408,
+          "windows": 2.144
+        },
+        "Standard_E32bds_v5": {
+          "linux": 2.816,
+          "windows": 4.288
+        },
+        "Standard_E48bds_v5": {
+          "linux": 4.224,
+          "windows": 6.432
+        },
+        "Standard_E64bds_v5": {
+          "linux": 5.632,
+          "windows": 8.576
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.151,
+          "windows": 0.243
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.302,
+          "windows": 0.486
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.604,
+          "windows": 0.972
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.208,
+          "windows": 1.944
+        },
+        "Standard_E32ds_v5": {
+          "linux": 2.416,
+          "windows": 3.888
+        },
+        "Standard_E48ds_v5": {
+          "linux": 3.624,
+          "windows": 5.832
+        },
+        "Standard_E64ds_v5": {
+          "linux": 4.832,
+          "windows": 7.776
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.122,
+          "windows": 0.214
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.244,
+          "windows": 0.428
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.488,
+          "windows": 0.856
+        },
+        "Standard_D16ds_v5": {
+          "linux": 0.976,
+          "windows": 1.712
+        },
+        "Standard_D32ds_v5": {
+          "linux": 1.952,
+          "windows": 3.424
+        },
+        "Standard_D48ds_v5": {
+          "linux": 2.928,
+          "windows": 5.136
+        },
+        "Standard_D64ds_v5": {
+          "linux": 3.904,
+          "windows": 6.848
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.334879,
+          "included": 0.709879
+        },
+        "sp1": {
+          "base": 0.2679,
+          "included": 0.5679
+        },
+        "ri3": {
+          "included": 0.52568,
+          "base": 0.1506849315068493
+        },
+        "ri1": {
+          "included": 0.59269,
+          "base": 0.21769406392694063
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.200926
+        },
+        "sp1": {
+          "included": 0.16074
+        },
+        "ri3": {
+          "included": 0.09041
+        },
+        "ri1": {
+          "included": 0.13059
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.4158,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.3730571,
+            "retailPrice": 0.3730571,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.3730571,
+            "retailPrice": 0.3730571,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'centralindia' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.573934,
+        "meterIds": [
+          "2ca49eef-0b17-5aba-a43d-445c1d011987",
+          "84448919-1534-4e42-a662-abb8cf57bb1d"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.167439,
+          "included": 0.267405
+        },
+        "sp1": {
+          "base": 0.13395,
+          "included": 0.21392
+        },
+        "ri3": {
+          "included": 0.175306,
+          "base": 0.07534246575342465
+        },
+        "ri1": {
+          "included": 0.208756,
+          "base": 0.10878995433789955
+        }
+      }
+    },
+    "canadacentral": {
+      "miIncludedPerCoreHour": 0.282627,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.1265,
+        "mi_bc_per_gb_mo": 0.275,
+        "db_gp_per_gb_mo": 0.1265,
+        "db_bc_per_gb_mo": 0.275,
+        "db_hs_per_gb_mo": 0.275862,
+        "backup_lrs_per_gb_mo": 0.11,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P6": 10.208,
+          "P30": 135.17,
+          "P20": 73.216,
+          "P60": 946.18,
+          "P15": 38.016,
+          "P50": 495.62,
+          "P70": 1802.24,
+          "P40": 259.07,
+          "P3": 2.88,
+          "P80": 3604.48,
+          "P2": 1.44,
+          "P1": 0.72,
+          "P4": 5.28,
+          "P10": 19.712
+        }
+      },
+      "miBasePerCoreHour": 0.182661,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.18400000000000005,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'canadacentral' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.553,
+            "ri1": 0.4016940639269407,
+            "ri3": 0.32422070015220705,
+            "sp1": 0.43894210000000006,
+            "sp3": 0.34278070000000005
+          },
+          "meterIds": [
+            "06fe30cb-c179-5751-a906-d603e8a2b5f5",
+            "5e764ef5-7c45-53f7-83a0-4f0d13d331f7"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.3680000000000001,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'canadacentral' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.106,
+            "ri1": 0.8033881278538814,
+            "ri3": 0.6484414003044141,
+            "sp1": 0.8778842000000001,
+            "sp3": 0.6855614000000001
+          },
+          "meterIds": [
+            "671569e1-63cb-516a-b91e-d9782d64b454",
+            "850597b1-59a3-5a9b-9903-abdc8d9cb79b"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.7360000000000002,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'canadacentral' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.212,
+            "ri1": 1.6068904109589042,
+            "ri3": 1.2968828006088282,
+            "sp1": 1.7557684000000002,
+            "sp3": 1.3711228000000002
+          },
+          "meterIds": [
+            "65a7ea13-ab4a-545e-9cee-62c66af5b825",
+            "b499a09b-ef05-5fa2-8a7e-8abe6fa0c0fe"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.185,
+          "windows": 0.277
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.369,
+          "windows": 0.553
+        },
+        "Standard_E8bds_v5": {
+          "linux": 0.738,
+          "windows": 1.106
+        },
+        "Standard_E16bds_v5": {
+          "linux": 1.476,
+          "windows": 2.212
+        },
+        "Standard_E32bds_v5": {
+          "linux": 2.952,
+          "windows": 4.424
+        },
+        "Standard_E48bds_v5": {
+          "linux": 4.428,
+          "windows": 6.636
+        },
+        "Standard_E64bds_v5": {
+          "linux": 5.904,
+          "windows": 8.848
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.158,
+          "windows": 0.25
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.316,
+          "windows": 0.5
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.632,
+          "windows": 1.0
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.264,
+          "windows": 2.0
+        },
+        "Standard_E32ds_v5": {
+          "linux": 2.528,
+          "windows": 4.0
+        },
+        "Standard_E48ds_v5": {
+          "linux": 3.792,
+          "windows": 6.0
+        },
+        "Standard_E64ds_v5": {
+          "linux": 5.056,
+          "windows": 8.0
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.126,
+          "windows": 0.218
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.252,
+          "windows": 0.436
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.504,
+          "windows": 0.872
+        },
+        "Standard_D16ds_v5": {
+          "linux": 1.008,
+          "windows": 1.744
+        },
+        "Standard_D32ds_v5": {
+          "linux": 2.016,
+          "windows": 3.488
+        },
+        "Standard_D48ds_v5": {
+          "linux": 3.024,
+          "windows": 5.232
+        },
+        "Standard_D64ds_v5": {
+          "linux": 4.032,
+          "windows": 6.976
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.365322,
+          "included": 0.740322
+        },
+        "sp1": {
+          "base": 0.29226,
+          "included": 0.59226
+        },
+        "ri3": {
+          "included": 0.53938,
+          "base": 0.1643835616438356
+        },
+        "ri1": {
+          "included": 0.61244,
+          "base": 0.2374429223744292
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.219192
+        },
+        "sp1": {
+          "included": 0.17535
+        },
+        "ri3": {
+          "included": 0.09863
+        },
+        "ri1": {
+          "included": 0.14247
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.4536,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.4069715,
+            "retailPrice": 0.4069715,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.4069715,
+            "retailPrice": 0.4069715,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'canadacentral' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.62611,
+        "meterIds": [
+          "1bc5bf0e-a0b6-58cb-a5d0-5343b976f02a",
+          "6d8f7589-ea68-4a59-8b04-108d23bc9f61"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.182661,
+          "included": 0.282627
+        },
+        "sp1": {
+          "base": 0.14613,
+          "included": 0.2261
+        },
+        "ri3": {
+          "included": 0.182156,
+          "base": 0.0821917808219178
+        },
+        "ri1": {
+          "included": 0.218686,
+          "base": 0.1187214611872146
+        }
+      }
+    },
+    "brazilsouth": {
+      "miIncludedPerCoreHour": 0.389179,
+      "storage": {
+        "mi_gp_per_gb_mo": 0.2185,
+        "mi_bc_per_gb_mo": 0.475,
+        "db_gp_per_gb_mo": 0.2185,
+        "db_bc_per_gb_mo": 0.475,
+        "db_hs_per_gb_mo": 0.517241,
+        "backup_lrs_per_gb_mo": 0.19,
+        "premium_ssd_lrs_per_disk_mo": {
+          "P50": 856.1143,
+          "P40": 447.5143,
+          "P70": 3113.14,
+          "P30": 233.47,
+          "P6": 17.6331,
+          "P1": 1.2,
+          "P80": 6226.29,
+          "P20": 126.46,
+          "P60": 1634.4,
+          "P2": 2.4,
+          "P15": 65.6679,
+          "P10": 34.05,
+          "P3": 4.8,
+          "P4": 9.1206
+        }
+      },
+      "miBasePerCoreHour": 0.289213,
+      "vmPlans": {
+        "Standard_E4bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.18399999999999994,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'brazilsouth' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 0.717,
+            "ri1": 0.4984977168949771,
+            "ri3": 0.3865494672754946,
+            "sp1": 0.5522497,
+            "sp3": 0.41334989999999994
+          },
+          "meterIds": [
+            "74e6bccb-34cb-5a4e-867b-a358d2bdc7b8",
+            "9effead6-b58a-5464-97c2-3b9aeb41c5cf"
+          ]
+        },
+        "Standard_E8bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.3679999999999999,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'brazilsouth' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 1.434,
+            "ri1": 0.9969954337899543,
+            "ri3": 0.7730989345509892,
+            "sp1": 1.1044994,
+            "sp3": 0.8266997999999999
+          },
+          "meterIds": [
+            "305e80eb-bd6d-5d96-9335-62b62a3bd761",
+            "4fa78249-3282-5a96-9395-d71673256391"
+          ]
+        },
+        "Standard_E16bds_v5": {
+          "reservationHours": {
+            "ri1": 8760,
+            "ri3": 26280
+          },
+          "windowsLicensePerHour": 0.7359999999999998,
+          "filter": "serviceName eq 'Virtual Machines' and armRegionName eq 'brazilsouth' and (productName eq 'Virtual Machines Ebdsv5 Series' or productName eq 'Virtual Machines Ebdsv5 Series Windows')",
+          "rates": {
+            "payg": 2.868,
+            "ri1": 1.9938767123287668,
+            "ri3": 1.5461598173515978,
+            "sp1": 2.2089988,
+            "sp3": 1.6533995999999997
+          },
+          "meterIds": [
+            "795bd7e2-875b-53a2-8a76-5984741e11be",
+            "fdb0ec35-caba-52f7-bde1-8e13630549c9"
+          ]
+        }
+      },
+      "vm": {
+        "Standard_E2bds_v5": {
+          "linux": 0.267,
+          "windows": 0.359
+        },
+        "Standard_E4bds_v5": {
+          "linux": 0.533,
+          "windows": 0.717
+        },
+        "Standard_E8bds_v5": {
+          "linux": 1.066,
+          "windows": 1.434
+        },
+        "Standard_E16bds_v5": {
+          "linux": 2.132,
+          "windows": 2.868
+        },
+        "Standard_E32bds_v5": {
+          "linux": 4.264,
+          "windows": 5.736
+        },
+        "Standard_E48bds_v5": {
+          "linux": 6.396,
+          "windows": 8.604
+        },
+        "Standard_E64bds_v5": {
+          "linux": 8.528,
+          "windows": 11.472
+        },
+        "Standard_E2ds_v5": {
+          "linux": 0.228,
+          "windows": 0.32
+        },
+        "Standard_E4ds_v5": {
+          "linux": 0.456,
+          "windows": 0.64
+        },
+        "Standard_E8ds_v5": {
+          "linux": 0.912,
+          "windows": 1.28
+        },
+        "Standard_E16ds_v5": {
+          "linux": 1.824,
+          "windows": 2.56
+        },
+        "Standard_E32ds_v5": {
+          "linux": 3.648,
+          "windows": 5.12
+        },
+        "Standard_E48ds_v5": {
+          "linux": 5.472,
+          "windows": 7.68
+        },
+        "Standard_E64ds_v5": {
+          "linux": 7.296,
+          "windows": 10.24
+        },
+        "Standard_D2ds_v5": {
+          "linux": 0.18,
+          "windows": 0.272
+        },
+        "Standard_D4ds_v5": {
+          "linux": 0.36,
+          "windows": 0.544
+        },
+        "Standard_D8ds_v5": {
+          "linux": 0.72,
+          "windows": 1.088
+        },
+        "Standard_D16ds_v5": {
+          "linux": 1.44,
+          "windows": 2.176
+        },
+        "Standard_D32ds_v5": {
+          "linux": 2.88,
+          "windows": 4.352
+        },
+        "Standard_D48ds_v5": {
+          "linux": 4.32,
+          "windows": 6.528
+        },
+        "Standard_D64ds_v5": {
+          "linux": 5.76,
+          "windows": 8.704
+        }
+      },
+      "miBcPlans": {
+        "payg": {
+          "base": 0.578427,
+          "included": 0.953427
+        },
+        "sp1": {
+          "base": 0.46274,
+          "included": 0.76274
+        },
+        "ri3": {
+          "included": 0.63527,
+          "base": 0.2602739726027397
+        },
+        "ri1": {
+          "included": 0.75103,
+          "base": 0.37602739726027395
+        }
+      },
+      "hyperscalePlans": {
+        "payg": {
+          "included": 0.347054
+        },
+        "sp1": {
+          "included": 0.27764
+        },
+        "ri3": {
+          "included": 0.15616
+        },
+        "ri1": {
+          "included": 0.22557
+        }
+      },
+      "hyperscaleServerlessPerCoreHour": 0.7182,
+      "serverless": {
+        "commitmentNote": "Published savings-plan rates captured for reference, not modeled: hourly eligible usage/commitment sharing must be established separately.",
+        "savingsPlanRates": [
+          {
+            "unitPrice": 0.644371,
+            "retailPrice": 0.644371,
+            "term": "1 Year"
+          },
+          {
+            "unitPrice": 0.644371,
+            "retailPrice": 0.644371,
+            "term": "3 Years"
+          }
+        ],
+        "filter": "serviceName eq 'SQL Database' and armRegionName eq 'brazilsouth' and productName eq 'SQL Database General Purpose - Serverless - Compute Gen5' and skuName eq '1 vCore' and meterName eq 'vCore' and priceType eq 'Consumption'",
+        "paygPerCoreHour": 0.99134,
+        "meterIds": [
+          "8189653e-c4c6-4510-93a6-ce5c2dd2c19d",
+          "abc4dcd6-ab75-58f4-a133-f87c7f2cc029"
+        ]
+      },
+      "miPlans": {
+        "payg": {
+          "base": 0.289213,
+          "included": 0.389179
+        },
+        "sp1": {
+          "base": 0.23137,
+          "included": 0.31134
+        },
+        "ri3": {
+          "included": 0.230106,
+          "base": 0.13013698630136986
+        },
+        "ri1": {
+          "included": 0.287976,
+          "base": 0.18801369863013698
+        }
+      }
+    }
+  }
+}

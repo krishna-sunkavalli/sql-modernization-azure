@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Estate Analyzer — Azure target sizing &amp; cost</title>
+<meta name="description" content="Upload a SQL Server inventory and get Azure target recommendations and costs. Fully client-side — your data never leaves the browser.">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#0078d4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230078d4'/%3E%3Cellipse cx='32' cy='19' rx='19' ry='7' fill='%23fff'/%3E%3Cpath d='M13 19v26c0 3.9 8.5 7 19 7s19-3.1 19-7V19c0 3.9-8.5 7-19 7s-19-3.1-19-7z' fill='%23fff' opacity='.85'/%3E%3C/svg%3E">
+<style>
+/* Microsoft Azure / Fluent palette
+   Neutrals are the Fluent gray ramp; the accent is Azure communication blue
+   (#0078D4). Data-viz colours carry their own foreground so the stacked bars
+   keep white label text at >= 4.5:1 contrast. */
+:root {
+  color-scheme: light;
+  --cp-bg: #faf9f8;
+  --cp-bg-elevated: #ffffff;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f3f2f1;
+  --cp-border: #e1dfdd;
+  --cp-border-strong: #a19f9d;
+  --cp-text: #000000;
+  --cp-text-muted: #44413f;
+  --cp-text-soft: #5b5856;
+  --cp-accent: #0078d4;
+  --cp-accent-hover: #106ebe;
+  /* Accent text on the soft accent tint: the base accent lands at 4.07:1
+     there, under the 4.5:1 needed for body-size text. */
+  --cp-accent-ink: #106ebe;
+  --cp-accent-soft: rgba(0, 120, 212, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #107c10;
+  --cp-danger: #a4262c;
+  --cp-warning: #b35900;
+  /* #0078d4 only reaches 4.54:1 on plain white and drops to 4.07:1 over the
+     soft accent tint, so link and accent text use the darker ink instead. */
+  --cp-link: #106ebe;
+  --cp-shadow: 0 6.4px 14.4px rgba(0, 0, 0, 0.13), 0 1.2px 3.6px rgba(0, 0, 0, 0.11);
+  --cp-shadow-sm: 0 0 2px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.14);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(0, 120, 212, 0.12);
+  --cp-brand-gradient: linear-gradient(135deg, #0078d4 0%, #0095e0 55%, #50e6ff 100%);
+  /* Data-viz fills. Deliberately separate from the text tokens above: a colour
+     that passes contrast as 11px text is too dark to read as a large fill, and
+     vice versa. Each fill carries the foreground that is legible on it.
+     Targets use a sequential Azure ramp ending in neutral — most managed is
+     deepest blue, SQL-on-VM is grey because it is still IaaS. Avoiding the
+     categorical blue/purple/orange mix keeps it recognisably Azure. */
+  --cp-viz-1: #004578; --cp-viz-1-fg: #ffffff;
+  --cp-viz-2: #0f6cbd; --cp-viz-2-fg: #ffffff;
+  --cp-viz-3: #71afe5; --cp-viz-3-fg: #201f1e;
+  --cp-viz-4: #c8c6c4; --cp-viz-4-fg: #201f1e;
+  --cp-viz-ready:   #107c10; --cp-viz-ready-fg:   #ffffff;
+  --cp-viz-warn:    #ca5010; --cp-viz-warn-fg:    #ffffff;
+  --cp-viz-blocked: #d13438; --cp-viz-blocked-fg: #ffffff;
+  --cp-rec-banner: #7719aa;
+  --cp-rec-tint: #faf7fd;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--cp-bg);
+  color: var(--cp-text);
+  font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+body::before { content: ""; display: block; height: 3px; background: var(--cp-brand-gradient); }
+code, .mono { font-family: Consolas, "Courier New", Courier, monospace; }
+
+.wrap { max-width: 1580px; margin: 0 auto; padding: 20px 24px 64px; }
+
+/* ---------- header ---------- */
+header.app {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  padding: 16px 0 14px; border-bottom: 1px solid var(--cp-border); margin-bottom: 18px;
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand .mark {
+  width: 38px; height: 38px; border-radius: 10px; flex: none;
+  background: var(--cp-brand-gradient); color: #ffffff;
+  display: grid; place-items: center; font-weight: 700; font-size: 15px;
+  box-shadow: var(--cp-shadow-sm);
+}
+h1 { font-size: 19px; margin: 0; font-weight: 650; letter-spacing: -0.01em; }
+.sub { font-size: 12px; color: var(--cp-text-muted); margin-top: 1px; }
+.spacer { flex: 1 1 auto; }
+
+/* ---------- buttons ---------- */
+button, .btn {
+  font: inherit; font-size: 13px; cursor: pointer;
+  background: var(--cp-surface); color: var(--cp-text);
+  border: 1px solid var(--cp-border); border-radius: 0.625rem;
+  padding: 7px 14px; transition: background .12s, border-color .12s;
+}
+.btn { display: inline-block; text-decoration: none; }
+button:hover, .btn:hover { background: var(--cp-surface-soft); border-color: var(--cp-border-strong); }
+button:disabled { opacity: .45; cursor: not-allowed; }
+button.primary, .btn.primary { background: var(--cp-accent); border-color: var(--cp-accent); color: var(--cp-accent-fg); font-weight: 600; }
+button.primary:hover, .btn.primary:hover { background: var(--cp-accent-hover); border-color: var(--cp-accent-hover); }
+button.ghost { background: transparent; }
+
+/* ---------- drop zone ---------- */
+.drop {
+  border: 2px dashed var(--cp-border-strong); border-radius: 16px;
+  background: var(--cp-bg-elevated);
+  padding: 44px 28px; text-align: center; transition: border-color .15s, background .15s;
+}
+.drop.over { border-color: var(--cp-accent); background: var(--cp-accent-soft); }
+.drop h2 { margin: 0 0 6px; font-size: 17px; font-weight: 620; }
+.drop p { margin: 0 0 16px; color: var(--cp-text-muted); font-size: 13px; }
+.drop .row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+input[type=file] { display: none; }
+
+.getstarted {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px; margin-top: 22px;
+}
+.gs {
+  background: var(--cp-surface); border: 1px solid var(--cp-border);
+  border-radius: 16px; padding: 16px 18px;
+  box-shadow: var(--cp-shadow-sm);
+}
+.gs .n {
+  width: 22px; height: 22px; border-radius: 50%; background: var(--cp-accent-soft);
+  color: var(--cp-accent); font-size: 12px; font-weight: 700;
+  display: grid; place-items: center; margin-bottom: 9px;
+}
+.gs h3 { margin: 0 0 5px; font-size: 13.5px; font-weight: 620; }
+.gs p { margin: 0; font-size: 12.5px; color: var(--cp-text-muted); line-height: 1.45; }
+
+/* ---------- tabs ---------- */
+nav.tabs {
+  display: flex; gap: 2px; border-bottom: 1px solid var(--cp-border);
+  margin: 4px 0 18px; overflow-x: auto;
+}
+nav.tabs button {
+  border: none; background: none; border-radius: 0;
+  border-bottom: 2px solid transparent; padding: 9px 15px;
+  color: var(--cp-text-muted); font-size: 13.5px; white-space: nowrap;
+}
+nav.tabs button:hover { background: var(--cp-surface-soft); border-color: transparent; }
+nav.tabs button.on { color: var(--cp-accent); border-bottom-color: var(--cp-accent); font-weight: 620; }
+.panel { display: none; }
+.panel.on { display: block; }
+
+/* ---------- cards & KPIs ---------- */
+.card {
+  background: var(--cp-surface); border: 1px solid var(--cp-border);
+  border-radius: 16px; padding: 17px 19px; margin-bottom: 16px;
+  box-shadow: var(--cp-shadow-sm);
+}
+.card > h3 {
+  margin: 0 0 13px; font-size: 14px; font-weight: 640;
+  display: flex; align-items: center; gap: 9px; flex-wrap: wrap;
+}
+.card > h3 .hint { font-weight: 400; font-size: 12px; color: var(--cp-text-muted); }
+
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.kpi {
+  background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 16px;
+  padding: 14px 16px; box-shadow: var(--cp-shadow-sm);
+}
+.kpi .lbl { font-size: 11.5px; color: var(--cp-text-muted); text-transform: uppercase; letter-spacing: .04em; }
+.kpi .val { font-size: 25px; font-weight: 660; margin-top: 3px; letter-spacing: -0.02em; }
+.kpi .val.sm { font-size: 19px; }
+.kpi .fnt { font-size: 11.5px; color: var(--cp-text-soft); margin-top: 2px; }
+.kpi.accent .val { color: var(--cp-accent); }
+.kpi.good .val { color: var(--cp-success); }
+.kpi.warn .val { color: var(--cp-warning); }
+.kpi.bad  .val { color: var(--cp-danger); }
+
+/* ---------- tables ---------- */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--cp-border); border-radius: 12px; }
+table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+th, td { padding: 8px 11px; text-align: left; border-bottom: 1px solid var(--cp-border); white-space: nowrap; }
+th {
+  background: var(--cp-surface-soft); font-weight: 620; font-size: 11.5px;
+  text-transform: uppercase; letter-spacing: .03em; color: var(--cp-text-muted);
+  position: sticky; top: 0; z-index: 2; cursor: pointer; user-select: none;
+}
+th.nosort { cursor: default; }
+th:hover:not(.nosort) { color: var(--cp-text); }
+th .arrow { opacity: .4; font-size: 9px; margin-left: 3px; }
+tbody tr:hover { background: var(--cp-surface-soft); }
+tbody tr:last-child td { border-bottom: none; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+td.wrap-cell { white-space: normal; min-width: 220px; }
+
+/* ---------- pills / badges ---------- */
+.pill {
+  display: inline-block; padding: 2px 8px; border-radius: 999px;
+  font-size: 11px; font-weight: 600; border: 1px solid transparent; white-space: nowrap;
+}
+.pill.gray  { background: var(--cp-surface-soft); color: var(--cp-text-muted); border-color: var(--cp-border); }
+.pill.green { background: rgba(16,124,16,.10);  color: var(--cp-success); border-color: rgba(16,124,16,.30); }
+.pill.amber { background: rgba(216,59,1,.10);   color: var(--cp-warning); border-color: rgba(216,59,1,.30); }
+.pill.red   { background: rgba(164,38,44,.10);  color: var(--cp-danger);  border-color: rgba(164,38,44,.30); }
+.pill.blue  { background: rgba(0,120,212,.10);  color: var(--cp-link);    border-color: rgba(0,120,212,.30); }
+.pill.accent{ background: var(--cp-accent-soft); color: var(--cp-accent); border-color: var(--cp-accent); }
+
+/* Tint from the live token so the badges track the active theme. */
+@supports (background: color-mix(in srgb, red 10%, transparent)) {
+  .pill.green { background: color-mix(in srgb, var(--cp-success) 12%, transparent); border-color: color-mix(in srgb, var(--cp-success) 34%, transparent); }
+  .pill.amber { background: color-mix(in srgb, var(--cp-warning) 12%, transparent); border-color: color-mix(in srgb, var(--cp-warning) 34%, transparent); }
+  .pill.red   { background: color-mix(in srgb, var(--cp-danger)  12%, transparent); border-color: color-mix(in srgb, var(--cp-danger)  34%, transparent); }
+  .pill.blue  { background: color-mix(in srgb, var(--cp-link)    12%, transparent); border-color: color-mix(in srgb, var(--cp-link)    34%, transparent); }
+}
+
+/* ---------- controls ---------- */
+.controls {
+  display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end;
+  padding: 13px 16px; background: var(--cp-bg-elevated);
+  border: 1px solid var(--cp-border); border-radius: 12px; margin-bottom: 16px;
+}
+.ctl { display: flex; flex-direction: column; gap: 4px; }
+.ctl label { font-size: 11px; color: var(--cp-text-muted); text-transform: uppercase; letter-spacing: .04em; font-weight: 600; }
+select, input[type=text], input[type=number], input[type=search] {
+  font: inherit; font-size: 13px; padding: 6px 10px;
+  background: var(--cp-surface); color: var(--cp-text);
+  border: 1px solid var(--cp-border); border-radius: 0.625rem; min-width: 132px;
+}
+select:focus, input:focus { outline: 2px solid var(--cp-accent-soft); border-color: var(--cp-accent); }
+input[type=number] { min-width: 92px; }
+.chk { display: flex; align-items: center; gap: 7px; font-size: 13px; padding-bottom: 6px; cursor: pointer; }
+.chk input { accent-color: var(--cp-accent); width: 15px; height: 15px; cursor: pointer; }
+
+.chips { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 13px; }
+.chip {
+  font-size: 12.5px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--cp-border); background: var(--cp-surface);
+  color: var(--cp-text-muted); cursor: pointer;
+}
+.chip:hover { border-color: var(--cp-border-strong); }
+.chip.on { background: var(--cp-accent); border-color: var(--cp-accent); color: var(--cp-accent-fg); font-weight: 600; }
+
+/* ---------- misc ---------- */
+.bar-track { height: 7px; background: var(--cp-surface-soft); border-radius: 999px; overflow: hidden; min-width: 64px; }
+.bar-fill { height: 100%; border-radius: 999px; background: var(--cp-accent); }
+
+.note {
+  font-size: 12.5px; color: var(--cp-text-muted); line-height: 1.55;
+  background: var(--cp-surface-soft); border-left: 3px solid var(--cp-border-strong);
+  padding: 11px 14px; border-radius: 0 10px 10px 0; margin: 12px 0;
+}
+.note.warn { border-left-color: var(--cp-warning); background: rgba(216,59,1,.07); }
+.note.info { border-left-color: var(--cp-link); background: rgba(0,120,212,.07); }
+@supports (background: color-mix(in srgb, red 10%, transparent)) {
+  .note.warn { background: color-mix(in srgb, var(--cp-warning) 9%, transparent); }
+  .note.info { background: color-mix(in srgb, var(--cp-link)    9%, transparent); }
+}
+
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+@media (max-width: 1080px) { .split { grid-template-columns: 1fr; } }
+
+.empty { text-align: center; padding: 40px 20px; color: var(--cp-text-muted); font-size: 13.5px; }
+.hidden { display: none !important; }
+
+details.acc { border: 1px solid var(--cp-border); border-radius: 12px; padding: 10px 14px; margin-bottom: 9px; background: var(--cp-surface); }
+details.acc summary { cursor: pointer; font-size: 13px; font-weight: 600; }
+details.acc[open] summary { margin-bottom: 9px; }
+
+.stack-bar { display: flex; height: 22px; border-radius: 5px; overflow: hidden; border: 1px solid var(--cp-border); }
+.stack-seg { display: grid; place-items: center; font-size: 10.5px; font-weight: 600; overflow: hidden; }
+.stack-seg + .stack-seg { box-shadow: inset 1px 0 0 var(--cp-surface); }
+
+/* ---------- target comparison cards ----------
+   Mirrors the assessment card in the Azure portal and SSMS: readiness headline,
+   monthly estimate, then a thin unlabelled readiness bar with the counts listed
+   beneath it rather than crammed inside. */
+.tcards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 16px; }
+@media (max-width: 1400px) { .tcards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 760px)  { .tcards { grid-template-columns: 1fr; } }
+.tcard {
+  background: var(--cp-surface); border: 1px solid var(--cp-border);
+  border-radius: 10px; overflow: hidden; box-shadow: var(--cp-shadow-sm);
+  display: flex; flex-direction: column;
+}
+.tcard-banner {
+  background: var(--cp-rec-banner); color: #fff;
+  font-size: 12px; font-weight: 600; padding: 8px 16px; letter-spacing: .01em;
+}
+/* Reserve the banner's height on the other cards so all three bodies start on
+   the same line, the way the portal lays them out. */
+.tcard-banner.ghost { visibility: hidden; }
+.tcard-pad { padding: 16px 18px; flex: 1; }
+.tcard.rec .tcard-pad { background: var(--cp-rec-tint); }
+.tcard h4 { margin: 0; font-size: 15.5px; font-weight: 640; letter-spacing: -0.01em; }
+.tcard .kind { font-size: 11.5px; color: var(--cp-text-soft); margin-top: 2px; }
+.tcard .desc { font-size: 12px; color: var(--cp-text-muted); margin-top: 5px; line-height: 1.4; }
+.tcard .hl { margin-top: 14px; }
+.tcard .hl .v { font-size: 15px; font-weight: 640; display: flex; align-items: center; gap: 7px; }
+.tcard .hl .l { font-size: 11.5px; color: var(--cp-text-muted); margin-top: 1px; }
+.tcard hr { border: none; border-top: 1px solid var(--cp-border); margin: 15px 0 12px; }
+.tcard .sec { font-size: 11.5px; color: var(--cp-text-muted); margin-bottom: 7px; }
+.kv { display: flex; justify-content: space-between; gap: 12px; font-size: 12.5px; padding: 3px 0; }
+.kv span { color: var(--cp-text-muted); }
+.kv b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.rbar { display: flex; height: 9px; overflow: hidden; margin: 2px 0 9px; background: var(--cp-surface-soft); }
+.rbar div { height: 100%; }
+.rdot {
+  width: 15px; height: 15px; border-radius: 50%; flex: none;
+  display: grid; place-items: center; font-size: 10px; font-weight: 700; color: #fff;
+}
+.rdot.ok { background: var(--cp-viz-ready); }
+.rdot.warn { background: var(--cp-viz-warn); }
+.rdot.bad { background: var(--cp-viz-blocked); }
+
+/* ---------- decision guide ----------
+   Static explainer, no estate data. Reachable before anything is uploaded,
+   because the first thing most customers need is not a number — it is to know
+   that Managed Instance and serverless are not competing choices at all. */
+/* Widened from 760: the destination text column has to hold a full sentence
+   beside the icon, and the narrower box left this section visibly out of step
+   with the full-width card beneath it. */
+.modernization-map { width: 100%; max-width: 1000px; margin-left: auto; margin-right: auto; padding: 14px 16px; font-size: 12px; border-top: 3px solid var(--cp-accent); }
+.map-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 8px; }
+.map-eyebrow { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--cp-text-muted); }
+.map-heading h2 { font-size: 19px; font-weight: 650; letter-spacing: -.025em; margin: 0; }
+.modernization-map p { margin: 5px 0 0; color: var(--cp-text-muted); line-height: 1.5; }
+.modernization-map h3, .modernization-map h4 { margin: 0; font-weight: 600; }
+.modernization-map a { color: var(--cp-link); font-size: 12px; text-underline-offset: 3px; }
+.modernization-map h3 a, .modernization-map h4 a { font-size: inherit; font-weight: inherit; text-decoration: none; }
+.modernization-map h3 a:hover, .modernization-map h4 a:hover { text-decoration: underline; }
+.modernization-map a:focus-visible { outline: 2px solid var(--cp-accent); outline-offset: 4px; }
+.map-source { flex-shrink: 0; margin-top: 0; }
+.map-columns, .map-branch { display: grid; grid-template-columns: minmax(0, 1fr) 60px minmax(0, 1fr); }
+.map-columns { margin-bottom: 6px; color: var(--cp-text-soft); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+.map-decision { display: grid; grid-template-columns: 30px minmax(0, 1fr); column-gap: 12px; align-items: center; padding: 9px 11px; background: var(--cp-surface-soft); border: 1px solid var(--cp-border); border-radius: 8px; }
+/* Centred against the whole block rather than pinned to the first line of the
+   heading, so the badge column reads as a column down the three rows. */
+.map-step { width: 30px; height: 30px; display: grid; place-items: center; font-size: 12.5px; font-weight: 700; border: 1px solid var(--cp-accent); color: var(--cp-accent); background: var(--cp-surface); border-radius: 8px; }
+.map-decision-body { min-width: 0; }
+.map-decision h3 { font-size: 13px; line-height: 1.35; margin-top: 0; }
+.map-signals { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
+.map-signals span { padding: 2px 6px; border: 1px solid var(--cp-border); background: var(--cp-surface); border-radius: 4px; font-size: 11px; color: var(--cp-text-muted); }
+.map-yes { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px; color: var(--cp-accent); font-size: 12px; font-weight: 600; padding: 0 10px; }
+.map-yes i { width: 100%; border-top: 2px solid var(--cp-accent); position: relative; }
+.map-yes i::after { content: ""; position: absolute; right: 0; top: -5px; width: 7px; height: 7px; border-right: 2px solid var(--cp-accent); border-top: 2px solid var(--cp-accent); transform: rotate(45deg); }
+/* Destinations are a two-column grid rather than a heading row with text
+   beneath it, so the description lines up with the title instead of starting
+   back under the icon. */
+.map-destination { display: grid; grid-template-columns: 32px minmax(0, 1fr); column-gap: 12px; align-items: center; padding: 9px 11px; border: 1px solid var(--cp-border); border-left: 3px solid var(--cp-accent); border-radius: 8px; background: var(--cp-accent-soft); }
+/* Official Azure product icons, used unmodified: no fill or stroke override,
+   and scaled proportionally from their own 18-unit viewBox. */
+.map-destination h3 { grid-column: 2; font-size: 14.5px; letter-spacing: -.015em; line-height: 1.3; margin-top: 0; }
+/* Spans both text rows so it centres on the card rather than the title alone.
+   Written as an explicit span: with no grid-template-rows declared, a -1 end
+   line resolves against the empty explicit grid and does not span at all. */
+.map-logo { grid-column: 1; grid-row: 1 / span 2; align-self: center; width: 32px; height: 32px; display: block; }
+.map-tradeoff { grid-column: 2; margin: 3px 0 0; color: var(--cp-text-muted); font-size: 12px; line-height: 1.45; }
+.map-next { width: calc((100% - 60px) / 2); display: flex; align-items: center; flex-direction: row; justify-content: center; padding: 4px 8px; gap: 8px; color: var(--cp-text-muted); font-size: 11px; text-align: center; }
+.map-next i { height: 10px; border-left: 2px solid var(--cp-accent); position: relative; }
+.map-next i::after { content: ""; position: absolute; bottom: 0; left: -5px; width: 7px; height: 7px; border-right: 2px solid var(--cp-accent); border-bottom: 2px solid var(--cp-accent); transform: rotate(45deg); }
+.map-checkpoint { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 8px; color: var(--cp-text-muted); font-size: 11.5px; }
+.map-checkpoint b { display: block; font-weight: 600; font-size: 12px; }
+.map-checkpoint span { display: block; color: var(--cp-text-muted); font-size: 11.5px; margin-top: 4px; }
+#deployment-options { scroll-margin-top: 20px; }
+@media (max-width: 760px) {
+  .modernization-map { padding: 12px; }
+  .map-heading, .map-checkpoint { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .map-heading h2 { font-size: 19px; }
+  .map-columns { display: none; }
+  .map-branch { grid-template-columns: 1fr; }
+  .map-decision, .map-destination { padding: 8px 10px; }
+  .map-yes { flex-direction: row; padding: 12px; }
+  .map-yes i { width: 0; height: 22px; border-top: 0; border-left: 2px solid var(--cp-accent); }
+  .map-yes i::after { right: auto; left: -5px; top: auto; bottom: 0; transform: rotate(135deg); }
+  .map-next { width: 100%; padding: 8px; border-left: 2px dashed var(--cp-border-strong); margin: 4px 0; }
+  .map-next span { background: var(--cp-surface); padding: 0 8px; }
+}
+/* ---------- deployment options explorer ----------
+   The guide page carries no application JavaScript, so the offering switch is a
+   radio group rather than scripted tabs. That is not a workaround: a radio group
+   already has the keyboard behaviour an ARIA tablist has to reimplement — arrow
+   keys move between offerings, the group is one tab stop, and the state is real
+   rather than mirrored into aria-selected. The radios stay focusable and are
+   only moved out of sight, with the focus ring drawn on the label instead.
+   Expanding sections are <details>, matching the accordions elsewhere. */
+/* The section heading has to lead the card titles inside it, and its intro has
+   to sit with the card text rather than below it. Scoped here rather than
+   raised globally, because .sub is also the calculator's header subtitle. */
+#deployment-options > h3 { font-size: 16px; margin-bottom: 6px; }
+#deployment-options > .sub { font-size: 13px; line-height: 1.5; margin-bottom: 16px; }
+.dopt-radio { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+.dopt-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 0 0 16px; }
+.dopt-tab { display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 12px; align-items: center; padding: 13px 15px; border: 1px solid var(--cp-border); border-radius: 10px; background: var(--cp-surface); cursor: pointer; font-size: 13.5px; font-weight: 600; color: var(--cp-text); line-height: 1.3; transition: border-color .12s, background .12s, box-shadow .12s; }
+.dopt-tab .dopt-tab-logo { grid-column: 1; grid-row: 1 / span 2; align-self: center; width: 28px; height: 28px; display: block; }
+.dopt-tab b { grid-column: 2; font-weight: 650; }
+.dopt-tab span { grid-column: 2; font-weight: 400; font-size: 12px; color: var(--cp-text-muted); margin-top: 1px; }
+.dopt-tab:hover { border-color: var(--cp-border-strong); background: var(--cp-bg-elevated); }
+/* The selected offering is marked three ways rather than by colour alone:
+   a heavier border, a tinted ground, and a rule along the foot. */
+.dopt-vm:checked ~ .dopt-tabs .dopt-tab-vm,
+.dopt-mi:checked ~ .dopt-tabs .dopt-tab-mi,
+.dopt-db:checked ~ .dopt-tabs .dopt-tab-db { border-color: var(--cp-accent); background: var(--cp-accent-soft); box-shadow: inset 0 -3px 0 var(--cp-accent); }
+.dopt-vm:focus-visible ~ .dopt-tabs .dopt-tab-vm,
+.dopt-mi:focus-visible ~ .dopt-tabs .dopt-tab-mi,
+.dopt-db:focus-visible ~ .dopt-tabs .dopt-tab-db { outline: 2px solid var(--cp-accent); outline-offset: 2px; }
+.dopt-panel { display: none; }
+.dopt-vm:checked ~ .dopt-panels > .dopt-panel-vm,
+.dopt-mi:checked ~ .dopt-panels > .dopt-panel-mi,
+.dopt-db:checked ~ .dopt-panels > .dopt-panel-db { display: block; }
+
+.dopt-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.dopt-card { display: flex; flex-direction: column; border: 1px solid var(--cp-border); border-radius: 12px; background: var(--cp-surface); overflow: hidden; }
+/* Identity sits on its own tinted band so the eye separates which option this
+   is from what it costs you, and the three bands line up across the row. The
+   band is sized by the tallest title in the row, so shorter ones centre in it
+   rather than hanging from the top. */
+.dopt-card > h4 { display: grid; align-content: center; margin: 0; padding: 13px 16px 12px; background: var(--cp-surface-soft); border-bottom: 1px solid var(--cp-border); font-size: 14px; font-weight: 650; letter-spacing: -.01em; color: var(--cp-text); }
+.dopt-when { margin: 0; padding: 12px 16px 13px; font-size: 13px; line-height: 1.5; color: var(--cp-text-muted); }
+/* Cards in a row are the same height so their feet align, but the content
+   rarely is. The rows share that spare height between them instead of
+   leaving it pooled in one void above the disclosure. */
+.dopt-card > .dopt-rows { flex: 1; display: flex; flex-direction: column; }
+.dopt-card > .dopt-rows > div { flex: 1; }
+/* These cards are read across, not down, so the bands have to line up between
+   them and so do the rows inside: Compute against Compute, Storage against
+   Storage. Each row gets its own track of the panel grid through nested
+   subgrid, sized by the tallest of the three, which also removes the need to
+   share slack — every card is the sum of the same tracks and so the same
+   height, with nothing left over to pool into a void.
+
+   Eight row tracks are reserved against the six any panel currently uses.
+   Unused tracks hold nothing and collapse to zero, and the disclosure is
+   placed on the last track so it still sits at the foot. This block follows
+   the flex rules above because it has to override their display, and those
+   rules remain the fallback where subgrid is unavailable. */
+@supports (grid-template-rows: subgrid) {
+  .dopt-grid { grid-template-rows: auto auto repeat(8, auto) auto; column-gap: 14px; row-gap: 0; }
+  .dopt-card { display: grid; grid-row: span 11; grid-template-rows: subgrid; }
+  .dopt-card > .dopt-rows { grid-row: span 8; display: grid; grid-template-rows: subgrid; }
+  .dopt-card > .dopt-rows > div { flex: none; }
+  .dopt-card > details.dopt-more { grid-row: -2 / -1; }
+}
+.dopt-rows { margin: 0; font-size: 13px; }
+.dopt-rows > div { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: 12px; padding: 9px 16px; border-top: 1px solid var(--cp-border); }
+.dopt-rows dt { color: var(--cp-text-muted); line-height: 1.5; }
+.dopt-rows dd { margin: 0; color: var(--cp-text); line-height: 1.5; overflow-wrap: anywhere; }
+/* An eligibility condition belongs beside the option it qualifies, not in a
+   footnote the reader meets after they have already decided. */
+.dopt-rows dd i { display: block; font-style: normal; font-size: 12px; color: var(--cp-text-muted); margin-top: 3px; line-height: 1.45; }
+.dopt-flag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 1.5px 8px; border-radius: 999px; border: 1px solid currentColor; color: var(--cp-warning); margin-left: 5px; vertical-align: 1px; white-space: nowrap; }
+.dopt-flag.region { color: var(--cp-text-soft); }
+/* The disclosure reads as the foot of the card rather than one more row, so
+   it is full width against a tinted ground with no rule above the label. */
+details.dopt-more { margin: 0; border: 0; border-top: 1px solid var(--cp-border); border-radius: 0; padding: 0; background: var(--cp-surface-soft); }
+details.dopt-more > summary { cursor: pointer; padding: 11px 16px; font-size: 12.5px; font-weight: 650; color: var(--cp-link); }
+details.dopt-more > summary:hover { background: var(--cp-accent-soft); }
+details.dopt-more > summary:focus-visible { outline: 2px solid var(--cp-accent); outline-offset: -2px; }
+details.dopt-more[open] > summary { margin-bottom: 0; border-bottom: 1px solid var(--cp-border); }
+details.dopt-more .dopt-rows { background: var(--cp-surface); }
+details.dopt-more .dopt-rows > div:first-child { border-top: 0; }
+.dopt-foot { margin-top: 14px; }
+details.dopt-extra { margin: 0; border-radius: 12px; }
+details.dopt-extra > summary { cursor: pointer; font-size: 13px; font-weight: 650; }
+details.dopt-extra > summary:focus-visible { outline: 2px solid var(--cp-accent); outline-offset: 2px; border-radius: 3px; }
+details.dopt-extra[open] > summary { margin-bottom: 11px; padding-bottom: 10px; border-bottom: 1px solid var(--cp-border); }
+.dopt-extra-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 26px; font-size: 13px; }
+.dopt-extra-grid > div { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 12px; padding: 8px 0; border-top: 1px solid var(--cp-border); }
+.dopt-extra-grid dt { color: var(--cp-text-muted); }
+.dopt-extra-grid dd { margin: 0; color: var(--cp-text); line-height: 1.5; }
+.dopt-extra-grid dd i { display: block; font-style: normal; font-size: 12px; color: var(--cp-text-muted); margin-top: 3px; line-height: 1.45; }
+/* A supported alternative rather than a fourth tier, so it is set apart from
+   the cards above it and led by a rule in the accent. */
+.dopt-alt { margin-top: 14px; padding: 13px 15px; border: 1px solid var(--cp-border); border-left: 3px solid var(--cp-accent); border-radius: 12px; background: var(--cp-surface-soft); }
+.dopt-alt h4 { margin: 0 0 6px; font-size: 13.5px; font-weight: 650; }
+.dopt-alt p { margin: 0 0 10px; font-size: 13px; line-height: 1.5; color: var(--cp-text-muted); }
+.dopt-alt .dopt-extra-grid > div:first-child, .dopt-alt .dopt-extra-grid > div:nth-child(2) { border-top: 0; }
+.dopt-verified { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; margin: 14px 0 0; font-size: 12px; color: var(--cp-text-muted); }
+.dopt-verified a { color: var(--cp-link); }
+.dopt-verified a:focus-visible { outline: 2px solid var(--cp-accent); outline-offset: 2px; }
+@media (max-width: 900px) {
+  .dopt-grid { grid-template-columns: 1fr; }
+  .dopt-extra-grid { grid-template-columns: 1fr; }
+  .dopt-alt .dopt-extra-grid > div:nth-child(2) { border-top: 1px solid var(--cp-border); }
+}
+@media (max-width: 620px) {
+  .dopt-tabs { grid-template-columns: 1fr; }
+  .dopt-rows > div, .dopt-extra-grid > div { grid-template-columns: 1fr; gap: 2px; }
+  .dopt-rows dt, .dopt-extra-grid dt { font-size: 12.5px; font-weight: 600; }
+  /* Stacked cards are their own height, so there is no slack to share and
+     stretching the rows would only make them tall for no reason. */
+  .dopt-card > .dopt-rows > div { flex: none; }
+}
+
+.opt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 13px; }
+.opt {
+  border: 1px solid var(--cp-border); border-radius: 10px; padding: 15px 17px;
+  background: var(--cp-surface);
+}
+.opt h4 { margin: 0 0 3px; font-size: 14px; font-weight: 640; }
+.opt .tag { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--cp-text-soft); }
+.opt p { margin: 8px 0 0; font-size: 12.5px; color: var(--cp-text-muted); line-height: 1.5; }
+
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--cp-text-muted); margin-top: 9px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+
+.src-tag { font-size: 10.5px; color: var(--cp-text-soft); font-weight: 400; }
+.tbl-cap { font-size: 12px; color: var(--cp-text-muted); margin: 0 0 9px; }
+.err-list { font-size: 12.5px; color: var(--cp-danger); margin: 8px 0 0; padding-left: 18px; }
+.err-list li { margin-bottom: 3px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app">
+    <div class="brand">
+      <div class="mark">SQL</div>
+      <div>
+        <h1>SQL Estate Analyzer</h1>
+        <div class="sub">Azure target sizing &amp; cost modelling for SQL Server estates</div>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <a class="btn" href="../deployment-options/">Deployment options</a>
+  </header>
+  <!-- ================= UPLOAD ================= -->
+  <section id="uploadView">
+    <div class="drop" id="drop">
+      <h2>Drop your SQL estate inventory here</h2>
+      <p>The CSV produced by the discovery script</p>
+      <div class="row">
+        <button class="primary" id="btnPick">Choose file…</button>
+        <button id="btnScript">Get the discovery scripts</button>
+        <button class="ghost" id="btnDemo">Load demo estate</button>
+      </div>
+      <input type="file" id="file" accept=".csv,.tsv,.txt,.xlsx,.xls" multiple>
+      <div id="loadErrors"></div>
+    </div>
+
+    <div class="getstarted">
+      <div class="gs">
+        <div class="n">1</div>
+        <h3>Sweep the estate</h3>
+        <p>Run <code>Invoke-SqlEstateDiscovery.ps1</code> once. It finds your SQL Servers from their Active Directory SPNs, a Central Management Server or your own list, queries them in parallel, and writes a single merged CSV. Read-only — no schema, data or query text, only versions, sizes and feature flags.</p>
+      </div>
+      <div class="gs">
+        <div class="n">2</div>
+        <h3>Upload the CSV</h3>
+        <p>Drop the merged file above. Just one instance, or no PowerShell? Run <code>SqlEstateDiscovery.sql</code> in SSMS, save the grid as CSV, and upload as many of those as you like together.</p>
+      </div>
+      <div class="gs">
+        <div class="n">3</div>
+        <h3>Review the options</h3>
+        <p>Every database is scored <b>Ready</b>, <b>Needs review</b> or <b>Not ready</b> against each Azure target — the same categories the Azure portal and SSMS assessments use — with the finding behind every one, plus costs across PAYG, reserved and Hybrid Benefit scenarios.</p>
+      </div>
+    </div>
+
+    <div class="note info" style="margin-top:22px">
+      <b>Everything here comes from the discovery script.</b> The inventory is entirely
+      machine-generated — there are no columns for anyone to fill in, and nothing is inferred from a
+      label a human typed. Judgement calls that SQL Server cannot answer for itself, such as whether
+      the estate is under Software Assurance, live on the <b>Assumptions</b> tab where they are
+      visible and adjustable rather than buried in a spreadsheet.
+    </div>
+
+    <div class="note" style="margin-top:12px">
+      <b>Built for large estates.</b> The sweep reads catalog views and DMVs only — no trace, no user data,
+      nothing that blocks — so it is safe to run during business hours. Budget about a second per instance
+      plus a few milliseconds per database: a thousand databases is minutes, not hours. This is triage
+      rather than a final compatibility ruling; once you have chosen the databases to move, confirm them
+      with the readiness assessment built into SSMS.
+    </div>
+  </section>
+
+  <!-- ================= RESULTS ================= -->
+  <section id="resultsView" class="hidden">
+    <nav class="tabs" id="tabs">
+      <button data-tab="options" class="on">Options</button>
+      <button data-tab="summary">Summary</button>
+      <button data-tab="targets">Recommendations</button>
+      <button data-tab="cost">Cost model</button>
+      <button data-tab="inventory">Inventory</button>
+      <button data-tab="assumptions">Assumptions</button>
+    </nav>
+
+    <div class="panel on" id="panel-options"></div>
+    <div class="panel" id="panel-summary"></div>
+    <div class="panel" id="panel-targets"></div>
+    <div class="panel" id="panel-cost"></div>
+    <div class="panel" id="panel-inventory"></div>
+    <div class="panel" id="panel-assumptions"></div>
+  </section>
+
+</div>
+<!--APP_SCRIPT-->
+</body>
+</html>
